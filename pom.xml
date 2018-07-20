@@ -25,9 +25,7 @@
     <modules>
         <module>shoppingmall-common</module>
         <module>shoppingmall-core</module>
-        <module>shoppingmall-os-api</module>
         <module>shoppingmall-wx-api</module>
-        <module>shoppingmall-admin-api</module>
     </modules>
 
     <dependencyManagement>
@@ -119,6 +117,11 @@
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>2.7.0</version>
             </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.16.10</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -137,10 +140,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.10</version>
-        </dependency>
+
     </dependencies>
 </project>

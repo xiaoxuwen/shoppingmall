@@ -3,6 +3,8 @@ package com.etn.shoppingmall.core.entity;
 
 import lombok.Data;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
@@ -20,11 +22,12 @@ public class Storage {
     /**
      * 主键，自增
      */
+    @Id
     private Integer id;
     /**
      * 文件的唯一索引
      */
-    private String key;
+    private String ikey;
     /**
      * 文件名
      */
@@ -44,10 +47,12 @@ public class Storage {
     /**
      * 最后更新时间
      */
+
     private LocalDateTime modified;
     /**
      * 创建时间
      */
+    @Column(name = "add_time")
     private LocalDateTime addTime;
     /**
      * 逻辑删除

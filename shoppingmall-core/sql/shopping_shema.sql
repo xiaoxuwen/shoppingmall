@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS `os_storage`;
 CREATE TABLE `os_storage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `key` varchar(63) NOT NULL COMMENT '文件的唯一索引',
+  `ikey` varchar(63) NOT NULL COMMENT '文件的唯一索引',
   `name` varchar(255) NOT NULL COMMENT '文件名',
   `type` varchar(20) NOT NULL COMMENT '文件类型',
   `size` int(11) NOT NULL COMMENT '文件大小',
