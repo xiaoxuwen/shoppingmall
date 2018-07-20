@@ -91,7 +91,7 @@ public class LocalOsService implements ObjectStorageService {
 
     @Override
     public String generateUrl(String keyName) {
-        String url = osConfig.getAddress() + ":" + osConfig.getPort() + "/os/storage/fetch/" + keyName;
+        String url = osConfig.getAddress() + "/os/storage/fetch/" + keyName;
         if (!url.startsWith("http")) {
             url = "http://" + url;
         }

@@ -17,7 +17,7 @@ public class OsTest {
 
     @Test
     public void test() {
-        System.out.println(objectStorageConfig.getAddress() + ":" + objectStorageConfig.getPort());
+        System.out.println(objectStorageConfig.getAddress());
     }
 
 }

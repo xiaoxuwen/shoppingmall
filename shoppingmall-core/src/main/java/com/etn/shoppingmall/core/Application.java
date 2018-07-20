@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import tk.mybatis.spring.annotation.MapperScan;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.etn.shoppingmall.common", "com.etn.shoppingmall.core"})
 @MapperScan("com.etn.shoppingmall.core.mapper")
 public class Application {
 

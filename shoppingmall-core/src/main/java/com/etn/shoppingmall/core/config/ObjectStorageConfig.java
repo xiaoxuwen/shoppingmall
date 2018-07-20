@@ -1,14 +1,13 @@
 package com.etn.shoppingmall.core.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "com.etn.shoppingmall.os")
 public class ObjectStorageConfig {
-    private String address;
 
-    private String port;
+    @Value("${address}")
+    private String address;
 
     public String getAddress() {
         return address;
@@ -18,11 +17,4 @@ public class ObjectStorageConfig {
         this.address = address;
     }
 
-    public String getPort() {
-        return port;
-    }
-
-    public void setPort(String port) {
-        this.port = port;
-    }
 }
