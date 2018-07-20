@@ -26,6 +26,7 @@
         <module>shoppingmall-common</module>
         <module>shoppingmall-core</module>
         <module>shoppingmall-wx-api</module>
+        <module>shoppingmall-admin</module>
     </modules>
 
     <dependencyManagement>
@@ -42,12 +43,7 @@
             </dependency>
             <dependency>
                 <groupId>com.etn.shoppingmall</groupId>
-                <artifactId>litemall-os-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.etn.shoppingmall</groupId>
-                <artifactId>shoppingmall-admin-api</artifactId>
+                <artifactId>shoppingmall-admin</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -117,11 +113,21 @@
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>2.7.0</version>
             </dependency>
+
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>1.16.10</version>
             </dependency>
+
+            <!--模板引擎beetl-->
+            <dependency>
+                <groupId>com.ibeetl</groupId>
+                <artifactId>beetl-framework-starter</artifactId>
+                <version>1.1.48.RELEASE</version>
+            </dependency>
+
+
         </dependencies>
     </dependencyManagement>
     <dependencies>

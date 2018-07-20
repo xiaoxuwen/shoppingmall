@@ -1,4 +1,4 @@
-package com.etn.shoppingmall.core.controller;
+package com.etn.shoppingmall.admin.controller;
 
 import com.etn.shoppingmall.common.util.CharUtil;
 import com.etn.shoppingmall.common.util.ResponseUtil;
