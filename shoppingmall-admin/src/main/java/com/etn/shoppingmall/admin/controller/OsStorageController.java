@@ -77,7 +77,6 @@ public class OsStorageController {
         storage.setSize((int) file.getSize());
         storage.setType(file.getContentType());
         storage.setAddTime(LocalDateTime.now());
-        storage.setModified(LocalDateTime.now());
         storage.setIkey(key);
         storage.setUrl(url);
         storageService.add(storage);

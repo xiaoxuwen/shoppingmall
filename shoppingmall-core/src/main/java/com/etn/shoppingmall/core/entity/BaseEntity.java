@@ -12,22 +12,17 @@ import java.time.LocalDateTime;
  */
 @Data
 public class BaseEntity {
-    public static final Boolean NOT_DELETED = false;
-    public static final Boolean IS_DELETED = true;
+
     /**
      * 主键，自增
      */
     private Integer id;
     /**
-     * 最后更新时间
-     */
-    private LocalDateTime modified;
-    /**
      * 创建时间
      */
     private LocalDateTime addTime;
     /**
-     * 逻辑删除
+     * 逻辑删除 1.删除，0.未删除
      */
     private Boolean deleted;
 }

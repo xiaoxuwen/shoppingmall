@@ -1,9 +1,7 @@
 package com.etn.shoppingmall.core.entity;
 
-
 import lombok.Data;
 
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**

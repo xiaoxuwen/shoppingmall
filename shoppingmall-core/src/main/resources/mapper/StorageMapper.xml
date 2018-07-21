@@ -7,7 +7,6 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
         <result column="size" jdbcType="INTEGER" property="size"/>
-        <result column="modified" jdbcType="TIMESTAMP" property="modified"/>
         <result column="url" jdbcType="VARCHAR" property="url"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>

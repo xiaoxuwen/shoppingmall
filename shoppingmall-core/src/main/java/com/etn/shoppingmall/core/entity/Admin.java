@@ -1,5 +1,7 @@
 package com.etn.shoppingmall.core.entity;
 
+import lombok.Data;
+
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
@@ -9,6 +11,7 @@ import java.time.LocalDateTime;
  * Date: 2018-06-15 15:23
  * Version: V1.0
  */
+@Data
 @Table(name = "t_admin")
 public class Admin extends BaseEntity {
     /**
