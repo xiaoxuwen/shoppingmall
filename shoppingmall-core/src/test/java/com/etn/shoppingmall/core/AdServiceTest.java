@@ -58,6 +58,7 @@ public class AdServiceTest {
 
     @Test
     public void testList() {
+        //测试
         SystemContext.setPageOffset(2);
         SystemContext.setPageSize(2);
         System.out.println(adService.findAd().getDatas());
