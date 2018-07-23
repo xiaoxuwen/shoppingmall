@@ -7,14 +7,14 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * Description:商品基本信息实体类
+ * Description:产品基本信息实体类
  * User: xiaoxuwen
  * Date: 2018-07-21 14:39
  * Version: V1.0
  */
 @Data
-@Table(name = "t_goods")
-public class Goods {
+@Table(name = "t_product")
+public class Product {
     /**
      * 商品编号
      */
@@ -34,7 +34,7 @@ public class Goods {
     /**
      * 商品页面商品图片
      */
-    private String pic_url;
+    private String picUrl;
     /**
      * 商品宣传图片列表
      */
@@ -60,9 +60,17 @@ public class Goods {
      */
     private BigDecimal counter_price;
     /**
-     * 优惠类型，1.永久 2.自定义
+     * 优惠类型，满减/打折/自定义价格
      */
     private Integer discountType;
+    /**
+     * 优惠价格 满减/打折/自定义优惠价格
+     */
+    private String discountMoney;
+    /**
+     * 使用期限，1.永久 2.自定义
+     */
+    private Integer during;
     /**
      * 商品开始使用时间
      */
@@ -74,9 +82,9 @@ public class Goods {
     /**
      * 商品所属类目ID
      */
-    private Category category;
+    private Integer categoryId;
     /**
      * 商品所属店铺ID
      */
-    private Shop shop;
+    private Integer shopId;
 }

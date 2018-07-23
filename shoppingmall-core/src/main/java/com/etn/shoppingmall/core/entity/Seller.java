@@ -34,7 +34,7 @@ public class Seller {
      */
     private String avatarUrl;
     /**
-     * 用户状态：0 可用, 1 禁用
+     * 用户状态：1 可用, 0 禁用
      */
     private Integer status;
 }

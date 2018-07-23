@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import java.util.List;
 
 /**
- * Description:类目表
+ * Description:类目实体类
  * User: xiaoxuwen
  * Date: 2018-07-21 14:27
  * Version: V1.0

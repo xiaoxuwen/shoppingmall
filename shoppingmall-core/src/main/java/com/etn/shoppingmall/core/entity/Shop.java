@@ -60,5 +60,5 @@ public class Shop extends BaseEntity {
     /**
      * 店铺是属于哪个店家的
      */
-    private Seller owner;
+    private Seller ownerId;
 }

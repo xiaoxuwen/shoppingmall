@@ -38,8 +38,8 @@ CREATE TABLE `t_user` (
   `phone` varchar(11) DEFAULT NULL COMMENT '手机号',
   `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '1 可用, 0 禁用',
   `user_level` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0 普通用户，1 会员用户',
-  `qr_code_pic` varchar(255) NOT NULL COMMENT '订单二维码',
-  `qr_code_url` varchar(255) NOT NULL COMMENT '订单二维码链接',
+  `qr_code_pic` varchar(255) DEFAULT NULL COMMENT '用户二维码',
+  `qr_code_url` varchar(255) DEFAULT NULL COMMENT '用户二维码链接',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除,0.正常，1 已删除',
   PRIMARY KEY (`id`),
@@ -54,7 +54,7 @@ CREATE TABLE `t_seller` (
   `real_name` varchar(20) NOT NULL COMMENT '真实姓名',
   `phone` varchar(11) NOT NULL COMMENT '手机号',
   `avatar_url` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像图片',
-  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0 可用, 1 禁用',
+  `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '1 可用, 0 禁用',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除,0.正常，1 已删除',
   PRIMARY KEY (`id`),
@@ -86,7 +86,7 @@ DROP TABLE IF EXISTS `t_ad`;
 CREATE TABLE `t_ad` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(63) NOT NULL DEFAULT '' COMMENT '广告标题',
-  `link` varchar(255) NOT NULL DEFAULT '' COMMENT '所广告的商品页面或者活动页面链接地址',
+  `link` varchar(255) NOT NULL DEFAULT '' COMMENT '所广告的产品页面或者活动页面链接地址',
   `url` varchar(255) NOT NULL COMMENT '广告宣传图片',
   `position` tinyint(3) DEFAULT '1' COMMENT '广告位置：1则是首页',
   `content` varchar(255) DEFAULT '' COMMENT '广告内容',
@@ -109,49 +109,51 @@ CREATE TABLE `t_category` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='类目表';
 
-DROP TABLE IF EXISTS `t_goods`;
-CREATE TABLE `t_goods` (
+DROP TABLE IF EXISTS `t_product`;
+CREATE TABLE `t_product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `category_id` int(11) DEFAULT '0' COMMENT '商品所属类目ID',
-  `shop_id` int(11) DEFAULT '0' COMMENT '商品所属店铺ID',
-  `sn` varchar(63) NOT NULL DEFAULT '' COMMENT '商品编号',
-  `name` varchar(127) NOT NULL DEFAULT '' COMMENT '商品名称',
-  `brief` varchar(255) DEFAULT '' COMMENT '商品简介',
-  `content` text COMMENT '商品详细介绍，是富文本格式',
-  `pic_url` varchar(255) DEFAULT NULL COMMENT '商品页面商品图片',
-  `gallery` varchar(1023) DEFAULT NULL COMMENT '商品宣传图片列表',
-  `keywords` varchar(255) DEFAULT '' COMMENT '商品关键字，采用逗号间隔',
+  `category_id` int(11) DEFAULT '0' COMMENT '产品所属类目ID',
+  `shop_id` int(11) DEFAULT '0' COMMENT '产品所属店铺ID',
+  `sn` varchar(63) NOT NULL DEFAULT '' COMMENT '产品编号',
+  `name` varchar(127) NOT NULL DEFAULT '' COMMENT '产品名称',
+  `brief` varchar(255) DEFAULT '' COMMENT '产品简介',
+  `content` text COMMENT '产品详细介绍，是富文本格式',
+  `pic_url` varchar(255) DEFAULT NULL COMMENT '产品页面产品图片',
+  `gallery` varchar(1023) DEFAULT NULL COMMENT '产品宣传图片列表',
+  `keywords` varchar(255) DEFAULT '' COMMENT '产品关键字，采用逗号间隔',
   `is_on_sale` tinyint(1) DEFAULT '1' COMMENT '是否上架',
   `priority` tinyint(3) DEFAULT '0' COMMENT '排序',
   `retail_price` decimal(10,2) DEFAULT '0.00' COMMENT '零售价格',
   `counter_price` decimal(10,2) DEFAULT '0.00' COMMENT '会员价格',
-  `discountType` tinyint(3) DEFAULT '1' COMMENT '优惠类型，1.永久 2.自定义',
-  `start_date` datetime DEFAULT NULL COMMENT '商品开始使用时间',
-  `end_end` datetime DEFAULT NULL COMMENT '商品过期时间',
+  `discount_type` tinyint(3) DEFAULT '0' COMMENT '优惠类型，1.满减 2.打折 3.自定义价格',
+  `discount_money` varchar(50) DEFAULT NULL COMMENT '优惠价格 满减/打折/自定义优惠价格',
+  `during` tinyint(3) DEFAULT '1' COMMENT '使用期限，1.永久 2.自定义',
+  `start_date` datetime DEFAULT NULL COMMENT '产品开始使用时间',
+  `end_end` datetime DEFAULT NULL COMMENT '产品过期时间',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
   PRIMARY KEY (`id`),
-  KEY `goods_sn` (`sn`),
+  KEY `product_sn` (`sn`),
   KEY `cat_id` (`category_id`),
   KEY `shop_id` (`shop_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品基本信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='产品基本信息表';
 
 DROP TABLE IF EXISTS `t_order`;
 CREATE TABLE `t_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL COMMENT '用户表的用户ID',
-  `order_sn` varchar(63) NOT NULL COMMENT '订单编号',
-  `order_status` smallint(6) NOT NULL COMMENT '订单状态',
-  `qr_code_pic` varchar(255) NOT NULL COMMENT '订单二维码',
-  `qr_code_url` varchar(255) NOT NULL COMMENT '订单二维码链接',
-  `goods_id` int(11) DEFAULT '0' COMMENT '预定商品ID',
+  `sn` varchar(63) NOT NULL COMMENT '订单编号',
+  `status` smallint(6) NOT NULL COMMENT '订单状态',
+  `qr_code_pic` varchar(255) DEFAULT NULL COMMENT '订单二维码',
+  `qr_code_url` varchar(255) DEFAULT NULL COMMENT '订单二维码链接',
+  `product_id` int(11) DEFAULT '0' COMMENT '预定产品ID',
   `shop_id` int(11) DEFAULT '0' COMMENT '订单所属店铺ID',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `shop_id` (`shop_id`),
-  KEY `goods_id` (`goods_id`)
+  KEY `product_id` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 DROP TABLE IF EXISTS `t_issue`;

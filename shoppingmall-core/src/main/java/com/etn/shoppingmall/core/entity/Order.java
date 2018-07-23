@@ -21,19 +21,19 @@ public class Order {
     /**
      * 订单编号
      */
-    private String orderSn;
+    private String sn;
     /**
      * 订单状态 1.待使用 2.已使用 0.已过期
      */
-    private Integer orderStatus;
+    private Integer status;
     /**
-     * 商品id
+     * 产品id
      */
-    private Goods goods;
+    private Product product;
     /**
      * 店铺id
      */
-    private Shop shop;
+    private Integer shopId;
     /**
      * 订单关闭时间
      */
