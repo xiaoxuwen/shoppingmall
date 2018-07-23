@@ -22,7 +22,13 @@
         <result column="end_date" jdbcType="TIMESTAMP" property="end_date"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
-        <result column="shop_id" jdbcType="INTEGER" property="shopId"/>
         <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <association property="shop" column="shop_id" javaType="com.etn.shoppingmall.core.entity.Shop">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+            <result column="name" property="name"/>
+            <result column="address" property="address"/>
+            <result column="shop_img" property="shopImg"/>
+            <result column="priority" property="priority"/>
+        </association>
     </resultMap>
 </mapper>

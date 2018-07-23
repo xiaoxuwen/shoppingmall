@@ -1,6 +1,7 @@
 package com.etn.shoppingmall.core;
 
 import com.etn.shoppingmall.core.entity.Ad;
+import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.AdService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,7 +57,9 @@ public class AdServiceTest {
     }
 
     @Test
-    public void testList(){
-        System.out.println(adService.listAd(1,10,null,null).getDatas());
+    public void testList() {
+        SystemContext.setPageOffset(2);
+        SystemContext.setPageSize(2);
+        System.out.println(adService.findAd().getDatas());
     }
 }

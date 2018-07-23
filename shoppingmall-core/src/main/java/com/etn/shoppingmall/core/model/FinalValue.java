@@ -1,4 +1,4 @@
-package com.etn.shoppingmall.core.config;
+package com.etn.shoppingmall.core.model;
 
 /**
  * Description:常量池

@@ -86,5 +86,5 @@ public class Product {
     /**
      * 商品所属店铺ID
      */
-    private Integer shopId;
+    private Shop shop;
 }

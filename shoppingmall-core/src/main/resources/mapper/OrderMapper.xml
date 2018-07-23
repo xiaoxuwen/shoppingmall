@@ -17,18 +17,18 @@
             <result column="phone" jdbcType="VARCHAR" property="phone"/>
         </association>
         <association property="product" column="product_id" javaType="com.etn.shoppingmall.core.entity.Product">
-            <id column="id" jdbcType="INTEGER" property="id"/>
-            <result column="sn" jdbcType="VARCHAR" property="sn"/>
-            <result column="name" jdbcType="VARCHAR" property="name"/>
-            <result column="pic_url" jdbcType="VARCHAR" property="picUrl"/>
-            <result column="retail_price" jdbcType="DECIMAL" property="retailPrice"/>
-            <result column="counter_price" jdbcType="DECIMAL" property="counterPrice"/>
-            <result column="discount_type" jdbcType="INTEGER" property="discountType"/>
-            <result column="discount_money" jdbcType="VARCHAR" property="discountMoney"/>
-            <result column="during" jdbcType="INTEGER" property="during"/>
-            <result column="start_date" jdbcType="TIMESTAMP" property="startDate"/>
-            <result column="end_date" jdbcType="TIMESTAMP" property="end_date"/>
-            <result column="deleted" jdbcType="BIT" property="deleted"/>
+            <id column="id" property="id"/>
+            <result column="sn" property="sn"/>
+            <result column="name" property="name"/>
+            <result column="pic_url" property="picUrl"/>
+            <result column="retail_price" property="retailPrice"/>
+            <result column="counter_price" property="counterPrice"/>
+            <result column="discount_type" property="discountType"/>
+            <result column="discount_money" property="discountMoney"/>
+            <result column="during" property="during"/>
+            <result column="start_date" property="startDate"/>
+            <result column="end_date" property="end_date"/>
+            <result column="deleted" property="deleted"/>
         </association>
     </resultMap>
 </mapper>

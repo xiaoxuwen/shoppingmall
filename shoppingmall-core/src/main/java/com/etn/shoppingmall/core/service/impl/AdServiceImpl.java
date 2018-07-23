@@ -1,9 +1,10 @@
 package com.etn.shoppingmall.core.service.impl;
 
-import com.etn.shoppingmall.common.util.Pager;
+import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.entity.Ad;
 import com.etn.shoppingmall.core.entity.User;
 import com.etn.shoppingmall.core.mapper.AdMapper;
+import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.AdService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -55,19 +56,23 @@ public class AdServiceImpl implements AdService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public Pager<Ad> listAd(Integer page, Integer limit, String sort, String order) {
+    public Pager<Ad> findAd() {
         Example example = new Example(User.class);
         Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
 
-        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
-            example.setOrderByClause(sort + " " + order);
+        System.out.println(SystemContext.getOrder());
+        System.out.println(SystemContext.getSort());
+        System.out.println(SystemContext.getPageOffset());
+        System.out.println(SystemContext.getPageSize());
+        if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
+            example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
         }
 
-        PageHelper.startPage(page, limit);
+        PageHelper.startPage(SystemContext.getPageOffset(), SystemContext.getPageSize());
         List<Ad> list = adMapper.selectByExample(example);
         PageInfo<Ad> pageList = new PageInfo<>(list);
 
-        return new Pager<>(limit, page, pageList.getTotal(), list);
+        return new Pager<>(SystemContext.getPageOffset(), SystemContext.getPageSize(), pageList.getTotal(), list);
     }
 }

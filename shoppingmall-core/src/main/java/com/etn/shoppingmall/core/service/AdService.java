@@ -1,10 +1,10 @@
 package com.etn.shoppingmall.core.service;
 
-import com.etn.shoppingmall.common.util.Pager;
 import com.etn.shoppingmall.core.entity.Ad;
+import com.etn.shoppingmall.core.model.Pager;
 
 /**
- * Description:
+ * Description:广告Service
  * User: xiaoxuwen
  * Date: 2018-07-23 11:46
  * Version: V1.0
@@ -18,5 +18,10 @@ public interface AdService {
 
     boolean delete(Ad ad);
 
-    Pager<Ad> listAd(Integer page, Integer limit, String sort, String order);
+    /**
+     * 分页获取广告
+     *
+     * @return
+     */
+    Pager<Ad> findAd();
 }
