@@ -1,6 +1,6 @@
 package com.etn.shoppingmall.core;
 
-import com.etn.shoppingmall.core.service.impl.LocalOsService;
+import com.etn.shoppingmall.core.service.impl.LocalOsServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.io.IOException;
 @SpringBootTest
 public class LosTest {
     @Autowired
-    private LocalOsService localOsService;
+    private LocalOsServiceImpl localOsService;
 
     @Test
     public void test() throws IOException {

@@ -2,6 +2,7 @@ package com.etn.shoppingmall.core.entity;
 
 import lombok.Data;
 
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 /**
@@ -15,6 +16,7 @@ public class BaseEntity {
     /**
      * 主键，自增
      */
+    @Id
     private Integer id;
     /**
      * 创建时间

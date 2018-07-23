@@ -1,6 +1,6 @@
 package com.etn.shoppingmall.core;
 
-import com.etn.shoppingmall.core.service.impl.StorageService;
+import com.etn.shoppingmall.core.service.impl.StorageServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +14,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 public class StorageServiceTest {
 
     @Autowired
-    private StorageService storageService;
+    private StorageServiceImpl storageService;
 
     @Test
     public void testStorage() {
-        System.out.println(storageService.findByKey("123"));
+        System.out.println(storageService.queryByKey("123"));
     }
 
 }

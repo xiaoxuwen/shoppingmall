@@ -23,7 +23,7 @@ import java.util.stream.Stream;
  * 缩写los(local object storage)
  */
 @Service("localOsService")
-public class LocalOsService implements ObjectStorageService {
+public class LocalOsServiceImpl implements ObjectStorageService {
 
     @Autowired
     private ObjectStorageConfig osConfig;
@@ -40,7 +40,7 @@ public class LocalOsService implements ObjectStorageService {
     @Override
     public void store(MultipartFile file, String keyName) {
         try {
-            Files.copy(file.getInputStream(), LocalOsService.rootLocation.resolve(keyName), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(file.getInputStream(), LocalOsServiceImpl.rootLocation.resolve(keyName), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException("Failed to store file " + keyName, e);
         }
@@ -49,9 +49,9 @@ public class LocalOsService implements ObjectStorageService {
     @Override
     public Stream<Path> loadAll() {
         try {
-            return Files.walk(LocalOsService.rootLocation, 1)
-                    .filter(path -> !path.equals(LocalOsService.rootLocation))
-                    .map(path -> LocalOsService.rootLocation.relativize(path));
+            return Files.walk(LocalOsServiceImpl.rootLocation, 1)
+                    .filter(path -> !path.equals(LocalOsServiceImpl.rootLocation))
+                    .map(path -> LocalOsServiceImpl.rootLocation.relativize(path));
         } catch (IOException e) {
             throw new RuntimeException("Failed to read stored files", e);
         }
