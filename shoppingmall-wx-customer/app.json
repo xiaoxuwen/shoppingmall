@@ -1,0 +1,44 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/cut/cut",
+    "pages/my/my"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+<<<<<<< HEAD:shoppingmall-wx/app.json
+    "navigationBarTitleText": "哎呦生活小程序",
+=======
+    "navigationBarTitleText": "顾客端",
+>>>>>>> f75c50a8aa68745409c2e916e098fa2ff659ac4a:shoppingmall-wx-customer/app.json
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "selectedColor": "#deb13c",
+    "color": "#999999",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/images/home.png",
+        "selectedIconPath": "static/images/home1.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/cut/cut",
+        "iconPath": "static/images/cut.png",
+        "selectedIconPath": "static/images/cut1.png",
+        "text": "零元砍价"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "iconPath": "static/images/my.png",
+        "selectedIconPath": "static/images/my1.png",
+        "text": "我的"
+      }
+    ]
+  }
+}

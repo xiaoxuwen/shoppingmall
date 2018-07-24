@@ -25,9 +25,8 @@
     <modules>
         <module>shoppingmall-common</module>
         <module>shoppingmall-core</module>
-        <module>shoppingmall-os-api</module>
         <module>shoppingmall-wx-api</module>
-        <module>shoppingmall-admin-api</module>
+        <module>shoppingmall-admin</module>
     </modules>
 
     <dependencyManagement>
@@ -44,12 +43,7 @@
             </dependency>
             <dependency>
                 <groupId>com.etn.shoppingmall</groupId>
-                <artifactId>litemall-os-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.etn.shoppingmall</groupId>
-                <artifactId>shoppingmall-admin-api</artifactId>
+                <artifactId>shoppingmall-admin</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -119,6 +113,38 @@
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>2.7.0</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.16.10</version>
+            </dependency>
+
+            <!--模板引擎beetl-->
+            <dependency>
+                <groupId>com.ibeetl</groupId>
+                <artifactId>beetl-framework-starter</artifactId>
+                <version>1.1.48.RELEASE</version>
+            </dependency>
+
+            <!--验证码-->
+            <dependency>
+                <groupId>com.etn.captcha</groupId>
+                <artifactId>EasyCaptcha</artifactId>
+                <version>1.1.0</version>
+            </dependency>
+
+            <!-- 条形码、二维码生成  -->
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>javase</artifactId>
+                <version>2.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -137,10 +163,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.10</version>
-        </dependency>
+
     </dependencies>
 </project>

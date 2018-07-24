@@ -1,10 +1,8 @@
 package com.etn.shoppingmall.core.entity;
 
-
 import lombok.Data;
 
 import javax.persistence.Table;
-import java.time.LocalDateTime;
 
 /**
  * Description:'文件存储表'
@@ -14,17 +12,11 @@ import java.time.LocalDateTime;
  */
 @Data
 @Table(name = "os_storage")
-public class Storage {
-    public static final Boolean NOT_DELETED = false;
-    public static final Boolean IS_DELETED = true;
-    /**
-     * 主键，自增
-     */
-    private Integer id;
+public class Storage extends BaseEntity {
     /**
      * 文件的唯一索引
      */
-    private String key;
+    private String ikey;
     /**
      * 文件名
      */
@@ -41,17 +33,5 @@ public class Storage {
      * 文件访问链接
      */
     private String url;
-    /**
-     * 最后更新时间
-     */
-    private LocalDateTime modified;
-    /**
-     * 创建时间
-     */
-    private LocalDateTime addTime;
-    /**
-     * 逻辑删除
-     */
-    private Boolean deleted;
 
 }

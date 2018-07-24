@@ -23,7 +23,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .enable(enableSwagger)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.etn.shoppingmall"))
+                .apis(RequestHandlerSelectors.basePackage("com.etn.shoppingmall.wx.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

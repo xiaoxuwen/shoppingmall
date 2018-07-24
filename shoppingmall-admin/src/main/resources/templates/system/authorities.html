@@ -1,0 +1,103 @@
+<div class="layui-card">
+    <div class="layui-card-header">
+        <h2 class="header-title">权限管理</h2>
+        <span class="layui-breadcrumb pull-right">
+          <a href="#!home_console">首页</a>
+          <a><cite>权限管理</cite></a>
+        </span>
+    </div>
+    <div class="layui-card-body">
+        <div class="layui-form toolbar">
+            <button id="auth-btn-add" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
+        </div>
+
+        <!-- 数据表格 -->
+        <table class="layui-table" id="auth-table" lay-filter="auth-table"></table>
+    </div>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="auth-state">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script>
+    layui.use(['form', 'table', 'util', 'admin'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var layer = layui.layer;
+        var util = layui.util;
+        var admin = layui.admin;
+
+        // 渲染表格
+        table.render({
+            elem: '#auth-table',
+            url: 'system/authorities/list',
+            page: false,
+            cols: [[
+                {field: 'authorityId', title: '权限id'},
+                {field: 'authorityName', title: '权限名称'},
+                {field: 'authority', title: '权限url'},
+                {field: 'parentId', title: '上级目录'},
+                {
+                    field: 'isMenu', templet: function (d) {
+                        if (d.parentId == -1 || !d.authority) {
+                            return '<span class="layui-badge layui-bg-blue">目录</span>';
+                        }
+                        return d.isMenu == 0 ? '<span class="layui-badge-rim">菜单</span>' : '<span class="layui-badge layui-bg-gray">按钮</span>';
+                    }, title: '类型'
+                },
+                {
+                    field: 'createTime', templet: function (d) {
+                        return util.toDateString(d.createTime);
+                    }, title: '创建时间'
+                },
+                {field: 'checked', templet: '#auth-state', title: '操作'}
+            ]]
+        });
+
+        // 工具条点击事件
+        table.on('tool(auth-table)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+
+            if (layEvent === 'edit') { // 修改
+                showEditModel(data);
+            } else if (layEvent === 'del') { // 重置密码
+                layer.confirm('确定删除此菜单吗？', function () {
+                    layer.load(2);
+                    $.post('system/authorities/delete', {
+                        authority: obj.data.authority
+                    }, function (data) {
+                        layer.closeAll('loading');
+                        if (data.code == 200) {
+                            layer.msg(data.msg, {icon: 1});
+                            obj.del();
+                        } else {
+                            layer.msg(data.msg, {icon: 2});
+                        }
+                    });
+                });
+            }
+        });
+
+        // 同步按钮点击事件
+        $('#auth-btn-add').click(function () {
+            showEditModel();
+        });
+
+        // 显示表单弹窗
+        var showEditModel = function (data) {
+            var title = data ? '修改菜单' : '添加菜单';
+            admin.putTempData('t_authoritie', data);
+            admin.popupCenter({
+                title: title,
+                path: 'system/authorities/editForm',
+                finish: function () {
+                    table.reload('auth-table', {});
+                }
+            });
+        };
+    });
+</script>
