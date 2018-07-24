@@ -19,7 +19,8 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/os/storage")
 public class OsStorageController {
-    @javax.annotation.Resource(name = "localOsService")
+
+    @Autowired
     private ObjectStorageService localOsService;
     @Autowired
     private StorageService storageService;

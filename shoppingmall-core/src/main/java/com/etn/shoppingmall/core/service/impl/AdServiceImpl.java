@@ -29,34 +29,34 @@ public class AdServiceImpl implements AdService {
     @Autowired
     private AdMapper adMapper;
 
-    @Transactional(propagation = Propagation.SUPPORTS)
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Ad load(Integer id) {
         return adMapper.selectByPrimaryKey(id);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public boolean add(Ad ad) {
         return adMapper.insertSelective(ad) > 0;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public boolean update(Ad ad) {
         return adMapper.updateByPrimaryKeySelective(ad) > 0;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public boolean delete(Ad ad) {
         ad.setDeleted(true);
         return adMapper.updateByPrimaryKeySelective(ad) > 0;
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public Pager<Ad> findAd() {
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Pager<Ad> find() {
         Example example = new Example(User.class);
         Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
@@ -78,8 +78,8 @@ public class AdServiceImpl implements AdService {
      * @return
      */
     @Override
-    public List<Ad> listAd() {
-        Example example = new Example(User.class);
+    public List<Ad> list() {
+        Example example = new Example(Ad.class);
         Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
         return adMapper.selectByExample(example);

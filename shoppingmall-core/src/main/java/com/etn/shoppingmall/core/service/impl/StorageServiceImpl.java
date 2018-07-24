@@ -22,8 +22,8 @@ public class StorageServiceImpl implements StorageService {
     @Autowired
     private StorageMapper storageMapper;
 
-    @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void deleteByKey(String ikey) {
         Example example = new Example(Storage.class);
         Criteria criteria = example.createCriteria();
@@ -31,14 +31,14 @@ public class StorageServiceImpl implements StorageService {
         storageMapper.deleteByExample(example);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void add(Storage storage) {
         storageMapper.insertSelective(storage);
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Storage queryByName(String filename) {
         Example example = new Example(Storage.class);
         Criteria criteria = example.createCriteria();
@@ -47,8 +47,8 @@ public class StorageServiceImpl implements StorageService {
         return storageMapper.selectOneByExample(example);
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Storage queryByKey(String ikey) {
         Example example = new Example(Storage.class);
         Criteria criteria = example.createCriteria();
@@ -57,20 +57,20 @@ public class StorageServiceImpl implements StorageService {
         return storageMapper.selectOneByExample(example);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void update(Storage storage) {
         storageMapper.updateByPrimaryKeySelective(storage);
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Storage queryById(Integer id) {
         return storageMapper.selectByPrimaryKey(id);
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Pager<Storage> listSelective(String ikey, String name) {
         Example example = new Example(Storage.class);
         Example.Criteria criteria = example.createCriteria();

@@ -11,26 +11,18 @@ import java.util.List;
  * Date: 2018-07-23 11:46
  * Version: V1.0
  */
-public interface AdService {
-    Ad load(Integer id);
-
-    boolean add(Ad ad);
-
-    boolean update(Ad ad);
-
-    boolean delete(Ad ad);
-
+public interface AdService extends BaseService<Ad> {
     /**
      * 分页获取广告
      *
      * @return
      */
-    Pager<Ad> findAd();
+    Pager<Ad> find();
 
     /**
      * 不分页获取广告
      *
      * @return
      */
-    List<Ad> listAd();
+    List<Ad> list();
 }

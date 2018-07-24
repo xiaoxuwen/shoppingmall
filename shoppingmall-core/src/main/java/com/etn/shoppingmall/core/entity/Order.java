@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Table(name = "t_order")
-public class Order {
+public class Order extends BaseEntity{
     /**
      * 用户表的用户ID
      */

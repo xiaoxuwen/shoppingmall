@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Data
 @Table(name = "t_category")
-public class Category {
+public class Category extends BaseEntity{
     /**
      * 类目名称
      */

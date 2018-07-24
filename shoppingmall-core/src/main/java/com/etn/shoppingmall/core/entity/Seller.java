@@ -12,7 +12,7 @@ import javax.persistence.Table;
  */
 @Data
 @Table(name = "t_seller")
-public class Seller {
+public class Seller extends BaseEntity{
     /**
      * 小程序关联id
      */

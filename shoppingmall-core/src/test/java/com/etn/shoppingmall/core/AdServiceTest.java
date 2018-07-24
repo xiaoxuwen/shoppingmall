@@ -46,7 +46,7 @@ public class AdServiceTest {
         ad.setUrl("name2");
         ad.setPosition(1);
         ad.setContent("name2");
-        adService.update(ad);
+        System.out.println(adService.update(ad));
     }
 
     @Test
@@ -61,6 +61,6 @@ public class AdServiceTest {
         //测试
         SystemContext.setPageOffset(2);
         SystemContext.setPageSize(2);
-        System.out.println(adService.findAd().getDatas());
+        System.out.println(adService.find().getDatas());
     }
 }

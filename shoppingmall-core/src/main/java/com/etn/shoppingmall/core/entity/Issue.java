@@ -12,7 +12,7 @@ import javax.persistence.Table;
  */
 @Data
 @Table(name = "t_issue")
-public class Issue {
+public class Issue extends BaseEntity{
     /**
      * 问题标题
      */

@@ -9,19 +9,11 @@ import com.etn.shoppingmall.core.model.Pager;
  * Date: 2018-07-24 9:23
  * Version: V1.0
  */
-public interface AdminService {
-    Admin load(Integer id);
-
-    boolean add(Admin admin);
-
-    boolean update(Admin admin);
-
-    boolean delete(Admin admin);
-
+public interface AdminService extends BaseService<Admin> {
     /**
      * 分页获取管理员
      *
      * @return
      */
-    Pager<Admin> findAdmin();
+    Pager<Admin> find();
 }

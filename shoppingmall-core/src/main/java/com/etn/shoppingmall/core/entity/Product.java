@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Table(name = "t_product")
-public class Product {
+public class Product extends BaseEntity{
     /**
      * 商品编号
      */
