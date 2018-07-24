@@ -2,8 +2,11 @@ package com.etn.shoppingmall.core.service.impl;
 
 import com.etn.shoppingmall.core.entity.Storage;
 import com.etn.shoppingmall.core.mapper.StorageMapper;
+import com.etn.shoppingmall.core.model.Pager;
+import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.StorageService;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,7 +34,7 @@ public class StorageServiceImpl implements StorageService {
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void add(Storage storage) {
-        storageMapper.insert(storage);
+        storageMapper.insertSelective(storage);
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
@@ -68,7 +71,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public List<Storage> listSelective(String ikey, String name, Integer page, Integer limit, String sort, String order) {
+    public Pager<Storage> listSelective(String ikey, String name) {
         Example example = new Example(Storage.class);
         Example.Criteria criteria = example.createCriteria();
 
@@ -80,27 +83,15 @@ public class StorageServiceImpl implements StorageService {
         }
         criteria.andEqualTo("deleted", false);
 
-        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
-            example.setOrderByClause(sort + " " + order);
+        if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
+            example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
         }
 
-        PageHelper.startPage(page, limit);
-        return storageMapper.selectByExample(example);
+        PageHelper.startPage(SystemContext.getPageOffset(), SystemContext.getPageSize());
+        List<Storage> list = storageMapper.selectByExample(example);
+        PageInfo<Storage> pageList = new PageInfo<>(list);
+
+        return new Pager<>(SystemContext.getPageOffset(), SystemContext.getPageSize(), pageList.getTotal(), list);
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
-    @Override
-    public int countSelective(String ikey, String name) {
-        Example example = new Example(Storage.class);
-        Example.Criteria criteria = example.createCriteria();
-
-        if (!StringUtils.isEmpty(ikey)) {
-            criteria.andEqualTo("ikey", ikey);
-        }
-        if (!StringUtils.isEmpty(name)) {
-            criteria.andLike("name", "%" + name + "%");
-        }
-        criteria.andEqualTo("deleted", false);
-        return storageMapper.selectCountByExample(example);
-    }
 }

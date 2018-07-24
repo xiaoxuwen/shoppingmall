@@ -1,8 +1,7 @@
 package com.etn.shoppingmall.core.service;
 
 import com.etn.shoppingmall.core.entity.Storage;
-
-import java.util.List;
+import com.etn.shoppingmall.core.model.Pager;
 
 /**
  * Description:
@@ -23,7 +22,6 @@ public interface StorageService {
 
     Storage queryById(Integer id);
 
-    List<Storage> listSelective(String ikey, String name, Integer page, Integer limit, String sort, String order);
+    Pager<Storage> listSelective(String ikey, String name);
 
-    int countSelective(String ikey, String name);
 }

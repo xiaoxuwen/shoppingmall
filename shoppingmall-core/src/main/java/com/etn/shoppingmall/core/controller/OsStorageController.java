@@ -3,6 +3,7 @@ package com.etn.shoppingmall.core.controller;
 import com.etn.shoppingmall.common.util.CharUtil;
 import com.etn.shoppingmall.common.util.ResponseUtil;
 import com.etn.shoppingmall.core.entity.Storage;
+import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.service.ObjectStorageService;
 import com.etn.shoppingmall.core.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/os/storage")
@@ -43,16 +41,9 @@ public class OsStorageController {
     }
 
     @GetMapping("/list")
-    public Object list(String key, String name,
-                       @RequestParam(value = "page", defaultValue = "1") Integer page,
-                       @RequestParam(value = "limit", defaultValue = "10") Integer limit,
-                       String sort, String order) {
-        List<Storage> storageList = storageService.listSelective(key, name, page, limit, sort, order);
-        int total = storageService.countSelective(key, name);
-        Map<String, Object> data = new HashMap<>();
-        data.put("total", total);
-        data.put("items", storageList);
-        return ResponseUtil.ok(data);
+    public Object list(String key, String name) {
+        Pager<Storage> pager = storageService.listSelective(key, name);
+        return ResponseUtil.ok(pager);
     }
 
     @PostMapping("/create")
