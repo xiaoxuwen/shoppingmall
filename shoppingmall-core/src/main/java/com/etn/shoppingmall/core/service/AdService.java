@@ -3,6 +3,8 @@ package com.etn.shoppingmall.core.service;
 import com.etn.shoppingmall.core.entity.Ad;
 import com.etn.shoppingmall.core.model.Pager;
 
+import java.util.List;
+
 /**
  * Description:广告Service
  * User: xiaoxuwen
@@ -24,4 +26,11 @@ public interface AdService {
      * @return
      */
     Pager<Ad> findAd();
+
+    /**
+     * 不分页获取广告
+     *
+     * @return
+     */
+    List<Ad> listAd();
 }

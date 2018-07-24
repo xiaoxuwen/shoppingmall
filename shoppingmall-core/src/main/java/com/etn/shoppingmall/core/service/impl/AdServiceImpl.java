@@ -1,9 +1,9 @@
 package com.etn.shoppingmall.core.service.impl;
 
-import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.entity.Ad;
 import com.etn.shoppingmall.core.entity.User;
 import com.etn.shoppingmall.core.mapper.AdMapper;
+import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.AdService;
 import com.github.pagehelper.PageHelper;
@@ -61,10 +61,6 @@ public class AdServiceImpl implements AdService {
         Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
 
-        System.out.println(SystemContext.getOrder());
-        System.out.println(SystemContext.getSort());
-        System.out.println(SystemContext.getPageOffset());
-        System.out.println(SystemContext.getPageSize());
         if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
             example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
         }
@@ -74,5 +70,18 @@ public class AdServiceImpl implements AdService {
         PageInfo<Ad> pageList = new PageInfo<>(list);
 
         return new Pager<>(SystemContext.getPageOffset(), SystemContext.getPageSize(), pageList.getTotal(), list);
+    }
+
+    /**
+     * 不分页获取广告
+     *
+     * @return
+     */
+    @Override
+    public List<Ad> listAd() {
+        Example example = new Example(User.class);
+        Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deleted", false);
+        return adMapper.selectByExample(example);
     }
 }
