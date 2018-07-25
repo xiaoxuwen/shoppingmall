@@ -1,0 +1,32 @@
+/* pages/my/my.wxss */
+.my-head{
+  width: 750rpx;
+  height: 450rpx;
+  display:flex;
+  flex-direction:column;
+  background: #efc24d;
+  text-align: center;
+  position: relative;
+}
+
+.my-head image{
+  width: 140rpx;
+  height: 140rpx;
+   border-radius: 140rpx; 
+   display:block; 
+  position: absolute;
+  top:80rpx;
+  left: 305rpx;
+}
+
+ .my_name{
+  font-size: 30rpx;
+	color: #333333;
+  margin-top:280rpx;
+}
+
+.slogan{
+  font-size: 24rpx;
+	color: #666666;
+   margin-top:34rpx;
+} 

@@ -1,0 +1,79 @@
+/* pages/cut/cut.wxss */
+.banner {
+  width: 750rpx;
+  height: 300rpx;
+}
+
+.banner image {
+  width: 100%;
+  height: 300rpx;
+}
+
+.cutgoods{
+  padding: 0 20rpx;
+  background: #ffffff;
+  margin-top: 10rpx;
+  display:flex;
+  flex-direction:column;
+}
+
+.cutgoodslist{
+  border-bottom: 1rpx solid #cccccc;
+  padding: 10rpx 0; 
+  display:flex;
+ flex-direction:row;
+}
+
+.cutgoodslist image{
+   width: 200rpx;
+   height: 155rpx;
+   background-color: #ffc137;
+	 border-radius: 4rpx;
+}
+
+.cutgoodstext{
+  margin-left: 10rpx;
+  width: 350rpx;
+   display:flex;
+  flex-direction:column;
+  overflow: hidden;
+  line-height: 39rpx;
+}
+
+.cutgoodstext .goods_name{
+    font-size: 30rpx;
+    color: #000000;
+}
+
+.cutgoodstext .goods_money{
+   font-size: 26rpx;
+    color: #e60012;
+}
+
+.goods_people{
+  font-size: 24rpx;
+  color: #ffbd67;
+  margin-left: 20rpx;
+}
+
+.cutgoodstext .goods_info{
+   font-size: 22rpx;
+    color:#999999;
+}
+
+.goodsfree{
+  width: 140rpx;
+  height: 40rpx;
+  background-color: #e60012;
+  margin-left: 10rpx;
+  margin-top: 60rpx;
+  text-align: center;
+  line-height: 40rpx;
+}
+
+.goodsfree text{
+  color: #fff;
+  font-size: 26rpx;
+  text-align: center;
+}
+

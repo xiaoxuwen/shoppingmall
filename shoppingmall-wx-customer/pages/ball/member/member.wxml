@@ -1,0 +1,23 @@
+<!--pages/ball/member/member.wxml-->
+<view class="container">
+  <view class="memberform">
+       <form >
+          <view class="meminput name">
+             <image src='/static/images/name.png'></image>
+             <input type='text' placeholder='请输入姓名'/>
+          </view>
+          <view class="meminput phone">
+             <image src='/static/images/phone.png'></image>
+             <input type='text' placeholder='请输入手机号'/>
+          </view>
+          <view class="meminput password">
+             <image src='/static/images/pas.png'></image>
+             <input type='text' placeholder='请输入验证码'/>
+              <text class="code">获取验证码</text> 
+          </view>
+          <view class="appay">
+              <button type="default">申请入驻</button>
+          </view>
+      </form>
+  </view>
+</view>

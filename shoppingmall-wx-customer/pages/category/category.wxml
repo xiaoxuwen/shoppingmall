@@ -1,144 +1,77 @@
+<!--pages/category/category.wxml-->
 <view class="container">
-   <swiper class="banner" indicator-dots="true" autoplay="true" interval="3000" duration="1000">
-    <swiper-item >
-          <image src='/static/images/ban1.png'></image>
-    </swiper-item >
-     <swiper-item >
-          <image src='/static/images/ban1.png'></image>
-    </swiper-item>
-     <swiper-item >
-          <image src='/static/images/ban1.png'></image>
-    </swiper-item>
-  </swiper>
-   <view class="m-menu">
-     <navigator class="item" url="/pages/category/category">
-      <image src="/static/images/clothes.png" background-size="cover"></image>
-      <text>美食</text>
-    </navigator>
-    <navigator class="item">
-      <image src="/static/images/clothes.png" background-size="cover"></image>
-      <text>酒店</text>
-    </navigator>
-    <navigator class="item">
-      <image src="/static/images/clothes.png" background-size="cover"></image>
-      <text>娱乐</text>
-    </navigator>
-    <navigator class="item">
-      <image src="/static/images/clothes.png" background-size="cover"></image>
-      <text>丽人</text>
-    </navigator>
-    <navigator class="item">
-      <image src="/static/images/clothes.png" background-size="cover"></image>
-      <text>鲜花</text>
-    </navigator>
-    </view>
-  <view class="m-menu">
-      <navigator class="item">
-        <image src="/static/images/clothes.png" background-size="cover"></image>
-        <text>服饰</text>
-       </navigator>
-    <navigator class="item">
-        <image src="/static/images/clothes.png" background-size="cover"></image>
-        <text>培训</text>
-    </navigator>
-    <navigator class="item">
-        <image src="/static/images/clothes.png" background-size="cover"></image>
-        <text>健身</text>
-    </navigator>
-    <navigator class="item">
-        <image src="/static/images/clothes.png" background-size="cover"></image>
-        <text>母婴</text>
-    </navigator>
-    <navigator class="item">
-        <image src="/static/images/clothes.png" background-size="cover"></image>
-        <text>生活服务</text>
-    </navigator> 
-  </view>
-  <!--选项卡  -->
-   <view class="swiper-tab">
-        <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">折扣最低         </view>
-        <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">距离最近         </view>
-        <view class="swiper-tab-list {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">人气最旺         </view>
-   </view>
-    <swiper current="{{currentTab}}" class="swiper-box" duration="300" style="height:{{winHeight - 31}}px" bindchange="bindChange">
-          <swiper-item class="product-info">
-             <view class="pd-list">
-                  <view class="pd-wap">
-                        <image src='/static/images/ban1.png'></image>
-                        <view class="pd-tetx">
-                            <text class="pd-name">1折最惠单人餐</text>
-                            <text class="pd-money">会员特价20元   <text class="original">原价：135元</text></text>
-                            <text class="pd-address">南阳市-卧龙区-仲景路</text>
-                            <text class="pd-distance">距您1000米<text class="pd-num">限量10份</text><text class="tag">真辣</text><text class="tag">家常</text><text class="tag">好吃</text></text>
-                        </view>
-                  </view>
-                   <view class="pd-wap">
-                        <image src='/static/images/ban1.png'></image>
-                        <view class="pd-tetx">
-                            <text class="pd-name">1折最惠单人餐</text>
-                            <text class="pd-money">会员特价20元   <text class="original">原价：135元</text></text>
-                            <text class="pd-address">南阳市-卧龙区-仲景路</text>
-                            <text class="pd-distance">距您1000米<text class="pd-num">限量10份</text><text class="tag">真辣</text><text class="tag">家常</text><text class="tag">好吃</text></text>
-                        </view>
-                  </view>
-             </view>
-          </swiper-item>
-          <swiper-item >
-             <view class="pd-list">
-                  <view class="pd-wap">
-                        <image src='/static/images/ban1.png'></image>
-                        <view class="pd-tetx">
-                            <text class="pd-name">1折最惠单人餐</text>
-                            <text class="pd-money">会员特价20元   <text class="original">原价：135元</text></text>
-                            <text class="pd-address">南阳市-卧龙区-仲景路</text>
-                            <text class="pd-distance">距您1000米<text class="pd-num">限量10份</text><text class="tag">真辣</text><text class="tag">家常</text><text class="tag">好吃</text></text>
-                        </view>
-                  </view>
-                   <view class="pd-wap">
-                        <image src='/static/images/ban1.png'></image>
-                        <view class="pd-tetx">
-                            <text class="pd-name">1折最惠单人餐</text>
-                            <text class="pd-money">会员特价20元   <text class="original">原价：135元</text></text>
-                            <text class="pd-address">南阳市-卧龙区-仲景路</text>
-                            <text class="pd-distance">距您1000米<text class="pd-num">限量10份</text><text class="tag">真辣</text><text class="tag">家常</text><text class="tag">好吃</text></text>
-                        </view>
-                  </view>
-             </view>
-          </swiper-item>
-         <swiper-item >
-             <view class="pd-list">
-                  <view class="pd-wap">
-                        <image src='/static/images/ban1.png'></image>
-                        <view class="pd-tetx">
-                            <text class="pd-name">1折最惠单人餐</text>
-                            <text class="pd-money">会员特价20元   <text class="original">原价：135元</text></text>
-                            <text class="pd-address">南阳市-卧龙区-仲景路</text>
-                            <text class="pd-distance">距您1000米<text class="pd-num">限量10份</text><text class="tag">真辣</text><text class="tag">家常</text><text class="tag">好吃</text></text>
-                        </view>
-                  </view>
-                   <view class="pd-wap">
-                        <image src='/static/images/ban1.png'></image>
-                        <view class="pd-tetx">
-                            <text class="pd-name">1折最惠单人餐</text>
-                            <text class="pd-money">会员特价20元   <text class="original">原价：135元</text></text>
-                            <text class="pd-address">南阳市-卧龙区-仲景路</text>
-                            <text class="pd-distance">距您1000米<text class="pd-num">限量10份</text><text class="tag">真辣</text><text class="tag">家常</text><text class="tag">好吃</text></text>
-                        </view>
-                  </view>
-             </view>
-          </swiper-item>
-    </swiper>
-    <!--xuan fu   -->
-    <view  class="xuanfu">
-       <view bindtap='admission'>
-          <text>入驻</text>
-       </view>
-       <view bindtap='member'>
-          <text class="">会员</text>
-       </view>
-       <view bindtap='bind_tal'>
-          <text class="service">客服</text>
-       </view>
-    </view>
+     <view class="swiper-tab">
+    <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">折扣最低</view>
+    <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">距离最近</view>
+    <view class="swiper-tab-list {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">人气最旺</view>
 </view>
-
+ 
+<swiper current="{{currentTab}}" class="swiper-box" duration="300" style="height:{{winHeight - 31}}px" bindchange="bindChange">
+     <swiper-item>
+             <view class="pd-list">
+                  <view class="pd-wap">
+                        <image src='/static/images/ban1.png'></image>
+                        <view class="pd-tetx">
+                            <text class="pd-name">1折最惠单人餐</text>
+                            <text class="pd-money">会员特价20元   <text class="original">原价：135元</text></text>
+                            <text class="pd-address">南阳市-卧龙区-仲景路</text>
+                            <text class="pd-distance">距您1000米<text class="pd-num">限量10份</text><text class="tag">真辣</text><text class="tag">家常</text><text class="tag">好吃</text></text>
+                        </view>
+                  </view>
+                   <view class="pd-wap">
+                        <image src='/static/images/ban1.png'></image>
+                        <view class="pd-tetx">
+                            <text class="pd-name">1折最惠单人餐</text>
+                            <text class="pd-money">会员特价20元   <text class="original">原价：135元</text></text>
+                            <text class="pd-address">南阳市-卧龙区-仲景路</text>
+                            <text class="pd-distance">距您1000米<text class="pd-num">限量10份</text><text class="tag">真辣</text><text class="tag">家常</text><text class="tag">好吃</text></text>
+                        </view>
+                  </view>
+             </view>
+     </swiper-item>
+    <swiper-item >
+             <view class="pd-list">
+                  <view class="pd-wap">
+                        <image src='/static/images/ban1.png'></image>
+                        <view class="pd-tetx">
+                            <text class="pd-name">1折最惠单人餐</text>
+                            <text class="pd-money">会员特价20元   <text class="original">原价：135元</text></text>
+                            <text class="pd-address">南阳市-卧龙区-仲景路</text>
+                            <text class="pd-distance">距您1000米<text class="pd-num">限量10份</text><text class="tag">真辣</text><text class="tag">家常</text><text class="tag">好吃</text></text>
+                        </view>
+                  </view>
+                   <view class="pd-wap">
+                        <image src='/static/images/ban1.png'></image>
+                        <view class="pd-tetx">
+                            <text class="pd-name">1折最惠单人餐</text>
+                            <text class="pd-money">会员特价20元   <text class="original">原价：135元</text></text>
+                            <text class="pd-address">南阳市-卧龙区-仲景路</text>
+                            <text class="pd-distance">距您1000米<text class="pd-num">限量10份</text><text class="tag">真辣</text><text class="tag">家常</text><text class="tag">好吃</text></text>
+                        </view>
+                  </view>
+             </view>
+     </swiper-item>
+    <swiper-item >
+             <view class="pd-list">
+                  <view class="pd-wap">
+                        <image src='/static/images/ban1.png'></image>
+                        <view class="pd-tetx">
+                            <text class="pd-name">1折最惠单人餐</text>
+                            <text class="pd-money">会员特价20元   <text class="original">原价：135元</text></text>
+                            <text class="pd-address">南阳市-卧龙区-仲景路</text>
+                            <text class="pd-distance">距您1000米<text class="pd-num">限量10份</text><text class="tag">真辣</text><text class="tag">家常</text><text class="tag">好吃</text></text>
+                        </view>
+                  </view>
+                   <view class="pd-wap">
+                        <image src='/static/images/ban1.png'></image>
+                        <view class="pd-tetx">
+                            <text class="pd-name">1折最惠单人餐</text>
+                            <text class="pd-money">会员特价20元   <text class="original">原价：135元</text></text>
+                            <text class="pd-address">南阳市-卧龙区-仲景路</text>
+                            <text class="pd-distance">距您1000米<text class="pd-num">限量10份</text><text class="tag">真辣</text><text class="tag">家常</text><text class="tag">好吃</text></text>
+                        </view>
+                  </view>
+             </view>
+     </swiper-item>
+</swiper>
+</view>

@@ -1,47 +1,4 @@
-/**index.wxss**/
-.banner {
-  width: 750rpx;
-  height: 300rpx;
-}
-
-.banner image {
-  width: 100%;
-  height: 300rpx;
-}
-
-.m-menu {
-  display: flex;
-  height: 150rpx;
-  width: 750rpx;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #fff;
-}
-
-.m-menu .item {
-  flex: 1;
-  display: block;
-  width: 150rpx
-}
-
-.m-menu image {
-  display: block;
-  width: 100rpx;
-  height: 100rpx;
-  margin: 0 auto;
-  margin-bottom:5rpx;
-}
-
-.m-menu text {
-  display: block;
-  font-size: 24rpx;
-  text-align: center;
-  margin: 0 auto;
-  line-height: 1;
-  color: #333;
-}
-
+/* pages/category/category.wxss */
 .swiper-tab{
    width: 100%;
    text-align: center;
@@ -77,7 +34,7 @@
   .swiper-box  .pd-list{
   display:flex;
   flex-direction:column;
-  padding: 10rpx 20rpx;
+  padding:10rpx 20rpx;
 }
 
 .swiper-box  .pd-list image{
@@ -87,7 +44,7 @@
     border-radius: 5rpx;
 }
 
-  .pd-wap{
+.pd-wap{
   display:flex;
   flex-direction:row;
   padding: 15rpx 0;
@@ -97,9 +54,9 @@
 
 .pd-tetx{
   margin-left:15rpx;
-    display:flex;
+  display:flex;
   flex-direction:column;
-   width:490rpx; 
+  width:490rpx; 
   line-height:39rpx;
 }
 
@@ -109,7 +66,7 @@
 }
 
 .pd-money{
-   font-size: 26rpx;
+   font-size:26rpx;
   color: #e60012;
 }
 
@@ -121,14 +78,12 @@
 
 .pd-address{
   font-size:22rpx;
-   color: #999999;
-   margin-top: 1rpx;
+  color: #999999;
 }
    
 .pd-distance{
    font-size: 22rpx;
    color: #999999;
-   margin-top: 2rpx;
 }   
 
 .pd-num{
@@ -145,28 +100,3 @@
   border: solid 1rpx #cccccc;
   padding: 0 3rpx;
 }
-
-.xuanfu{
-  position: fixed;
-  top:750rpx;
-  right: 30rpx;
-  display: flex;
-  flex-direction :column;
-}
-
-.xuanfu view{
-  width: 90rpx;
-  height: 90rpx;
-  background: #efc24d;
-  border-radius: 90rpx;
-  text-align: center;
-  line-height: 90rpx;
-  font-size: 26rpx;
-  margin-bottom: 20rpx;
-}
-
-.xuanfu view text{
-  color: #8c5032;
-}
-
-

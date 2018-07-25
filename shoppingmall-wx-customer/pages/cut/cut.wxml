@@ -1,0 +1,43 @@
+<!--pages/cut/cut.wxml-->
+<view class="container">
+   <swiper class="banner" indicator-dots="true" autoplay="true" interval="3000" duration="1000">
+    <swiper-item >
+          <image src='/static/images/ban1.png'></image>
+    </swiper-item>
+  </swiper>
+  <view class="cutgoods">
+     <view class="cutgoodslist">
+        <image src='/static/images/ban1.png'></image>
+        <view class="cutgoodstext">
+           <text class="goods_name">商品名称</text>
+           <text class="goods_money">价值300元<text class="goods_people">100人已免费拿</text></text>
+           <text class="goods_info">简单产品描述简单产品描述简单产品描述简单产品描述</text>
+        </view>
+        <view class="goodsfree">
+            <text>点击免费拿</text>
+        </view>
+     </view>
+       <view class="cutgoodslist">
+        <image src='/static/images/ban1.png'></image>
+        <view class="cutgoodstext">
+           <text class="goods_name">商品名称</text>
+           <text class="goods_money">价值300元<text class="goods_people">100人已免费拿</text></text>
+           <text class="goods_info">简单产品描述简单产品描述简单产品描述简单产品描述</text>
+        </view>
+        <view class="goodsfree">
+            <text>点击免费拿</text>
+        </view>
+     </view>
+       <view class="cutgoodslist">
+        <image src='/static/images/ban1.png'></image>
+        <view class="cutgoodstext">
+           <text class="goods_name">商品名称</text>
+           <text class="goods_money">价值300元<text class="goods_people">100人已免费拿</text></text>
+           <text class="goods_info">简单产品描述简单产品描述简单产品描述简单产品描述</text>
+        </view>
+        <view class="goodsfree">
+            <text>点击免费拿</text>
+        </view>
+     </view>
+  </view>
+</view>

@@ -1,0 +1,79 @@
+/* pages/ball/member/member.wxss */
+.memberform{
+  padding: 60rpx 20rpx;
+  background: #fff;
+  overflow: hidden;
+  display: flex;
+  flex-direction :column;
+}
+
+.meminput{
+   display: flex;
+  flex-direction :row;
+  height: 90rpx;
+  margin-bottom: 30rpx;
+  line-height: 90rpx;
+  font-size: 32rpx;
+  color: #999;
+}
+
+.name image{
+   width: 50rpx;
+   height:50rpx;
+   margin-right: 40rpx;
+   margin-top: 20rpx;
+}
+
+.phone image{
+   width: 35rpx;
+   height:50rpx;
+   margin-right: 55rpx;
+   margin-top: 20rpx;
+}
+
+.password image{
+    width:65rpx;
+   height:34rpx;
+   margin-right:40rpx;
+   margin-top: 30rpx;
+}
+
+.meminput image{
+    display: block;
+}
+
+.password {
+  position: relative;
+}
+
+.password  .code{
+  position: absolute;
+  right:30rpx;
+  height: 30rpx;
+  top:0rpx;
+  font-size: 32rpx;
+  color: #999;
+  text-decoration: underline;
+}
+
+
+.meminput input{
+  border:1rpx solid #e6e6e6;
+width:588rpx;
+color:#999999;
+height:30rpx;
+padding:15rpx 0 15rpx 30rpx;
+border-radius:18rpx;
+}
+
+.appay button{
+margin:50rpx 0 40rpx 0;
+height:96rpx;
+line-height:96rpx;
+color:#fff;
+font-size:30rpx;
+width:100%;
+background:#e6b944;
+border-radius:6rpx;
+}
+

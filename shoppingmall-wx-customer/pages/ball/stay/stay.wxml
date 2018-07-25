@@ -1,0 +1,29 @@
+<!--pages/ball/stay/stay.wxml-->
+<view class="container stay">
+  <image src='/static/images/stay.png'></image>
+  <view class="stayform">
+     <view class="stayinput">
+        <text>姓名</text>
+        <input type='text' placeholder="请输入姓名" />
+     </view>
+     <view class="stayinput">
+        <text>手机号</text>
+        <input type='text' placeholder="手机号" />
+     </view>
+     <view class="stayinput">
+        <text>店名</text>
+        <input type='text' placeholder="请输入店铺名称" />
+     </view>
+     <view class="stayinput">
+        <text>地址</text>
+        <input type='text'  placeholder="请输入店铺地址" />
+     </view>
+     <view class="appay">
+        <button type="default">申请入驻</button>
+     </view>
+     <view class="interest">
+        <view class="int_title">入驻权益：</view>
+        <view class="int_info">文字描述文字描述文字描述文字描述  文字描述文字描述文字描述  文字描述文字描述  文字描述文字描述文字描述文字描述</view>
+     </view>
+  </view>
+</view>

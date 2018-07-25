@@ -1,0 +1,11 @@
+<!--pages/my/my.wxml-->
+<view class="container">
+  <view class="my-head">
+     <image src='/static/images/ban1.png'></image>
+     <text class="my_name">一起来砍价</text>
+     <text class="slogan">“我发现一件好货，一起来砍价0元拿”</text> 
+  </view>
+  <view>
+     <text>22222</text>
+  </view>
+</view>

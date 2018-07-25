@@ -1,0 +1,70 @@
+/* pages/ball/stay/stay.wxss */
+.stay{
+  width: 750px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.stay image{
+  width: 750rpx;
+  height: 240rpx;
+}
+
+.stayform{
+  display: flex;
+  flex-direction :column;
+  width: 710rpx;
+  margin:20rpx;
+}
+
+.stayinput{
+   display: flex;
+  flex-direction :row;
+  margin-bottom: 20rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+   font-size: 30rpx;
+  
+}
+
+.stayinput text{
+  color: #333333;
+  width: 120rpx;
+  height: 60rpx;
+}
+
+.stayinput input{
+  border: 1rpx solid #e6e6e6;
+  width: 588rpx;
+  color: #999999;
+  height: 30rpx;
+  padding: 15rpx 0 15rpx 30rpx;
+  border-radius: 18rpx;
+}
+
+
+.appay button{
+margin:50rpx 0 40rpx 0;
+height:96rpx;
+line-height:96rpx;
+color:#fff;
+font-size:30rpx;
+width:100%;
+background:#e6b944;
+border-radius:6rpx;
+}
+
+.interest{
+  margin-top: 30rpx;
+}
+
+.int_title{
+    color: #333333;
+    font-size: 30rpx;
+}
+
+.int_info{
+   color: #666;
+    font-size: 24rpx;
+    margin-top: 10rpx;
+}

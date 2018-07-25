@@ -11,23 +11,6 @@ Page({
     // tab切换
     currentTab: 0,
   },
-
-  admission: function () {
-    wx.navigateTo({
-      url: '../ball/stay/stay'
-    })
-  },
-  member: function () {
-    wx.navigateTo({
-      url: '../ball/member/member'
-    })
-  },
-  // 拨打电话
-  bind_tal: function () {
-    wx.makePhoneCall({
-      phoneNumber: '12345678999' //仅为示例，并非真实的电话号码
-    })
-  },
   onLoad: function () {
     var that = this;
 

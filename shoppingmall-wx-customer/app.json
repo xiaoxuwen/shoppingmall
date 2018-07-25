@@ -3,16 +3,16 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/cut/cut",
-    "pages/my/my"
+    "pages/my/my",
+    "pages/collage/collage",
+    "pages/ball/stay/stay",
+    "pages/ball/member/member",
+    "pages/category/category"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-<<<<<<< HEAD:shoppingmall-wx/app.json
     "navigationBarTitleText": "哎呦生活小程序",
-=======
-    "navigationBarTitleText": "顾客端",
->>>>>>> f75c50a8aa68745409c2e916e098fa2ff659ac4a:shoppingmall-wx-customer/app.json
     "navigationBarTextStyle":"black"
   },
   "tabBar": {
@@ -32,6 +32,12 @@
         "iconPath": "static/images/cut.png",
         "selectedIconPath": "static/images/cut1.png",
         "text": "零元砍价"
+      },
+      {
+        "pagePath": "pages/collage/collage",
+        "iconPath": "static/images/cut.png",
+        "selectedIconPath": "static/images/cut1.png",
+        "text": "拼团"
       },
       {
         "pagePath": "pages/my/my",
