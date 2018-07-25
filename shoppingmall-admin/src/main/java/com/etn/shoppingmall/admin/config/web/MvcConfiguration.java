@@ -1,38 +1,20 @@
 package com.etn.shoppingmall.admin.config.web;
 
-import com.etn.shoppingmall.admin.web.interceptor.AdminLoginInterceptor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
 public class MvcConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware {
-
 
     private ApplicationContext applicationContext;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
-    }
-
-    /**
-     * 配置静态资源
-     */
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-    }
-
-    /**
-     * 配置默认Sevlet
-     * 对静态资源默认servlet配置，加入 对.js .gif .img等资源的处理， 允许使用"/"进行整体映射
-     */
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
     }
 
     /**

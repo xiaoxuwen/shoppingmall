@@ -21,7 +21,7 @@ public class LoginController implements ErrorController {
     /**
      * 主页
      */
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @RequestMapping(value = {"","/index"}, method = RequestMethod.GET)
     public String index() {
         return "index.html";
     }

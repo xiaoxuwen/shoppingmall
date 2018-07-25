@@ -100,6 +100,7 @@ layui.define(['layer'], function (exports) {
         },
         // 封装ajax请求
         ajax: function (param) {
+
             var successCallback = param.success;
             param.success = function (result, status, xhr) {
                 // 判断登录过期和没有权限
@@ -123,7 +124,7 @@ layui.define(['layer'], function (exports) {
                 successCallback(result, status, xhr);
             };
             param.error = function (xhr) {
-                success({code: xhr.status, msg: xhr.statusText});
+                console.info({code: xhr.status, msg: xhr.statusText});
             };
             $.ajax(param);
         },

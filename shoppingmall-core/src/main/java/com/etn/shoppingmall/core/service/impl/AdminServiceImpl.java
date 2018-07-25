@@ -68,11 +68,10 @@ public class AdminServiceImpl implements AdminService {
         if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
             example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
         }
-
         PageHelper.startPage(SystemContext.getPageOffset(), SystemContext.getPageSize());
         List<Admin> list = adminMapper.selectByExample(example);
         PageInfo<Admin> pageList = new PageInfo<>(list);
 
-        return new Pager<>(SystemContext.getPageOffset(), SystemContext.getPageSize(), pageList.getTotal(), list);
+        return new Pager<>(pageList.getTotal(), list);
     }
 }

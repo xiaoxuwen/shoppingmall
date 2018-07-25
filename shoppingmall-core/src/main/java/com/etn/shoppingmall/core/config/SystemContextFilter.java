@@ -1,6 +1,7 @@
 package com.etn.shoppingmall.core.config;
 
 
+import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.model.SystemContext;
 
 import javax.servlet.*;
@@ -18,23 +19,23 @@ public class SystemContextFilter implements Filter {
     @Override
     public void init(FilterConfig cfg) throws ServletException {
         try {
-            pageSize = Integer.parseInt(cfg.getInitParameter("pageSize"));
+            pageSize = Integer.parseInt(cfg.getInitParameter("limit"));
         } catch (NumberFormatException e) {
-            pageSize = 15;
+            pageSize = 10;
         }
     }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-        Integer offset = 0;
+        Integer pageIndex = 0;
         try {
-            offset = Integer.parseInt(req.getParameter("offset"));
+            pageIndex = Integer.parseInt(req.getParameter("page"));
         } catch (NumberFormatException e) {
         }
         try {
             SystemContext.setOrder(req.getParameter("order"));
             SystemContext.setSort(req.getParameter("sort"));
-            SystemContext.setPageOffset(offset);
+            SystemContext.setPageOffset(Pager.offset(pageIndex, pageSize));
             SystemContext.setPageSize(pageSize);
             SystemContext.setRealPath(((HttpServletRequest) req).getSession().getServletContext().getRealPath("/"));
             chain.doFilter(req, resp);
@@ -50,7 +51,6 @@ public class SystemContextFilter implements Filter {
     @Override
     public void destroy() {
     }
-
 
 
 }

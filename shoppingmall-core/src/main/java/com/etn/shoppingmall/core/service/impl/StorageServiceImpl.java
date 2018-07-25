@@ -91,7 +91,7 @@ public class StorageServiceImpl implements StorageService {
         List<Storage> list = storageMapper.selectByExample(example);
         PageInfo<Storage> pageList = new PageInfo<>(list);
 
-        return new Pager<>(SystemContext.getPageOffset(), SystemContext.getPageSize(), pageList.getTotal(), list);
+        return new Pager<>(pageList.getTotal(), list);
     }
 
 }

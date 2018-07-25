@@ -1,16 +1,16 @@
 package com.etn.shoppingmall.common.util;
 
 public class ResponseUtil {
-    private int result;         //0表示失败 1表示成功
+    private int code;         //0表示失败 1表示成功
     private String msg;         //提示信息
     private Object data;        //附加对象，用来存储一些特定的返回信息
 
-    public int getResult() {
-        return result;
+    public int getCode() {
+        return code;
     }
 
-    public void setResult(int result) {
-        this.result = result;
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getMsg() {
@@ -30,33 +30,37 @@ public class ResponseUtil {
     }
 
     public ResponseUtil() {
-        result = 1;
+        code = 1;
     }
 
-    public ResponseUtil(int result) {
+    public ResponseUtil(int code) {
         super();
-        this.result = result;
+        this.code = code;
     }
 
-    public ResponseUtil(int result, String msg) {
+    public ResponseUtil(int code, String msg) {
         super();
-        this.result = result;
+        this.code = code;
         this.msg = msg;
     }
 
-    public ResponseUtil(int result, Object data) {
-        this.result = result;
+    public ResponseUtil(int code, Object data) {
+        this.code = code;
         this.data = data;
     }
 
-    public ResponseUtil(int result, String msg, Object data) {
-        this.result = result;
+    public ResponseUtil(int code, String msg, Object data) {
+        this.code = code;
         this.msg = msg;
         this.data = data;
     }
 
     public static ResponseUtil ok() {
         return new ResponseUtil();
+    }
+
+    public static ResponseUtil ok(int code, String msg) {
+        return new ResponseUtil(code, msg);
     }
 
     public static ResponseUtil ok(Object data) {
@@ -71,8 +75,8 @@ public class ResponseUtil {
         return new ResponseUtil(-1, "错误");
     }
 
-    public static ResponseUtil fail(int result, String msg) {
-        return new ResponseUtil(result, msg);
+    public static ResponseUtil fail(int code, String msg) {
+        return new ResponseUtil(code, msg);
     }
 
 
