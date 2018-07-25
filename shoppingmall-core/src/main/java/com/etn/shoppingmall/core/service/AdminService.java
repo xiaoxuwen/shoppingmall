@@ -15,5 +15,5 @@ public interface AdminService extends BaseService<Admin> {
      *
      * @return
      */
-    Pager find();
+    Pager<Admin> find();
 }
