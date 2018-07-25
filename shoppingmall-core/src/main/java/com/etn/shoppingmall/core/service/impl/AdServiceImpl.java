@@ -69,7 +69,7 @@ public class AdServiceImpl implements AdService {
         List<Ad> list = adMapper.selectByExample(example);
         PageInfo<Ad> pageList = new PageInfo<>(list);
 
-        return new Pager<>(SystemContext.getPageOffset(), SystemContext.getPageSize(), pageList.getTotal(), list);
+        return new Pager<>(pageList.getTotal(), list);
     }
 
     /**

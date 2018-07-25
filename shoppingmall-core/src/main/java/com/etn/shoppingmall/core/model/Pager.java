@@ -13,27 +13,26 @@ import java.util.List;
  */
 @Data
 public class Pager<T> implements Serializable {
-    /**
-     * 分页的起始页
-     */
-    private int offset;
-    /**
-     * 分页的大小
-     */
-    private int size;
-    /**
-     * 总记录数
-     */
-    private long total;
-    /**
-     * 分页的数据
-     */
-    private List<T> datas;
+    private int code; //状态码, 0表示成功
+    private String msg;  //提示信息
+    private long count; // 总数量
+    private List<T> data; // 当前数据
 
-    public Pager(int size, int offset, long total, List<T> datas) {
-        this.size = size;
-        this.offset = offset;
-        this.total = total;
-        this.datas = datas;
+    public Pager(long count, List<T> data) {
+        this.code = 0;
+        this.msg = "";
+        this.count = count;
+        this.data = data;
+    }
+
+    public Pager() {
+        this.code = -1;
+        this.msg = "error";
+        this.count = 0;
+        this.data = null;
+    }
+
+    public static int offset(int pageIndex, int pageSize) {
+        return pageIndex > 0 ? (pageIndex - 1) * pageSize : 0;
     }
 }
