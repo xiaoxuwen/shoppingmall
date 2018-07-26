@@ -39,7 +39,9 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean delete(Shop shop) {
+    public boolean delete(Integer id) {
+        Shop shop = new Shop();
+        shop.setId(id);
         shop.setDeleted(true);
         return shopMapper.updateByPrimaryKeySelective(shop) > 0;
     }

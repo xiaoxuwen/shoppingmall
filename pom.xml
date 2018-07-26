@@ -114,12 +114,6 @@
                 <version>2.7.0</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.16.10</version>
-            </dependency>
-
             <!--模板引擎beetl-->
             <dependency>
                 <groupId>com.ibeetl</groupId>
@@ -163,6 +157,10 @@
             <scope>test</scope>
         </dependency>
 
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.10</version>
+        </dependency>
     </dependencies>
 </project>

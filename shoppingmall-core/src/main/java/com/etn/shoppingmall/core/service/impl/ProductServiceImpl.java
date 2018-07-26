@@ -40,7 +40,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean delete(Product product) {
+    public boolean delete(Integer id) {
+        Product product = new Product();
+        product.setId(id);
         product.setDeleted(true);
         return productMapper.updateByPrimaryKeySelective(product) > 0;
     }

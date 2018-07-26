@@ -42,7 +42,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean delete(Category category) {
+    public boolean delete(Integer id) {
+        Category category = new Category();
+        category.setId(id);
         category.setDeleted(true);
         return categoryMapper.updateByPrimaryKeySelective(category) > 0;
     }

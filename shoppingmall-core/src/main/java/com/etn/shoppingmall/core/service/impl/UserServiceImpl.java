@@ -40,7 +40,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean delete(User user) {
+    public boolean delete(Integer id) {
+        User user = new User();
+        user.setId(id);
         user.setDeleted(true);
         return userMapper.updateByPrimaryKeySelective(user) > 0;
     }

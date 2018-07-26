@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 
 /**
- * Description:
+ * Description:管理员Controller
  * User: xiaoxuwen
  * Date: 2018-07-25 8:47
  * Version: V1.0
@@ -74,10 +74,8 @@ public class AdminController {
     @ResponseBody
     @RequestMapping("/update")
     public ResponseUtil update(Admin admin) {
-        Admin a = adminService.load(admin.getId());
-        a.setRealName(admin.getRealName());
-        a.setPhone(admin.getPhone());
-        if (adminService.update(a)) {
+        if (admin.getId() == 1) return ResponseUtil.fail(0, "超级管理员不能修改");
+        if (adminService.update(admin)) {
             return ResponseUtil.ok(1, "修改成功");
         } else {
             return ResponseUtil.fail(0, "修改失败");
@@ -90,15 +88,13 @@ public class AdminController {
     @ResponseBody
     @RequestMapping("/delete")
     public ResponseUtil delete(Integer userId) {
-        Admin admin = adminService.load(userId);
-        if (admin != null) {
-            if (adminService.delete(admin)) {
-                return ResponseUtil.ok(1, "删除成功");
-            } else {
-                return ResponseUtil.fail(0, "删除失败");
-            }
+        if (userId == 1) return ResponseUtil.fail(0, "超级管理员不能删除");
+
+        if (adminService.delete(userId)) {
+            return ResponseUtil.ok(1, "删除成功");
+        } else {
+            return ResponseUtil.fail(0, "删除失败");
         }
-        return ResponseUtil.fail();
     }
 
     /**

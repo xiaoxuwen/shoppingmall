@@ -40,7 +40,9 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean delete(Seller seller) {
+    public boolean delete(Integer id) {
+        Seller seller=new Seller();
+        seller.setId(id);
         seller.setDeleted(true);
         return sellerMapper.updateByPrimaryKeySelective(seller) > 0;
     }

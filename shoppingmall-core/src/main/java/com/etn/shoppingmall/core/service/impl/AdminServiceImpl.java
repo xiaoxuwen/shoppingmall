@@ -48,7 +48,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean delete(Admin admin) {
+    public boolean delete(Integer id) {
+        Admin admin = new Admin();
+        admin.setId(id);
         admin.setDeleted(true);
         return adminMapper.updateByPrimaryKeySelective(admin) > 0;
     }

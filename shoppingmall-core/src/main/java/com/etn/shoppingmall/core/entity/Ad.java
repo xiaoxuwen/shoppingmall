@@ -34,7 +34,12 @@ public class Ad extends BaseEntity {
      */
     private String content;
     /**
-     * 逻辑删除,0.正常，1 已删除
+     * 状态,1.正常，0 停用
      */
     private Boolean enabled;
+
+    /**
+     * 排序
+     */
+    private Integer priority;
 }

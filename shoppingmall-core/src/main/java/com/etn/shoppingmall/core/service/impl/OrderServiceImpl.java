@@ -40,7 +40,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean delete(Order order) {
+    public boolean delete(Integer id) {
+        Order order = new Order();
+        order.setId(id);
         order.setDeleted(true);
         return orderMapper.updateByPrimaryKeySelective(order) > 0;
     }

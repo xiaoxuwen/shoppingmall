@@ -1,0 +1,115 @@
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form toolbar">
+            <button id="ad-btn-add" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
+        </div>
+
+        <table class="layui-table" id="ad-table" lay-filter="ad-table"></table>
+    </div>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="ad-table-bar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
+</script>
+
+<!-- 表格状态列 -->
+<script type="text/html" id="ad-tpl-state">
+    <input type="checkbox" lay-filter="ad-tpl-state" value="{{d.id}}" lay-skin="switch" lay-text="正常|禁用" {{d.enabled==true?'checked':''}}/>
+</script>
+
+<script>
+    layui.use(['form', 'table', 'util', 'admin', 'element'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var layer = layui.layer;
+        var util = layui.util;
+        var admin = layui.admin;
+        var element = layui.element;
+
+        form.render('select');
+
+        // 渲染表格
+        table.render({
+            elem: '#ad-table',
+            url: '/sys/ad/list',
+            cols: [[
+                {
+                    field: 'url',
+                    width: 180,
+                    title: '图片',
+                    templet: '<div><img src="http://res.layui.com/static/images/layui/logo-2.png" style="width: 178px"></div>',
+                },
+                {field: 'name', title: '标题'},
+                {field: 'content', title: '内容'},
+                {field: 'link', title: '链接地址'},
+                {field: 'priority', sort: true, title: '排序号'},
+                {field: 'enabled', templet: '#ad-tpl-state', title: '状态'},
+                {align: 'center', toolbar: '#ad-table-bar', title: '操作'}
+            ]]
+        });
+
+        // 添加按钮点击事件
+        $('#ad-btn-add').click(function () {
+            showEditModel();
+        });
+
+        // 工具条点击事件
+        table.on('tool(ad-table)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'edit') { // 修改
+                showEditModel(data);
+            } else if (layEvent === 'delete') { // 重置密码
+                layer.confirm('确定删除此广告吗？', function (i) {
+                    layer.close(i);
+                    layer.load(2);
+                    $.post('/sys/ad/delete', {
+                        adId: obj.data.id
+                    }, function (data) {
+                        layer.closeAll('loading');
+                        if (data.code === 1) {
+                            obj.del();
+                            layer.msg(data.msg, {icon: 1});
+                        } else {
+                            layer.msg(data.msg, {icon: 2});
+                        }
+                    });
+                });
+            }
+        });
+
+        // 显示表单弹窗
+        var showEditModel = function (data) {
+            var title = data ? '修改广告' : '添加广告';
+            admin.putTempData('t_ad', data);
+            admin.popupCenter({
+                title: title,
+                path: '/sys/ad/editForm',
+                finish: function () {
+                    table.reload('ad-table', {});
+                }
+            });
+        };
+
+        // 修改ad状态
+        form.on('switch(ad-tpl-state)', function (obj) {
+            layer.load(2);
+            $.post('/sys/ad/updateStatus', {
+                adId: obj.elem.value,
+                status: !obj.elem.checked
+            }, function (data) {
+                layer.closeAll('loading');
+                if (data.code === 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    // table.reload('table-ad', {});
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                    $(obj.elem).prop('checked', !obj.elem.checked);
+                    form.render('checkbox');
+                }
+            });
+        });
+    })
+</script>
