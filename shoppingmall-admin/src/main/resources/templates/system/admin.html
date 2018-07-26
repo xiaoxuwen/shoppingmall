@@ -1,5 +1,11 @@
 <div class="layui-card">
-
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb pull-right">
+          <a href="#!home_console">首页</a>
+            <a><cite>系统管理</cite></a>
+          <a><cite>管理员管理</cite></a>
+        </span>
+    </div>
     <div class="layui-card-body">
         <div class="layui-form toolbar">
             <button id="admin-btn-add" class="layui-btn icon-btn" lay-tips="新用户密码为123456"><i
@@ -14,7 +20,7 @@
 <!-- 表格操作列 -->
 <script type="text/html" id="admin-table-bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>
 
 <script>

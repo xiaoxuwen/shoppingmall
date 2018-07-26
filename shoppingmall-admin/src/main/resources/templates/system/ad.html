@@ -1,4 +1,11 @@
 <div class="layui-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb pull-right">
+          <a href="#!home_console">首页</a>
+            <a><cite>系统管理</cite></a>
+          <a><cite>轮播图</cite></a>
+        </span>
+    </div>
     <div class="layui-card-body">
         <div class="layui-form toolbar">
             <button id="ad-btn-add" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
@@ -11,12 +18,13 @@
 <!-- 表格操作列 -->
 <script type="text/html" id="ad-table-bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>
 
 <!-- 表格状态列 -->
 <script type="text/html" id="ad-tpl-state">
-    <input type="checkbox" lay-filter="ad-tpl-state" value="{{d.id}}" lay-skin="switch" lay-text="正常|禁用" {{d.enabled==true?'checked':''}}/>
+    <input type="checkbox" lay-filter="ad-tpl-state" value="{{d.id}}" lay-skin="switch" lay-text="正常|禁用"
+           {{d.enabled==true?'checked':''}}/>
 </script>
 
 <script>
@@ -36,14 +44,14 @@
             url: '/sys/ad/list',
             cols: [[
                 {
-                    field: 'url',
-                    width: 180,
+                    field: 'pic',
                     title: '图片',
-                    templet: '<div><img src="http://res.layui.com/static/images/layui/logo-2.png" style="width: 178px"></div>',
+                    templet: '<div><img src="{{d.url}}" style=" height: 100%;max-width: 100%;"></div>',
+                    event: 'setSign'
                 },
                 {field: 'name', title: '标题'},
                 {field: 'content', title: '内容'},
-                {field: 'link', title: '链接地址'},
+                {field: 'link', width: 240, title: '链接地址'},
                 {field: 'priority', sort: true, title: '排序号'},
                 {field: 'enabled', templet: '#ad-tpl-state', title: '状态'},
                 {align: 'center', toolbar: '#ad-table-bar', title: '操作'}
@@ -77,6 +85,16 @@
                         }
                     });
                 });
+            } else if (layEvent === 'setSign') {
+                layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    area: '516px',
+                    skin: 'layui-layer-nobg', //没有背景色
+                    shadeClose: true,
+                    content: '<img src="' + obj.data.url + '">'
+                });
             }
         });
 
@@ -87,6 +105,7 @@
             admin.popupCenter({
                 title: title,
                 path: '/sys/ad/editForm',
+                area:  ['800px', '600px'],
                 finish: function () {
                     table.reload('ad-table', {});
                 }
@@ -98,7 +117,7 @@
             layer.load(2);
             $.post('/sys/ad/updateStatus', {
                 adId: obj.elem.value,
-                status: !obj.elem.checked
+                status: obj.elem.checked
             }, function (data) {
                 layer.closeAll('loading');
                 if (data.code === 1) {

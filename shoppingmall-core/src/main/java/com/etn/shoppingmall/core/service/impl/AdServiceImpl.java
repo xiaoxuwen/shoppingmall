@@ -84,6 +84,11 @@ public class AdServiceImpl implements AdService {
         Example example = new Example(Ad.class);
         Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
+
+        if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
+            example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
+        }
+
         List<Ad> list = adMapper.selectByExample(example);
         return new Pager<>(list.size(), list);
     }

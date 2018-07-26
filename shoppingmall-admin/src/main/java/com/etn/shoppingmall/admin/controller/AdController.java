@@ -3,6 +3,7 @@ package com.etn.shoppingmall.admin.controller;
 import com.etn.shoppingmall.common.util.ResponseUtil;
 import com.etn.shoppingmall.core.entity.Ad;
 import com.etn.shoppingmall.core.model.Pager;
+import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.AdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,8 @@ public class AdController {
     @ResponseBody
     @GetMapping("/list")
     public Pager<Ad> list() {
+        SystemContext.setSort("priority");
+        SystemContext.setOrder("desc");
         return adService.list();
     }
 
