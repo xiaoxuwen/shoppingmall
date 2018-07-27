@@ -1,0 +1,112 @@
+<!-- ad表单弹窗 -->
+<form id="ad-form" lay-filter="ad-form" class="layui-form model-form">
+    <input name="id" type="hidden"/>
+    <input name="url" type="hidden"/>
+    <div class="layui-form-item">
+        <div class="layui-upload">
+            <label class="layui-form-label">
+                <button type="button" class="layui-btn" id="test1">上传图片</button>
+            </label>
+            <div class="layui-upload-list">
+                <img id="demo1">
+                <p id="demoText"></p>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">广告标题</label>
+        <div class="layui-input-block">
+            <input name="name" placeholder="请输入标题" type="text" class="layui-input" lay-verify="required" required/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">链接地址</label>
+        <div class="layui-input-block">
+            <input name="link" placeholder="请输入链接地址" type="text" class="layui-input" lay-verify="required" required/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">广告内容</label>
+        <div class="layui-input-block">
+            <textarea name="content" placeholder="请输入内容" class="layui-textarea" maxlength="200"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序号</label>
+        <div class="layui-input-block">
+            <input name="priority" placeholder="数字越大，排序靠前" type="number" class="layui-input" lay-verify="required"
+                   required/>
+        </div>
+    </div>
+    <div class="layui-form-item model-form-footer">
+        <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        <button class="layui-btn" lay-filter="ad-form-submit" lay-submit>保存</button>
+    </div>
+</form>
+
+<script>
+    layui.use(['layer', 'admin', 'form', 'upload', 'formSelects'], function () {
+        var layer = layui.layer;
+        var admin = layui.admin;
+        var form = layui.form;
+        var upload = layui.upload;
+
+        form.render('radio');
+
+        var url = '/sys/ad/add';
+        // 回显ad数据
+        var ad = admin.getTempData('t_ad');
+        if (ad) {
+            url = '/sys/ad/update';
+            $('#demo1').attr("src",ad.url);
+            form.val('ad-form', ad);
+        }
+
+        // 表单提交事件
+        form.on('submit(ad-form-submit)', function (data) {
+            layer.load(2);
+            $.post(url, data.field, function (data) {
+                layer.closeAll('loading');
+                if (data.code === 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    admin.finishPopupCenter();
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            });
+            return false;
+        });
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1',
+            url: '/os/storage/create',
+            before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            },
+            done: function (res) {
+                //上传成功
+                if (res.code === 1) {
+                    $(":input[name='url']").val(res.data.url);
+                    return layer.msg("上传成功");
+                } else {
+                    return layer.msg(res.msg);
+                }
+
+            },
+            error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+
+
+    });
+</script>

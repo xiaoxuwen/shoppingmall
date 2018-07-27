@@ -13,6 +13,7 @@
         <result column="user_level" jdbcType="INTEGER" property="userLevel"/>
         <result column="qr_code_pic" jdbcType="VARCHAR" property="qrCodePic"/>
         <result column="qr_code_url" jdbcType="VARCHAR" property="qrCodeUrl"/>
+        <result column="expire_time" jdbcType="DATE" property="expireTime"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
     </resultMap>

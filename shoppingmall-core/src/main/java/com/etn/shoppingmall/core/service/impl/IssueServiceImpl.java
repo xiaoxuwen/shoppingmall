@@ -43,7 +43,9 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean delete(Issue issue) {
+    public boolean delete(Integer id) {
+        Issue issue = new Issue();
+        issue.setId(id);
         issue.setDeleted(true);
         return issueMapper.updateByPrimaryKeySelective(issue) > 0;
     }

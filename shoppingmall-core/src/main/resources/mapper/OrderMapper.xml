@@ -10,25 +10,44 @@
         <result column="qr_code_url" jdbcType="VARCHAR" property="qrCodeUrl"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
-        <result column="shop_id" jdbcType="INTEGER" property="shopId"/>
         <association property="user" column="user_id" javaType="com.etn.shoppingmall.core.entity.User">
-            <id column="id" jdbcType="INTEGER" property="id"/>
+            <id column="userId" jdbcType="INTEGER" property="id"/>
             <result column="real_name" jdbcType="VARCHAR" property="realName"/>
             <result column="phone" jdbcType="VARCHAR" property="phone"/>
         </association>
         <association property="product" column="product_id" javaType="com.etn.shoppingmall.core.entity.Product">
-            <id column="id" property="id"/>
-            <result column="sn" property="sn"/>
-            <result column="name" property="name"/>
-            <result column="pic_url" property="picUrl"/>
-            <result column="retail_price" property="retailPrice"/>
-            <result column="counter_price" property="counterPrice"/>
-            <result column="discount_type" property="discountType"/>
-            <result column="discount_money" property="discountMoney"/>
-            <result column="during" property="during"/>
-            <result column="start_date" property="startDate"/>
-            <result column="end_date" property="end_date"/>
-            <result column="deleted" property="deleted"/>
+            <id column="productId" property="id"/>
+            <result column="productName" property="name"/>
+            <result column="during"  property="during"/>
+            <result column="start_date"  property="startDate"/>
+            <result column="end_date"  property="endDate"/>
+        </association>
+        <association property="shop" column="shop_id" javaType="com.etn.shoppingmall.core.entity.Shop">
+            <id column="shopId" property="id"/>
+            <result column="shopName" property="name"/>
         </association>
     </resultMap>
+
+    <select id="find"  resultMap="BaseResultMap">
+	    select
+		o.id,o.sn,o.status,o.qr_code_pic,o.add_time,
+		u.id as userId,u.real_name,u.phone,
+		p.id as productId,p.name as productName,p.during,p.start_date,p.end_date,
+		s.id as shopId,s.name as shopName
+		from t_order o
+		left join t_user u ON u.id = o.user_id
+		left join t_product p ON p.id=o.product_id
+		left join t_shop s ON s.id=o.shop_id
+		where 1=1
+        <if test="realName != null and realName !=''">
+            and u.real_name like '%${realName}%'
+        </if>
+        <if test="sn != null and sn != ''">
+            and o.sn like '%${sn}%'
+        </if>
+        <if test="phone != null and phone != ''">
+            and u.phone like '%${phone}%'
+        </if>
+		order by o.add_time desc
+	</select>
 </mapper>

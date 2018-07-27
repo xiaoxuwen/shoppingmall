@@ -80,7 +80,7 @@ layui.define(['layer'], function (exports) {
                     type: 'GET',
                     dataType: 'html',
                     success: function (result, status, xhr) {
-                        $(layero).children('.layui-layer-content').html(result);
+                        $(layero).children('.layui-layer-content').css('overflow-y', 'scroll').html(result);
                     }
                 });
             };

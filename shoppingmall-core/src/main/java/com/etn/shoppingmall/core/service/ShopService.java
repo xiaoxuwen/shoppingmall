@@ -1,6 +1,7 @@
 package com.etn.shoppingmall.core.service;
 
 import com.etn.shoppingmall.core.entity.Shop;
+import com.etn.shoppingmall.core.model.Pager;
 
 /**
  * Description:
@@ -9,4 +10,10 @@ import com.etn.shoppingmall.core.entity.Shop;
  * Version: V1.0
  */
 public interface ShopService extends BaseService<Shop> {
+    /**
+     * 分页获取店铺
+     *
+     * @return
+     */
+    Pager<Shop> find();
 }

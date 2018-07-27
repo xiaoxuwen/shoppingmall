@@ -32,7 +32,7 @@
       <onMismatch>DENY</onMismatch>
     </filter>
   </appender>
-  
+
   <!-- INFO设置 -->
   <appender name="infoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <file>${log.filePath}/info.log</file>

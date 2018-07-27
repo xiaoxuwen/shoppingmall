@@ -42,7 +42,9 @@ public class KeywordServiceImpl implements KeywordService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean delete(Keyword keyword) {
+    public boolean delete(Integer id) {
+        Keyword keyword = new Keyword();
+        keyword.setId(id);
         keyword.setDeleted(true);
         return keywordMapper.updateByPrimaryKeySelective(keyword) > 0;
     }

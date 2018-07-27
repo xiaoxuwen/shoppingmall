@@ -49,7 +49,9 @@ public class AdServiceImpl implements AdService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean delete(Ad ad) {
+    public boolean delete(Integer id) {
+        Ad ad = new Ad();
+        ad.setId(id);
         ad.setDeleted(true);
         return adMapper.updateByPrimaryKeySelective(ad) > 0;
     }
@@ -57,7 +59,7 @@ public class AdServiceImpl implements AdService {
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
     public Pager<Ad> find() {
-        Example example = new Example(User.class);
+        Example example = new Example(Ad.class);
         Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
 
@@ -82,6 +84,11 @@ public class AdServiceImpl implements AdService {
         Example example = new Example(Ad.class);
         Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
+
+        if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
+            example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
+        }
+
         return adMapper.selectByExample(example);
     }
 }

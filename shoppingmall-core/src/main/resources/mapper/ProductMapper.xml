@@ -18,8 +18,8 @@
         <result column="discount_type" jdbcType="INTEGER" property="discountType"/>
         <result column="discount_money" jdbcType="VARCHAR" property="discountMoney"/>
         <result column="during" jdbcType="INTEGER" property="during"/>
-        <result column="start_date" jdbcType="TIMESTAMP" property="startDate"/>
-        <result column="end_date" jdbcType="TIMESTAMP" property="end_date"/>
+        <result column="start_date" jdbcType="DATE" property="startDate"/>
+        <result column="end_date" jdbcType="DATE" property="endDate"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
         <result column="category_id" jdbcType="INTEGER" property="categoryId"/>

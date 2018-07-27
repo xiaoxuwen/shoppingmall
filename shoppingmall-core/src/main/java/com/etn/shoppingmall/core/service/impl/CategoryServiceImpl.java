@@ -2,11 +2,14 @@ package com.etn.shoppingmall.core.service.impl;
 
 import com.etn.shoppingmall.core.entity.Category;
 import com.etn.shoppingmall.core.mapper.CategoryMapper;
+import com.etn.shoppingmall.core.model.Pager;
+import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -42,7 +45,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean delete(Category category) {
+    public boolean delete(Integer id) {
+        Category category = new Category();
+        category.setId(id);
         category.setDeleted(true);
         return categoryMapper.updateByPrimaryKeySelective(category) > 0;
     }
@@ -58,6 +63,11 @@ public class CategoryServiceImpl implements CategoryService {
         Example example = new Example(Category.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
+
+        if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
+            example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
+        }
+
         return categoryMapper.selectByExample(example);
     }
 

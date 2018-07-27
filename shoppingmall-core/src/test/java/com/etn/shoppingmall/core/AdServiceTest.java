@@ -40,20 +40,15 @@ public class AdServiceTest {
 
     @Test
     public void testUpdate() {
-        Ad ad = adService.load(1);
-        ad.setName("name2");
-        ad.setLink("name2");
-        ad.setUrl("name2");
-        ad.setPosition(1);
-        ad.setContent("name2");
+        Ad ad = new Ad();
+        ad.setId(1);
+        ad.setContent("test");
         System.out.println(adService.update(ad));
     }
 
     @Test
     public void testDelete() {
-        Ad ad = adService.load(1);
-
-        adService.delete(ad);
+        adService.delete(1);
     }
 
     @Test

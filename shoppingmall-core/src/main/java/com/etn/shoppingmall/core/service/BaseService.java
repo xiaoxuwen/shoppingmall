@@ -13,5 +13,5 @@ public interface BaseService<T> {
 
     boolean update(T t);
 
-    boolean delete(T t);
+    boolean delete(Integer id);
 }
