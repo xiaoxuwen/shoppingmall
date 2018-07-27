@@ -28,7 +28,7 @@
         </association>
     </resultMap>
 
-    <select id="find"  resultMap="BaseResultMap">
+    <select id="find" resultMap="BaseResultMap">
 	    select
 		o.id,o.sn,o.status,o.qr_code_pic,o.add_time,
 		u.id as userId,u.real_name,u.phone,
