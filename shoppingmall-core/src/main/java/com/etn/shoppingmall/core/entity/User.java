@@ -2,6 +2,7 @@ package com.etn.shoppingmall.core.entity;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Table;
 import java.time.LocalDate;
 
@@ -29,7 +30,7 @@ public class User extends BaseEntity {
     /**
      * 性别：值为1时是男性，值为2时是女性，值为0时是未知
      */
-    private String gender;
+    private Integer gender;
     /**
      * 用户头像
      */

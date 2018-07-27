@@ -1,0 +1,119 @@
+<style type="text/css">
+    .layui-table-cell {
+        height: 100%;
+    }
+</style>
+<div class="layui-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb pull-right">
+          <a href="#!home_console">首页</a>
+            <a><cite>用户管理</cite></a>
+          <a><cite>会员管理</cite></a>
+        </span>
+    </div>
+    <div class="layui-card-body">
+        <div class="layui-form toolbar">
+            搜索：
+            <input id="phone" class="layui-input search-input" type="text" placeholder="输入手机号"/>&emsp;
+            <button id="user-vip-btn-search" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
+        </div>
+
+        <table class="layui-table" id="user-vip-table" lay-filter="user-vip-table"></table>
+    </div>
+</div>
+<!-- 表格操作列 -->
+<script type="text/html" id="user-vip-table-bar">
+    <a class="layui-btn layui-btn-xs" lay-event="qrCode">二维码</a>
+</script>
+<!-- 表格状态列 -->
+<script type="text/html" id="user-vip-tpl-state">
+    <input type="checkbox" lay-filter="user-vip-tpl-state" value="{{d.id}}" lay-skin="switch" lay-text="正常|禁用"
+           {{d.status==1?'checked':''}}/>
+</script>
+<script type="text/html" id="user-vip-tpl-pic">
+    <div><img src="{{d.avatarUrl}}"  height="100%" width="40%"></div>
+</script>
+<script id="user-vip-gender" type="text/html">
+    {{# if (d.userLevel=== 0) { }}
+    <span>未知</span>
+    {{# } else if(d.userLevel=== 1) { }}
+    <span>男</span>
+    {{# } else { }}
+    <span>女</span>
+    {{# } }}
+</script>
+
+<script>
+    layui.use(['form', 'table', 'util', 'admin', 'element'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var layer = layui.layer;
+        var util = layui.util;
+        var admin = layui.admin;
+        var element = layui.element;
+
+        form.render('select');
+
+
+        table.render({
+            elem: '#user-vip-table',
+            url: '/sys/user/vip',
+            page: true,
+            cols: [[
+                {
+                    field: 'avatarUrl',
+                    title: '头像',
+                    templet: '#user-vip-tpl-pic'
+                },
+                {field: 'nickName', title: '昵称'},
+                {field: 'realName',  title: '姓名'},
+                {field: 'gender', title: '性别', templet: '#user-vip-gender'},
+                {field: 'phone',  title: '联系方式'},
+                {field: 'expireTime', sort: true, title: '到期时间'},
+                {field: 'status', templet: '#user-vip-tpl-state', title: '状态'},
+                {align: 'center', toolbar: '#user-vip-table-bar', title: '操作'}
+            ]]
+        });
+
+
+        // 搜索按钮点击事件
+        $('#user-vip-btn-search').click(function () {
+            table.reload('user-vip-table', {where: {phone: $('#phone').val()}});
+        });
+
+        // 修改user状态
+        form.on('switch(user-vip-tpl-state)', function (obj) {
+            layer.load(2);
+            $.post('/sys/user/updateStatus', {
+                userId: obj.elem.value,
+                status: obj.elem.checked ? 1 : 0
+            }, function (data) {
+                layer.closeAll('loading');
+                if (data.code === 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    //table.reload('table-user', {});
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                    $(obj.elem).prop('checked', !obj.elem.checked);
+                    form.render('checkbox');
+                }
+            });
+        });
+
+        // 工具条点击事件
+        table.on('tool(user-vip-table)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'qrCode') {
+                layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    skin: 'layui-layer-nobg', //没有背景色
+                    shadeClose: true,
+                    content: '<img src="' + data.qrCodePic + '">'
+                });
+            }
+        });
+    });
+</script>

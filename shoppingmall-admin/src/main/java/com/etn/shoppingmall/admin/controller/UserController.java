@@ -1,6 +1,6 @@
 package com.etn.shoppingmall.admin.controller;
 
-import com.etn.shoppingmall.common.util.StringUtil;
+import com.etn.shoppingmall.common.util.ResponseUtil;
 import com.etn.shoppingmall.core.entity.User;
 import com.etn.shoppingmall.core.model.FinalValue;
 import com.etn.shoppingmall.core.model.Pager;
@@ -25,14 +25,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping
-    public String index() {
+    @RequestMapping("/userList")
+    public String userList() {
         return "system/user.html";
     }
 
-    @RequestMapping("/editForm")
-    public String editForm() {
-        return "system/user_form.html";
+    @RequestMapping("/userVip")
+    public String userVip() {
+        return "system/user_vip.html";
     }
 
     /**
@@ -45,9 +45,7 @@ public class UserController {
     public Pager<User> list(@RequestParam(required = false) String phone) {
         SystemContext.setSort("add_time");
         SystemContext.setOrder("desc");
-        if (StringUtil.isBlank(phone))
-            return userService.findUser(FinalValue.USER_LEVEL_COMMON, null);
-        else return userService.findUser(FinalValue.USER_LEVEL_COMMON, phone);
+        return userService.findUser(null, phone);
     }
 
     /**
@@ -60,8 +58,26 @@ public class UserController {
     public Pager<User> vip(@RequestParam(required = false) String phone) {
         SystemContext.setSort("add_time");
         SystemContext.setOrder("desc");
-        if (StringUtil.isBlank(phone))
-            return userService.findUser(FinalValue.USER_LEVEL_VIP, null);
-        else return userService.findUser(FinalValue.USER_LEVEL_VIP, phone);
+        return userService.findUser(FinalValue.USER_LEVEL_VIP, phone);
+    }
+
+    /**
+     * 修改用户状态
+     *
+     * @param userId 用户id
+     * @param status 用户状态
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/updateStatus")
+    public ResponseUtil updateStatus(Integer userId, Integer status) {
+        User user = new User();
+        user.setId(userId);
+        user.setStatus(status);
+        if (userService.update(user)) {
+            return ResponseUtil.ok(1, "操作成功");
+        } else {
+            return ResponseUtil.fail(0, "修改失败");
+        }
     }
 }

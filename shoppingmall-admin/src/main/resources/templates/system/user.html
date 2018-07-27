@@ -1,3 +1,8 @@
+<style type="text/css">
+    .layui-table-cell {
+        height: 100%;
+    }
+</style>
 <div class="layui-card">
     <div class="layui-card-header">
         <span class="layui-breadcrumb pull-right">
@@ -7,22 +12,37 @@
         </span>
     </div>
     <div class="layui-card-body">
-        <div class="layui-form toolbar">
-            搜索：
-            <input id="user-search-value" class="layui-input search-input" type="text" placeholder="输入手机号"/>&emsp;
-            <button id="user-btn-search" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
-        </div>
-
         <table class="layui-table" id="user-table" lay-filter="user-table"></table>
     </div>
 </div>
 
 <!-- 表格状态列 -->
 <script type="text/html" id="user-tpl-state">
-    <input type="checkbox" lay-filter="user-tpl-state" value="{{d.id}}" lay-skin="switch" lay-text="正常|锁定"
+    <input type="checkbox" lay-filter="user-tpl-state" value="{{d.id}}" lay-skin="switch" lay-text="正常|禁用"
            {{d.status==1?'checked':''}}/>
 </script>
+<script type="text/html" id="user-tpl-pic">
+    <div><img src="{{d.avatarUrl}}" height="100%" width="40%"></div>
+</script>
+<script id="user-gender" type="text/html">
+    {{# if (d.userLevel=== 0) { }}
+    <span>未知</span>
+    {{# } else if(d.userLevel=== 1) { }}
+    <span>男</span>
+    {{# } else { }}
+    <span>女</span>
+    {{# } }}
+</script>
 
+<script id="user-level" type="text/html">
+    {{# if (d.userLevel=== 0) { }}
+    <span>用户用户</span>
+    {{# } else if(d.userLevel=== 1) { }}
+    <span>VIP用户</span>
+    {{# } else { }}
+    <span></span>
+    {{# } }}
+</script>
 <script>
     layui.use(['form', 'table', 'util', 'admin', 'element'], function () {
         var form = layui.form;
@@ -37,83 +57,31 @@
         // 渲染表格
         table.render({
             elem: '#user-table',
-            url: 'system/user/list',
+            url: '/sys/user/list',
             page: true,
             cols: [[
-                {field: 'username', sort: true, title: '账号'},
-                {field: 'nickName', sort: true, title: '用户名'},
-                {field: 'phone', sort: true, title: '手机号'},
-                {field: 'sex', sort: true, title: '性别'},
                 {
-                    sort: true, templet: function (d) {
-                        console.log(d.createTime);
-                        return util.toDateString(new Date(d.createTime));
-                    }, title: '创建时间'
+                    field: 'avatarUrl',
+                    title: '头像',
+                    templet: '#user-tpl-pic'
                 },
-                {field: 'status', sort: true, templet: '#user-tpl-state', title: '状态'},
-                {align: 'center', toolbar: '#user-table-bar', title: '操作'}
+                {field: 'nickName', title: '昵称'},
+                {field: 'gender', title: '性别', templet: '#user-gender'},
+                {field: 'status', templet: '#user-tpl-state', title: '状态'},
+                {field: 'userLevel', title: '用户级别', templet: '#user-level'},
+                {field: 'addTime', title: '加入时间'}
             ]]
-        });
-
-        // 添加按钮点击事件
-        $('#user-btn-add').click(function () {
-            showEditModel();
-        });
-
-        // 工具条点击事件
-        table.on('tool(user-table)', function (obj) {
-            var data = obj.data;
-            var layEvent = obj.event;
-
-            if (layEvent === 'edit') { // 修改
-                showEditModel(data);
-            } else if (layEvent === 'reset') { // 重置密码
-                layer.confirm('确定重置此用户的密码吗？', function (i) {
-                    layer.close(i);
-                    layer.load(2);
-                    $.post('system/user/restPsw', {
-                        userId: obj.data.userId
-                    }, function (data) {
-                        layer.closeAll('loading');
-                        if (data.code == 200) {
-                            layer.msg(data.msg, {icon: 1});
-                        } else {
-                            layer.msg(data.msg, {icon: 2});
-                        }
-                    });
-                });
-            }
-        });
-
-        // 显示表单弹窗
-        var showEditModel = function (data) {
-            var title = data ? '修改用户' : '添加用户';
-            admin.putTempData('t_user', data);
-            admin.popupCenter({
-                title: title,
-                path: '/sys/user/editForm',
-                finish: function () {
-                    table.reload('user-table', {});
-                }
-            });
-        };
-
-        // 搜索按钮点击事件
-        $('#user-btn-search').click(function () {
-            var key = $('#user-search-key').val();
-            var value = $('#user-search-value').val();
-            table.reload('user-table', {where: {searchKey: key, searchValue: value}});
         });
 
         // 修改user状态
         form.on('switch(user-tpl-state)', function (obj) {
             layer.load(2);
-            $.post('/sys/user/updateState', {
+            $.post('/sys/user/updateStatus', {
                 userId: obj.elem.value,
-                state: obj.elem.checked ? 0 : 1
+                status: obj.elem.checked ? 1 : 0
             }, function (data) {
                 layer.closeAll('loading');
-                if (data.code == 200) {
+                if (data.code === 1) {
                     layer.msg(data.msg, {icon: 1});
                     //table.reload('table-user', {});
                 } else {
