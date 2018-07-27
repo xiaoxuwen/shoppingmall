@@ -59,7 +59,7 @@ public class AdServiceImpl implements AdService {
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
     public Pager<Ad> find() {
-        Example example = new Example(User.class);
+        Example example = new Example(Ad.class);
         Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
 
@@ -80,7 +80,7 @@ public class AdServiceImpl implements AdService {
      * @return
      */
     @Override
-    public Pager<Ad> list() {
+    public List<Ad> list() {
         Example example = new Example(Ad.class);
         Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
@@ -89,7 +89,6 @@ public class AdServiceImpl implements AdService {
             example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
         }
 
-        List<Ad> list = adMapper.selectByExample(example);
-        return new Pager<>(list.size(), list);
+        return adMapper.selectByExample(example);
     }
 }

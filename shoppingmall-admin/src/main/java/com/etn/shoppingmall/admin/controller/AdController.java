@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Description:广告Controller
@@ -45,7 +46,8 @@ public class AdController {
     public Pager<Ad> list() {
         SystemContext.setSort("priority");
         SystemContext.setOrder("desc");
-        return adService.list();
+        List<Ad> list = adService.list();
+        return new Pager<>(list.size(), list);
     }
 
 

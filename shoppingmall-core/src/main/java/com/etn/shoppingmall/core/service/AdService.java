@@ -24,5 +24,5 @@ public interface AdService extends BaseService<Ad> {
      *
      * @return
      */
-    Pager<Ad> list();
+    List<Ad> list();
 }

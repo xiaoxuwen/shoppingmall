@@ -1,12 +1,21 @@
 package com.etn.shoppingmall.core.service.impl;
 
+import com.etn.shoppingmall.core.entity.Order;
 import com.etn.shoppingmall.core.entity.Product;
 import com.etn.shoppingmall.core.mapper.ProductMapper;
+import com.etn.shoppingmall.core.model.Pager;
+import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.ProductService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import tk.mybatis.mapper.entity.Example;
+
+import java.util.List;
 
 /**
  * Description:
@@ -45,5 +54,25 @@ public class ProductServiceImpl implements ProductService {
         product.setId(id);
         product.setDeleted(true);
         return productMapper.updateByPrimaryKeySelective(product) > 0;
+    }
+
+    /**
+     * 分页获取产品
+     *
+     * @return
+     */
+    @Override
+    public Pager<Product> find() {
+        Example example = new Example(Product.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deleted", false);
+
+        if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
+            example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
+        }
+        PageHelper.startPage(SystemContext.getPageOffset(), SystemContext.getPageSize());
+        List<Product> list = productMapper.selectByExample(example);
+        PageInfo<Product> pageList = new PageInfo<>(list);
+        return new Pager<>(pageList.getTotal(), list);
     }
 }

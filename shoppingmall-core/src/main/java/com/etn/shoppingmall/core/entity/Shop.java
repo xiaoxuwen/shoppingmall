@@ -34,7 +34,7 @@ public class Shop extends BaseEntity {
      */
     private Double latitude;
     /**
-     * 手机号
+     * 联系方式
      */
     private String mobile;
     /**

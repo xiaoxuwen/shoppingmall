@@ -2,8 +2,8 @@ package com.etn.shoppingmall.core.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
 import javax.persistence.Table;
+import java.time.LocalDate;
 
 /**
  * Description:店铺实体类
@@ -34,7 +34,6 @@ public class User extends BaseEntity {
      * 用户头像
      */
     private String avatarUrl;
-
     /**
      * 联系方式
      */
@@ -55,4 +54,8 @@ public class User extends BaseEntity {
      * 个人二维码链接
      */
     private String qrCodeUrl;
+    /**
+     * 到期时间
+     */
+    private LocalDate expireTime;
 }

@@ -40,6 +40,7 @@ CREATE TABLE `t_user` (
   `user_level` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0 普通用户，1 会员用户',
   `qr_code_pic` varchar(255) DEFAULT NULL COMMENT '用户二维码',
   `qr_code_url` varchar(255) DEFAULT NULL COMMENT '用户二维码链接',
+  `expire_time` date DEFAULT NULL COMMENT '到期时间',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除,0.正常，1 已删除',
   PRIMARY KEY (`id`),
