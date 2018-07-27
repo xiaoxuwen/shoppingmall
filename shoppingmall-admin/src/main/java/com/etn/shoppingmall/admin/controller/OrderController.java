@@ -2,7 +2,6 @@ package com.etn.shoppingmall.admin.controller;
 
 import com.etn.shoppingmall.core.entity.Order;
 import com.etn.shoppingmall.core.model.Pager;
-import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,9 +38,7 @@ public class OrderController {
      */
     @ResponseBody
     @GetMapping("/list")
-    public Pager<Order> list() {
-        SystemContext.setSort("priority");
-        SystemContext.setOrder("desc");
-        return orderService.find();
+    public Pager<Order> list(String realName, String phone, String sn) {
+        return orderService.find(realName,phone, sn);
     }
 }

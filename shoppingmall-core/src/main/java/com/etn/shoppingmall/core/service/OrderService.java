@@ -15,5 +15,5 @@ public interface OrderService extends BaseService<Order> {
      *
      * @return
      */
-    Pager<Order> find();
+    Pager<Order> find(String realName, String phone, String sn);
 }

@@ -33,7 +33,7 @@ public class Order extends BaseEntity{
     /**
      * 店铺id
      */
-    private Integer shopId;
+    private Shop shop;
     /**
      * 订单关闭时间
      */

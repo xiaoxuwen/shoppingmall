@@ -1,0 +1,89 @@
+<div class="layui-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb pull-right">
+          <a href="#!home_console">首页</a>
+            <a><cite>会员订单</cite></a>
+          <a><cite>订单列表</cite></a>
+        </span>
+    </div>
+    <div class="layui-card-body">
+        <div class="layui-form toolbar">
+            搜索：
+            <input id="realName" class="layui-input search-input" type="text" placeholder="会员名称"/>
+            <input id="phone" class="layui-input search-input" type="text" placeholder="会员手机号"/>
+            <input id="sn" class="layui-input search-input" type="text" placeholder="订单编号"/>&emsp;
+            <button id="order-btn-search" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
+        </div>
+
+        <table class="layui-table" id="order-table" lay-filter="order-table"></table>
+    </div>
+</div>
+<!-- 表格操作列 -->
+<script type="text/html" id="order-table-bar">
+    <a class="layui-btn layui-btn-xs" lay-event="qrCode">二维码</a>
+</script>
+<script id="order-gender" type="text/html">
+    {{# if (d.userLevel=== 0) { }}
+    <span>未知</span>
+    {{# } else if(d.userLevel=== 1) { }}
+    <span>男</span>
+    {{# } else { }}
+    <span>女</span>
+    {{# } }}
+</script>
+<script id="order-product-during" type="text/html">
+    {{# if (d.product.during=== 1) { }}
+    <span>永久</span>
+    {{# } else if(d.product.during=== 2) { }}
+    <span>{{d.product.startDate}}-{{d.product.endDate}}</span>
+    {{# } }}
+</script>
+<script>
+    layui.use(['form', 'table', 'util', 'admin', 'element'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var layer = layui.layer;
+        var util = layui.util;
+        var admin = layui.admin;
+        var element = layui.element;
+
+        form.render('select');
+
+        table.render({
+            elem: '#order-table',
+            url: '/sys/order/list',
+            page: true,
+            cols: [[
+                {field: 'sn', title: '订单编号'},
+                {field: 'realName',  title: '会员姓名',templet: '<div>{{d.user.realName}}</div>'},
+                {field: 'phone', title: '会员电话',templet: '<div>{{d.user.phone}}</div>'},
+                {field: 'status', templet: '#order-tpl-state', title: '订单状态'},
+                {field: 'productName',  title: '产品名称',templet: '<div>{{d.product.name}}</div>'},
+                {field: 'during', width:'18%',  title: '产品有效期',templet:'#order-product-during'},
+                {field: 'shopName', title: '所属店铺',templet: '<div>{{d.shop.name}}</div>'},
+                {align: 'center', toolbar: '#order-table-bar', title: '操作'}
+            ]]
+        });
+
+        // 搜索按钮点击事件
+        $('#order-btn-search').click(function () {
+            table.reload('order-table', {where: {realName: $('#realName').val(),phone: $('#phone').val(),sn: $('#sn').val()}});
+        });
+
+        // 工具条点击事件
+        table.on('tool(order-table)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'qrCode') {
+                layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    skin: 'layui-layer-nobg', //没有背景色
+                    shadeClose: true,
+                    content: '<img src="' + data.qrCodePic + '">'
+                });
+            }
+        });
+    });
+</script>

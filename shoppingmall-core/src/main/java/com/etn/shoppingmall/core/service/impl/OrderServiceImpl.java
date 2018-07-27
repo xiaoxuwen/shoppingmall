@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -61,16 +59,9 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     @Override
-    public Pager<Order> find() {
-        Example example = new Example(Order.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("deleted", false);
-
-        if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
-            example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
-        }
+    public Pager<Order> find(String realName, String phone, String sn) {
         PageHelper.startPage(SystemContext.getPageOffset(), SystemContext.getPageSize());
-        List<Order> list = orderMapper.selectByExample(example);
+        List<Order> list = orderMapper.find(realName, phone, sn);
         PageInfo<Order> pageList = new PageInfo<>(list);
         return new Pager<>(pageList.getTotal(), list);
     }
