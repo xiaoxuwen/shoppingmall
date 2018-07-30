@@ -5,7 +5,7 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="info" jdbcType="VARCHAR" property="info"/>
-        <result column="icon_url" jdbcType="VARCHAR" property="icon_url"/>
+        <result column="icon_url" jdbcType="VARCHAR" property="iconUrl"/>
         <result column="priority" jdbcType="INTEGER" property="priority"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>

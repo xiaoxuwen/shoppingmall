@@ -25,7 +25,7 @@ public class Category extends BaseEntity{
     /**
      * 类目图标
      */
-    private String icon_url;
+    private String iconUrl;
     /**
      * 排序
      */
