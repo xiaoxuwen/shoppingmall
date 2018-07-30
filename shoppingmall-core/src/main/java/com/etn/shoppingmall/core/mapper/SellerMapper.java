@@ -10,4 +10,5 @@ import com.etn.shoppingmall.core.entity.Seller;
  * Version: V1.0
  */
 public interface SellerMapper extends MyMapper<Seller> {
+    int add(Seller seller);
 }

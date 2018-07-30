@@ -1,6 +1,8 @@
 package com.etn.shoppingmall.core.service.impl;
 
+import com.etn.shoppingmall.core.entity.Seller;
 import com.etn.shoppingmall.core.entity.Shop;
+import com.etn.shoppingmall.core.mapper.SellerMapper;
 import com.etn.shoppingmall.core.mapper.ShopMapper;
 import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.model.SystemContext;
@@ -24,6 +26,8 @@ import java.util.List;
 public class ShopServiceImpl implements ShopService {
     @Autowired
     private ShopMapper shopMapper;
+    @Autowired
+    private SellerMapper sellerMapper;
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
@@ -58,10 +62,22 @@ public class ShopServiceImpl implements ShopService {
      * @return
      */
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Pager<Shop> find(Integer status, String name) {
         PageHelper.startPage(SystemContext.getPageOffset(), SystemContext.getPageSize());
         List<Shop> list = shopMapper.find(status, name);
         PageInfo<Shop> pageList = new PageInfo<>(list);
         return new Pager<>(pageList.getTotal(), list);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean add(Shop shop, Seller seller) {
+        sellerMapper.add(seller);
+        shop.setOwner(seller);
+        if (shopMapper.add(shop)) {
+            return true;
+        }
+        return false;
     }
 }

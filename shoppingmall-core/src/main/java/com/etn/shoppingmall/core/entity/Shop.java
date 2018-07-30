@@ -2,6 +2,7 @@ package com.etn.shoppingmall.core.entity;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Table;
 
 /**
@@ -60,5 +61,7 @@ public class Shop extends BaseEntity {
     /**
      * 店铺是属于哪个店家的
      */
+    @Column(name = "owner_id")
     private Seller owner;
+
 }

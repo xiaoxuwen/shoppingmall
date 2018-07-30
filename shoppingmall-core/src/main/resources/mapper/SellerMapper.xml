@@ -9,10 +9,11 @@
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
         <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
-        <result column="user_level" jdbcType="INTEGER" property="userLevel"/>
-        <result column="qr_code_pic" jdbcType="VARCHAR" property="qrCodePic"/>
-        <result column="qr_code_url" jdbcType="VARCHAR" property="qrCodeUrl"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
     </resultMap>
+    <insert id="add" parameterType="com.etn.shoppingmall.core.entity.Seller" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		INSERT INTO t_seller(add_time,deleted,real_name,phone,status )
+		VALUES (#{addTime},#{deleted},#{realName},#{phone}, #{status})
+	</insert>
 </mapper>

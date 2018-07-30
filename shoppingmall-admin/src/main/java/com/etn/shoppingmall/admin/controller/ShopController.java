@@ -1,6 +1,7 @@
 package com.etn.shoppingmall.admin.controller;
 
 import com.etn.shoppingmall.common.util.ResponseUtil;
+import com.etn.shoppingmall.core.entity.Seller;
 import com.etn.shoppingmall.core.entity.Shop;
 import com.etn.shoppingmall.core.model.FinalValue;
 import com.etn.shoppingmall.core.model.Pager;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.time.LocalDateTime;
 
 /**
  * Description:店铺Controller
@@ -60,9 +63,14 @@ public class ShopController {
      **/
     @ResponseBody
     @RequestMapping("/add")
-    public ResponseUtil add(Shop shop) {
-
-        if (shopService.add(shop)) {
+    public ResponseUtil add(Shop shop, Seller seller) {
+        shop.setStatus(FinalValue.SHOP_STATUS_SUCCESS);
+        shop.setDeleted(false);
+        shop.setAddTime(LocalDateTime.now());
+        seller.setDeleted(false);
+        seller.setStatus(1);
+        seller.setAddTime(LocalDateTime.now());
+        if (shopService.add(shop, seller)) {
             return ResponseUtil.ok(1, "添加成功");
         } else {
             return ResponseUtil.fail(0, "添加失败");

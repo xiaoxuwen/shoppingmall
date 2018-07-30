@@ -1,41 +1,87 @@
 <!-- shop表单弹窗 -->
 <form id="shop-form" lay-filter="shop-form" class="layui-form model-form">
     <input name="id" type="hidden"/>
-    <input name="url" type="hidden"/>
+    <input name="shopImg" type="hidden"/>
     <div class="layui-form-item">
-        <div class="layui-upload">
-            <label class="layui-form-label">
+        <label class="layui-form-label">LOGO</label>
+        <div class="layui-input-block">
+            <div class="layui-upload">
                 <button type="button" class="layui-btn" id="test1">上传图片</button>
-            </label>
-            <div class="layui-upload-list">
-                <img id="demo1">
-                <p id="demoText"></p>
+                <div class="layui-upload-list"><img id="demo1"></div>
             </div>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">广告标题</label>
+        <label class="layui-form-label">宣传图片</label>
         <div class="layui-input-block">
-            <input name="name" placeholder="请输入标题" type="text" class="layui-input" lay-verify="required" required/>
+            <div class="layui-upload">
+                <button type="button" class="layui-btn" id="test2">多图片上传</button>
+                <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+                    预览图：
+                    <div class="layui-upload-list" id="demo2"></div>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">店铺名称</label>
+        <div class="layui-input-block">
+            <input name="name" placeholder="请输入店铺名称" type="text" class="layui-input" lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">链接地址</label>
+        <label class="layui-form-label">店铺电话</label>
         <div class="layui-input-block">
-            <input name="link" placeholder="请输入链接地址" type="text" class="layui-input" lay-verify="required" required/>
+            <input name="mobile" placeholder="请输入店铺电话" type="text" class="layui-input" lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">广告内容</label>
+        <label class="layui-form-label">店铺简介</label>
         <div class="layui-input-block">
-            <textarea name="content" placeholder="请输入内容" class="layui-textarea" maxlength="200"></textarea>
+            <textarea name="info" placeholder="请输入内容" class="layui-textarea" maxlength="200" lay-verify="required"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">店铺地址</label>
+        <div class="layui-input-block">
+            <input name="address" placeholder="请输入店铺地址" type="text" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">地理位置（经度）</label>
+        <div class="layui-input-block">
+            <input name="longitude" placeholder="请输入经度" type="number" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">地理位置（纬度）</label>
+        <div class="layui-input-block">
+            <input name="latitude" placeholder="请输入纬度" type="number" class="layui-input" lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">排序号</label>
         <div class="layui-input-block">
-            <input name="priority" placeholder="数字越大，排序靠前" type="number" class="layui-input" lay-verify="required"
-                   required/>
+            <input name="priority" placeholder="数字越大，排序越靠前" type="number" class="layui-input" lay-verify="required|number"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">店长姓名</label>
+        <div class="layui-input-block">
+            <input name="realName" placeholder="请输入店长姓名" type="text" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">店长电话</label>
+        <div class="layui-input-block">
+            <input name="phone" placeholder="请输入手机号" type="text" class="layui-input" lay-verify="required|phone"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-block">
+            <span style="color: red">备注：默认商家登录密码为888888</span>
         </div>
     </div>
     <div class="layui-form-item model-form-footer">
@@ -90,7 +136,7 @@
             done: function (res) {
                 //上传成功
                 if (res.code === 1) {
-                    $(":input[name='url']").val(res.data.url);
+                    $(":input[name='shopImg']").val(res.data.url);
                     return layer.msg("上传成功");
                 } else {
                     return layer.msg(res.msg);
@@ -107,6 +153,20 @@
             }
         });
 
-
+        //多图片上传
+        upload.render({
+            elem: '#test2',
+            url: '/os/storage/create',
+            multiple: true,
+            before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+                });
+            },
+            done: function(res){
+                //上传完毕
+            }
+        });
     });
 </script>

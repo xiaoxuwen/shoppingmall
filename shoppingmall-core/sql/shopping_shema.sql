@@ -50,8 +50,8 @@ CREATE TABLE `t_user` (
 DROP TABLE IF EXISTS `t_seller`;
 CREATE TABLE `t_seller` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `openid` varchar(255) NOT NULL COMMENT '小程序标识',
-  `password` varchar(255) NOT NULL COMMENT '密码',
+  `openid` varchar(255) default NULL COMMENT '小程序标识',
+  `password` varchar(255) default NULL COMMENT '密码',
   `real_name` varchar(20) NOT NULL COMMENT '真实姓名',
   `phone` varchar(11) NOT NULL COMMENT '手机号',
   `avatar_url` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像图片',

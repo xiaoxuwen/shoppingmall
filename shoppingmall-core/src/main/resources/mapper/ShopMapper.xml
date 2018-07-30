@@ -18,6 +18,7 @@
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
         <association property="owner" column="owner_id" javaType="com.etn.shoppingmall.core.entity.Seller">
+            <id column="id" property="id" />
             <result column="ownerName" property="realName"/>
             <result column="ownerPhone" property="phone"/>
         </association>
@@ -26,7 +27,7 @@
     <select id="find"  resultMap="BaseResultMap">
         select
         s.id,s.name,s.info,s.address,s.longitude,s.latitude,s.mobile,s.shop_img,s.pic_urls,s.priority,s.status,s.advice,s.add_time,s.deleted,
-        o.real_name as ownerName,o.phone as ownerPhone
+        o.id,o.real_name as ownerName,o.phone as ownerPhone
         from t_shop s
         left join t_seller o on o.id=s.owner_id
         where 1=1
@@ -38,4 +39,9 @@
         </if>
         order by o.add_time desc
     </select>
+
+    <insert id="add" parameterType="com.etn.shoppingmall.core.entity.Shop" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		INSERT INTO t_shop( add_time,deleted,name,info,address,longitude,latitude,mobile,priority,status,owner_id )
+		VALUES (#{addTime},#{deleted},#{name},#{info}, #{address},#{longitude}, #{latitude}, #{mobile}, #{priority}, #{status},#{owner.id})
+	</insert>
 </mapper>
