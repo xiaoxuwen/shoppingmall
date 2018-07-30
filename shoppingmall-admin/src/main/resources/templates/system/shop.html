@@ -1,0 +1,87 @@
+<style type="text/css">
+    .layui-table-cell {
+        height: 100%;
+    }
+</style>
+<div class="layui-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb pull-right">
+          <a href="#!home_console">首页</a>
+            <a><cite>商家管理</cite></a>
+          <a><cite>商家查询</cite></a>
+        </span>
+    </div>
+    <div class="layui-card-body">
+        <div class="layui-form toolbar">
+            搜索：
+            <input id="name" class="layui-input search-input" type="text" placeholder="店铺名称"/>&emsp;
+            <button id="shop-btn-search" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
+            <button id="shop-btn-add" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
+        </div>
+
+        <table class="layui-table" id="shop-table" lay-filter="shop-table"></table>
+    </div>
+</div>
+<!-- 表格操作列 -->
+<script type="text/html" id="shop-table-bar">
+    <a class="layui-btn layui-btn-xs" lay-event="shop-detail">详情</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+</script>
+<script type="text/html" id="shop-tpl-pic">
+    <div><img src="{{d.shopImg}}"  height="100%" width="40%"></div>
+</script>
+
+<script>
+    layui.use(['form', 'table', 'util', 'admin', 'element'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var layer = layui.layer;
+        var util = layui.util;
+        var admin = layui.admin;
+        var element = layui.element;
+
+        form.render('select');
+
+        table.render({
+            elem: '#shop-table',
+            url: '/sys/shop/list',
+            page: true,
+            cols: [[
+                {
+                    field: 'shopImg',
+                    title: 'Logo',
+                    templet: '#shop-tpl-pic'
+                },
+                {field: 'name', title: '店铺名称'},
+                {field: 'info', title: '店铺简介'},
+                {field: 'address', title: '店铺地址'},
+                {field: 'mobile', title: '电弧电话'},
+                {field: 'priority', title: '排序号'},
+                {field: 'realName', title: '店长', templet: '<div>{{d.owner.realName}}</div>'},
+                {field: 'phone', title: '店长电话', templet: '<div>{{d.owner.phone}}</div>'},
+                {align: 'center', toolbar: '#shop-table-bar', title: '操作'}
+            ]]
+        });
+
+        // 搜索按钮点击事件
+        $('#shop-btn-search').click(function () {
+            table.reload('shop-table', {where: {name: $('#name').val()}});
+        });
+
+        // 工具条点击事件
+        table.on('tool(shop-table)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'qrCode') {
+                layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    skin: 'layui-layer-nobg', //没有背景色
+                    shadeClose: true,
+                    content: '<img src="' + data.qrCodePic + '">'
+                });
+            }
+        });
+    });
+</script>

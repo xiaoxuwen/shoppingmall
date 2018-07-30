@@ -27,6 +27,7 @@
         <module>shoppingmall-core</module>
         <module>shoppingmall-wx-api</module>
         <module>shoppingmall-admin</module>
+        <module>shoppingmall-all</module>
     </modules>
 
     <dependencyManagement>

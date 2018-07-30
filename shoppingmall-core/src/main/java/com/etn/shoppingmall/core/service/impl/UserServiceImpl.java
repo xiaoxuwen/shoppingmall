@@ -68,14 +68,12 @@ public class UserServiceImpl implements UserService {
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
-        System.out.println(level);
         if (level != null) criteria.andEqualTo("userLevel", level);
         if (StringUtil.isNotBlank(phone)) criteria.andLike("phone", "%" + phone + "%");
 
         if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
             example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
         }
-
         PageHelper.startPage(SystemContext.getPageOffset(), SystemContext.getPageSize());
         List<User> list = userMapper.selectByExample(example);
         PageInfo<User> pageList = new PageInfo<>(list);

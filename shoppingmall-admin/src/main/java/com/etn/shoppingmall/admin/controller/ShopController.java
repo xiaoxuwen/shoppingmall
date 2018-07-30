@@ -1,8 +1,8 @@
 package com.etn.shoppingmall.admin.controller;
 
 import com.etn.shoppingmall.core.entity.Shop;
+import com.etn.shoppingmall.core.model.FinalValue;
 import com.etn.shoppingmall.core.model.Pager;
-import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,10 +39,8 @@ public class ShopController {
      */
     @ResponseBody
     @GetMapping("/list")
-    public Pager<Shop> list() {
-        SystemContext.setSort("add_time");
-        SystemContext.setOrder("desc");
-        return shopService.find();
+    public Pager<Shop> list(String name) {
+        return shopService.find(FinalValue.SHOP_STATUS_SUCCESS, name);
     }
 
 }

@@ -17,6 +17,25 @@
         <result column="advice" jdbcType="VARCHAR" property="advice"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
-        <result column="owner_id" javaType="INTEGER" property="ownerId"/>
+        <association property="owner" column="owner_id" javaType="com.etn.shoppingmall.core.entity.Seller">
+            <result column="ownerName" property="realName"/>
+            <result column="ownerPhone" property="phone"/>
+        </association>
     </resultMap>
+
+    <select id="find"  resultMap="BaseResultMap">
+        select
+        s.id,s.name,s.info,s.address,s.longitude,s.latitude,s.mobile,s.shop_img,s.pic_urls,s.priority,s.status,s.advice,s.add_time,s.deleted,
+        o.real_name as ownerName,o.phone as ownerPhone
+        from t_shop s
+        left join t_seller o on o.id=s.owner_id
+        where 1=1
+        <if test="status != null">
+            and s.status = #{status}
+        </if>
+        <if test="name != null and name != ''">
+            and s.name like '%${name}%'
+        </if>
+        order by o.add_time desc
+    </select>
 </mapper>
