@@ -8,26 +8,24 @@
         <span class="layui-breadcrumb pull-right">
           <a href="#!home_console">首页</a>
             <a><cite>商家管理</cite></a>
-          <a><cite>商家查询</cite></a>
+          <a><cite>入驻申请</cite></a>
         </span>
     </div>
     <div class="layui-card-body">
         <div class="layui-form toolbar">
             搜索：
             <input id="name" class="layui-input search-input" type="text" placeholder="店铺名称"/>&emsp;
-            <button id="shop-btn-search" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
-            <button id="shop-btn-add" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
+            <button id="shop-apply-btn-search" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
         </div>
 
-        <table class="layui-table" id="shop-table" lay-filter="shop-table"></table>
+        <table class="layui-table" id="shop-apply-table" lay-filter="shop-apply-table"></table>
     </div>
 </div>
 <!-- 表格操作列 -->
-<script type="text/html" id="shop-table-bar">
-    <a class="layui-btn layui-btn-xs" lay-event="shop-detail">详情</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+<script type="text/html" id="shop-apply-table-bar">
+    <a class="layui-btn layui-btn-xs" lay-event="shop-apply-detail">详情</a>
 </script>
-<script type="text/html" id="shop-tpl-pic">
+<script type="text/html" id="shop-apply-tpl-pic">
     <div><img src="{{d.shopImg}}"  height="100%" width="40%"></div>
 </script>
 
@@ -43,14 +41,14 @@
         form.render('select');
 
         table.render({
-            elem: '#shop-table',
-            url: '/sys/shop/list',
+            elem: '#shop-apply-table',
+            url: '/sys/shop/apply',
             page: true,
             cols: [[
                 {
                     field: 'shopImg',
                     title: 'Logo',
-                    templet: '#shop-tpl-pic'
+                    templet: '#shop-apply-tpl-pic'
                 },
                 {field: 'name', title: '店铺名称'},
                 {field: 'info', title: '店铺简介'},
@@ -59,39 +57,21 @@
                 {field: 'priority', title: '排序号'},
                 {field: 'realName', title: '店长', templet: '<div>{{d.owner.realName}}</div>'},
                 {field: 'phone', title: '店长电话', templet: '<div>{{d.owner.phone}}</div>'},
-                {align: 'center', toolbar: '#shop-table-bar', title: '操作'}
+                {field: 'status', title: '店铺状态'},
+                {align: 'center', toolbar: '#shop-apply-table-bar', title: '操作'}
             ]]
         });
 
         // 搜索按钮点击事件
-        $('#shop-btn-search').click(function () {
-            table.reload('shop-table', {where: {name: $('#name').val()}});
+        $('#shop-apply-btn-search').click(function () {
+            table.reload('shop-apply-table', {where: {name: $('#name').val()}});
         });
-
-        // 添加按钮点击事件
-        $('#shop-btn-add').click(function () {
-            showEditModel();
-        });
-
-        // 显示表单弹窗
-        var showEditModel = function (data) {
-            var title = data ? '修改店铺' : '添加店铺';
-            admin.putTempData('t_shop', data);
-            admin.popupCenter({
-                title: title,
-                path: '/sys/shop/editForm',
-                area: ['800px', '600px'],
-                finish: function () {
-                    table.reload('shop-table', {});
-                }
-            });
-        };
 
         // 工具条点击事件
-        table.on('tool(shop-table)', function (obj) {
+        table.on('tool(shop-apply-table)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
-            if (layEvent === 'shop-detail') {
+            if (layEvent === 'shop-apply-detail') {
                 layer.open({
                     type: 1,
                     title: false,

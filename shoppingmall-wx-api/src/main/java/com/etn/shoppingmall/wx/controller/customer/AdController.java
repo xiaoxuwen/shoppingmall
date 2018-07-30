@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Date: 2018-07-24 9:44
  * Version: V1.0
  */
+
 @Api(value = "广告业务的接口", tags = {"广告业务的controller"})
 @RestController
 @RequestMapping("/wx/ad")
@@ -25,10 +26,15 @@ public class AdController {
     @Autowired
     private AdService adService;
 
-    @ApiOperation(value = "获取背景音乐列表", notes = "获取背景音乐列表的接口")
-    @ApiImplicitParam(name="userId", value="用户id", required=true, dataType="String", paramType="query")
+    @ApiOperation(value = "不分页获取广告", notes = "不分页获取广告的接口")
     @GetMapping("/list")
-    public Object list(@RequestParam String userId) {
+    public Object list() {
+        return ResponseUtil.ok();
+    }
+
+    @ApiOperation(value = "分页获取广告", notes = "分页获取广告的接口")
+    @GetMapping("/find")
+    public Object find() {
         return ResponseUtil.ok();
     }
 }

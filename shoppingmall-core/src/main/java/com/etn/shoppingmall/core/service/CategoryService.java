@@ -1,8 +1,7 @@
 package com.etn.shoppingmall.core.service;
 
 import com.etn.shoppingmall.core.entity.Category;
-
-import java.util.List;
+import com.etn.shoppingmall.core.model.Pager;
 
 /**
  * Description:类目Service
@@ -16,5 +15,5 @@ public interface CategoryService extends BaseService<Category> {
      *
      * @return
      */
-    List<Category> list();
+    Pager<Category> find();
 }

@@ -1,16 +1,15 @@
-<!-- ad表单弹窗 -->
-<form id="ad-form" lay-filter="ad-form" class="layui-form model-form">
+<!-- shop表单弹窗 -->
+<form id="shop-form" lay-filter="shop-form" class="layui-form model-form">
     <input name="id" type="hidden"/>
     <input name="url" type="hidden"/>
     <div class="layui-form-item">
         <div class="layui-upload">
-            <label class="layui-form-label">图片</label>
-            <div class="layui-input-block">
+            <label class="layui-form-label">
                 <button type="button" class="layui-btn" id="test1">上传图片</button>
-                <div class="layui-upload-list">
-                    <img id="demo1">
-                    <p id="demoText"></p>
-                </div>
+            </label>
+            <div class="layui-upload-list">
+                <img id="demo1">
+                <p id="demoText"></p>
             </div>
         </div>
     </div>
@@ -41,7 +40,7 @@
     </div>
     <div class="layui-form-item model-form-footer">
         <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
-        <button class="layui-btn" lay-filter="ad-form-submit" lay-submit>保存</button>
+        <button class="layui-btn" lay-filter="shop-form-submit" lay-submit>保存</button>
     </div>
 </form>
 
@@ -54,17 +53,17 @@
 
         form.render('radio');
 
-        var url = '/sys/ad/add';
+        var url = '/sys/shop/add';
         // 回显ad数据
-        var ad = admin.getTempData('t_ad');
-        if (ad) {
-            url = '/sys/ad/update';
-            $('#demo1').attr("src",ad.url);
-            form.val('ad-form', ad);
+        var shop = admin.getTempData('t_shop');
+        if (shop) {
+            url = '/sys/shop/update';
+            $('#demo1').attr("src",shop.url);
+            form.val('shop-form', shop);
         }
 
         // 表单提交事件
-        form.on('submit(ad-form-submit)', function (data) {
+        form.on('submit(shop-form-submit)', function (data) {
             layer.load(2);
             $.post(url, data.field, function (data) {
                 layer.closeAll('loading');

@@ -1,8 +1,9 @@
 package com.etn.shoppingmall.admin.controller;
 
+import com.etn.shoppingmall.common.util.ResponseUtil;
 import com.etn.shoppingmall.core.entity.Shop;
+import com.etn.shoppingmall.core.model.FinalValue;
 import com.etn.shoppingmall.core.model.Pager;
-import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,11 @@ public class ShopController {
         return "system/shop_form.html";
     }
 
+    @RequestMapping("/shopApply")
+    public String apply() {
+        return "system/shop_apply.html";
+    }
+
     /**
      * 列表
      *
@@ -39,10 +45,74 @@ public class ShopController {
      */
     @ResponseBody
     @GetMapping("/list")
-    public Pager<Shop> list() {
-        SystemContext.setSort("add_time");
-        SystemContext.setOrder("desc");
-        return shopService.find();
+    public Pager<Shop> list(String name) {
+        return shopService.find(FinalValue.SHOP_STATUS_SUCCESS, name);
+    }
+
+    @ResponseBody
+    @GetMapping("/apply")
+    public Pager<Shop> apply(String name) {
+        return shopService.find(null, name);
+    }
+
+    /**
+     * 添加店铺
+     **/
+    @ResponseBody
+    @RequestMapping("/add")
+    public ResponseUtil add(Shop shop) {
+
+        if (shopService.add(shop)) {
+            return ResponseUtil.ok(1, "添加成功");
+        } else {
+            return ResponseUtil.fail(0, "添加失败");
+        }
+    }
+
+    /**
+     * 修改店铺
+     **/
+    @ResponseBody
+    @RequestMapping("/update")
+    public ResponseUtil update(Shop shop) {
+        if (shopService.update(shop)) {
+            return ResponseUtil.ok(1, "修改成功");
+        } else {
+            return ResponseUtil.fail(0, "修改失败");
+        }
+    }
+
+    /**
+     * 删除店铺
+     **/
+    @ResponseBody
+    @RequestMapping("/delete")
+    public ResponseUtil delete(Integer shopId) {
+        if (shopService.delete(shopId)) {
+            return ResponseUtil.ok(1, "删除成功");
+        } else {
+            return ResponseUtil.fail(0, "删除失败");
+        }
+    }
+
+    /**
+     * 修改店铺状态
+     *
+     * @param shopId
+     * @param status
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/updateStatus")
+    public ResponseUtil updateStatus(Integer shopId, Integer status) {
+        Shop shop = new Shop();
+        shop.setId(shopId);
+        shop.setStatus(status);
+        if (shopService.update(shop)) {
+            return ResponseUtil.ok(1, "操作成功");
+        } else {
+            return ResponseUtil.fail(0, "修改失败");
+        }
     }
 
 }

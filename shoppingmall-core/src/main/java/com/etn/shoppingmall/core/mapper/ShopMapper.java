@@ -2,6 +2,9 @@ package com.etn.shoppingmall.core.mapper;
 
 import com.etn.shoppingmall.core.MyMapper;
 import com.etn.shoppingmall.core.entity.Shop;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * Description:店铺Mapper
@@ -10,4 +13,5 @@ import com.etn.shoppingmall.core.entity.Shop;
  * Version: V1.0
  */
 public interface ShopMapper extends MyMapper<Shop> {
+    List<Shop> find(@Param("status") Integer status, @Param("name") String name);
 }

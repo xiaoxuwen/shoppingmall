@@ -17,11 +17,15 @@ public class FinalValue {
     public static final Boolean IS_ON_SALE = true;              //商品：上架
 
     public static final Boolean CART_STATUS_FALSE = false;      //购物车商品状态：失效
-    public static final Boolean VART_STATUS_TRUE = true;        //购物车商品状态：正常
+    public static final Boolean CART_STATUS_TRUE = true;        //购物车商品状态：正常
 
     public static final Integer USER_STATUS_TRUE = 1;           //用户状态：启用
     public static final Integer USER_STATUS_FALSE = 0;          //用户状态：停用
 
     public static final Integer USER_LEVEL_COMMON = 0;          //用户等级：普通用户
     public static final Integer USER_LEVEL_VIP = 1;             //用户等级：会员用户
+
+    public static final Integer SHOP_STATUS_FAIL = -1;          //审核不通过
+    public static final Integer SHOP_STATUS_ING = 0;            //审核中
+    public static final Integer SHOP_STATUS_SUCCESS = 1;        //审核通过
 }

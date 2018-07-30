@@ -15,5 +15,5 @@ public interface ShopService extends BaseService<Shop> {
      *
      * @return
      */
-    Pager<Shop> find();
+    Pager<Shop> find(Integer status, String name);
 }
