@@ -9,6 +9,7 @@ import com.etn.shoppingmall.core.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,6 +35,16 @@ public class ShopController {
     @RequestMapping("/editForm")
     public String editForm() {
         return "system/shop_form.html";
+    }
+
+    @GetMapping("/add")
+    public String add() {
+        return "system/shop_add.html";
+    }
+
+    @GetMapping("/detail")
+    public String detail() {
+        return "system/shop_detail.html";
     }
 
     @RequestMapping("/shopApply")
@@ -62,7 +73,7 @@ public class ShopController {
      * 添加店铺
      **/
     @ResponseBody
-    @RequestMapping("/add")
+    @PostMapping("/add")
     public ResponseUtil add(Shop shop, Seller seller) {
         shop.setStatus(FinalValue.SHOP_STATUS_SUCCESS);
         shop.setDeleted(false);

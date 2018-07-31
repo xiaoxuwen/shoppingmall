@@ -1,5 +1,5 @@
-<!-- shop表单弹窗 -->
-<form id="shop-form" lay-filter="shop-form" class="layui-form model-form">
+<!-- shop-detail表单弹窗 -->
+<form id="shop-detail-form" lay-filter="shop-detail-form" class="layui-form model-form">
     <input name="id" type="hidden"/>
     <input name="shopImg" type="hidden"/>
     <div class="layui-form-item">
@@ -94,10 +94,6 @@
             <span style="color: red">备注：默认商家登录密码为888888</span>
         </div>
     </div>
-    <div class="layui-form-item model-form-footer">
-        <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
-        <button class="layui-btn" lay-filter="shop-form-submit" lay-submit>保存</button>
-    </div>
 </form>
 
 <script>
@@ -108,76 +104,16 @@
         var upload = layui.upload;
 
         form.render('radio');
-
-        var url = '/sys/shop/add';
         // 回显ad数据
         var shop = admin.getTempData('t_shop');
         if (shop) {
-            url = '/sys/shop/update';
-            $('#demo1').attr("src", shop.url);
-            form.val('shop-form', shop);
+            $('#demo1').attr("src", shop.shopImg);
+            $(":input[name='realName']").val(shop.owner.realName);
+            $(":input[name='phone']").val(shop.owner.phone);
+            for (var i=0;i<shop.picUrls.length;i++){
+                $('#demo2').append('<img src="' + shop.picUrls[i] + '" class="layui-upload-img">')
+            }
+            form.val('shop-detail-form', shop);
         }
-
-        // 表单提交事件
-        form.on('submit(shop-form-submit)', function (data) {
-            layer.load(2);
-            $.post(url, data.field, function (data) {
-                layer.closeAll('loading');
-                if (data.code === 1) {
-                    layer.msg(data.msg, {icon: 1});
-                    admin.finishPopupCenter();
-                } else {
-                    layer.msg(data.msg, {icon: 2});
-                }
-            });
-            return false;
-        });
-
-        //普通图片上传
-        var uploadInst = upload.render({
-            elem: '#test1',
-            url: '/os/storage/create',
-            before: function (obj) {
-                //预读本地文件示例，不支持ie8
-                obj.preview(function (index, file, result) {
-                    $('#demo1').attr('src', result); //图片链接（base64）
-                });
-            },
-            done: function (res) {
-                //上传成功
-                if (res.code === 1) {
-                    $(":input[name='shopImg']").val(res.data.url);
-                    return layer.msg("上传成功");
-                } else {
-                    return layer.msg(res.msg);
-                }
-
-            },
-            error: function () {
-                //演示失败状态，并实现重传
-                var demoText = $('#demoText');
-                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-                demoText.find('.demo-reload').on('click', function () {
-                    uploadInst.upload();
-                });
-            }
-        });
-
-        //多图片上传
-        upload.render({
-            elem: '#test2',
-            url: '/os/storage/create',
-            multiple: true,
-            before: function (obj) {
-                //预读本地文件示例，不支持ie8
-                obj.preview(function (index, file, result) {
-                    $('#demo2').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img">')
-                });
-            },
-            done: function (res) {
-                //上传完毕
-                $('#picUrls').append('<input name="picUrls[]" type="hidden" value="' + res.data.url + '">')
-            }
-        });
     });
 </script>

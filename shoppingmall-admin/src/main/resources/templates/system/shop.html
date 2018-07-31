@@ -53,9 +53,6 @@
                     templet: '#shop-tpl-pic'
                 },
                 {field: 'name', title: '店铺名称'},
-                {field: 'info', title: '店铺简介'},
-                {field: 'address', title: '店铺地址'},
-                {field: 'mobile', title: '店铺电话'},
                 {field: 'priority', title: '排序号'},
                 {field: 'realName', title: '店长', templet: '<div>{{d.owner.realName}}</div>'},
                 {field: 'phone', title: '店长电话', templet: '<div>{{d.owner.phone}}</div>'},
@@ -92,13 +89,12 @@
             var data = obj.data;
             var layEvent = obj.event;
             if (layEvent === 'shop-detail') {
-                layer.open({
-                    type: 1,
-                    title: false,
-                    closeBtn: 0,
-                    skin: 'layui-layer-nobg', //没有背景色
-                    shadeClose: true,
-                    content: '<img src="' + data.qrCodePic + '">'
+                var title = '店铺详情';
+                admin.putTempData('t_shop', data);
+                admin.popupCenter({
+                    title: title,
+                    path: '/sys/shop/detail',
+                    area: ['800px', '600px']
                 });
             } else if (layEvent === 'edit') { // 修改
                 showEditModel(data);

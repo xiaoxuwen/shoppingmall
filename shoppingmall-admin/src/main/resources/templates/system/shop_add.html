@@ -1,5 +1,5 @@
-<!-- shop表单弹窗 -->
-<form id="shop-form" lay-filter="shop-form" class="layui-form model-form">
+<!-- shop-add表单弹窗 -->
+<form id="shop-add-form" lay-filter="shop-add-form" class="layui-form model-form">
     <input name="id" type="hidden"/>
     <input name="shopImg" type="hidden"/>
     <div class="layui-form-item">
@@ -96,7 +96,7 @@
     </div>
     <div class="layui-form-item model-form-footer">
         <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
-        <button class="layui-btn" lay-filter="shop-form-submit" lay-submit>保存</button>
+        <button class="layui-btn" lay-filter="shop-add-form-submit" lay-submit>保存</button>
     </div>
 </form>
 
@@ -110,16 +110,9 @@
         form.render('radio');
 
         var url = '/sys/shop/add';
-        // 回显ad数据
-        var shop = admin.getTempData('t_shop');
-        if (shop) {
-            url = '/sys/shop/update';
-            $('#demo1').attr("src", shop.url);
-            form.val('shop-form', shop);
-        }
 
         // 表单提交事件
-        form.on('submit(shop-form-submit)', function (data) {
+        form.on('submit(shop-add-form-submit)', function (data) {
             layer.load(2);
             $.post(url, data.field, function (data) {
                 layer.closeAll('loading');
