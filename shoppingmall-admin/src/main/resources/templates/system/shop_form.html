@@ -24,6 +24,8 @@
         </div>
     </div>
 
+    <div id="picUrls"></div>
+
     <div class="layui-form-item">
         <label class="layui-form-label">店铺名称</label>
         <div class="layui-input-block">
@@ -37,15 +39,22 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">店铺简介</label>
+        <label class="layui-form-label">营业时间</label>
         <div class="layui-input-block">
-            <textarea name="info" placeholder="请输入内容" class="layui-textarea" maxlength="200" lay-verify="required"></textarea>
+            <input name="business" placeholder="请输入营业时间" type="text" class="layui-input" lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">店铺地址</label>
         <div class="layui-input-block">
             <input name="address" placeholder="请输入店铺地址" type="text" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">店铺简介</label>
+        <div class="layui-input-block">
+            <textarea name="info" placeholder="请输入内容" class="layui-textarea" maxlength="200"
+                      lay-verify="required"></textarea>
         </div>
     </div>
     <div class="layui-form-item">
@@ -63,7 +72,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">排序号</label>
         <div class="layui-input-block">
-            <input name="priority" placeholder="数字越大，排序越靠前" type="number" class="layui-input" lay-verify="required|number"/>
+            <input name="priority" placeholder="数字越大，排序越靠前" type="number" class="layui-input"
+                   lay-verify="required|number"/>
         </div>
     </div>
     <div class="layui-form-item">
@@ -104,7 +114,7 @@
         var shop = admin.getTempData('t_shop');
         if (shop) {
             url = '/sys/shop/update';
-            $('#demo1').attr("src",shop.url);
+            $('#demo1').attr("src", shop.url);
             form.val('shop-form', shop);
         }
 
@@ -158,14 +168,15 @@
             elem: '#test2',
             url: '/os/storage/create',
             multiple: true,
-            before: function(obj){
+            before: function (obj) {
                 //预读本地文件示例，不支持ie8
-                obj.preview(function(index, file, result){
-                    $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+                obj.preview(function (index, file, result) {
+                    $('#demo2').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img">')
                 });
             },
-            done: function(res){
+            done: function (res) {
                 //上传完毕
+                $('#picUrls').append('<input name="picUrls" type="hidden" value="' + res.data.url + '">')
             }
         });
     });

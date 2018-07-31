@@ -61,7 +61,8 @@ public class Shop extends BaseEntity {
     /**
      * 店铺是属于哪个店家的
      */
-    @Column(name = "owner_id")
     private Seller owner;
+
+    private String business;
 
 }

@@ -28,7 +28,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
 </script>
 <script type="text/html" id="shop-tpl-pic">
-    <div><img src="{{d.shopImg}}"  height="100%" width="40%"></div>
+    <div><img src="{{d.shopImg}}" height="100%" width="40%"></div>
 </script>
 
 <script>
@@ -100,7 +100,9 @@
                     shadeClose: true,
                     content: '<img src="' + data.qrCodePic + '">'
                 });
+            } else if (layEvent === 'edit') { // 修改
+                showEditModel(data);
             }
-        });
+        })
     });
 </script>

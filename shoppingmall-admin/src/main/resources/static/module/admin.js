@@ -69,6 +69,7 @@ layui.define(['layer'], function (exports) {
         open: function (param) {
             var sCallBack = param.success;
             param.type = 1;
+            param.maxmin= true;
             param.area = param.area ? param.area : '450px';
             param.offset = param.offset ? param.offset : '120px';
             param.resize ? param.resize : false;

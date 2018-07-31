@@ -68,6 +68,7 @@ CREATE TABLE `t_shop` (
   `name` varchar(50) NOT NULL COMMENT '店铺名称',
   `info` varchar(255) NOT NULL COMMENT '店铺简介',
   `address` varchar(50) NOT NULL COMMENT '店铺地址',
+  `business` varchar(50) NOT NULL COMMENT '营业时间',
   `longitude` double NOT NULL DEFAULT '0.0' COMMENT '经度',
   `latitude` double NOT NULL DEFAULT '0.0' COMMENT '纬度',
   `mobile` varchar(20) NOT NULL COMMENT '手机号',

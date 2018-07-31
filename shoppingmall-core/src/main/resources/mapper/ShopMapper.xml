@@ -15,16 +15,17 @@
         <result column="priority" jdbcType="INTEGER" property="priority"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="advice" jdbcType="VARCHAR" property="advice"/>
+        <result column="business" jdbcType="VARCHAR" property="advice"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
         <association property="owner" column="owner_id" javaType="com.etn.shoppingmall.core.entity.Seller">
-            <id column="id" property="id" />
+            <id column="id" property="id"/>
             <result column="ownerName" property="realName"/>
             <result column="ownerPhone" property="phone"/>
         </association>
     </resultMap>
 
-    <select id="find"  resultMap="BaseResultMap">
+    <select id="find" resultMap="BaseResultMap">
         select
         s.id,s.name,s.info,s.address,s.longitude,s.latitude,s.mobile,s.shop_img,s.pic_urls,s.priority,s.status,s.advice,s.add_time,s.deleted,
         o.id,o.real_name as ownerName,o.phone as ownerPhone
@@ -40,8 +41,11 @@
         order by o.add_time desc
     </select>
 
-    <insert id="add" parameterType="com.etn.shoppingmall.core.entity.Shop" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-		INSERT INTO t_shop( add_time,deleted,name,info,address,longitude,latitude,mobile,priority,status,owner_id )
-		VALUES (#{addTime},#{deleted},#{name},#{info}, #{address},#{longitude}, #{latitude}, #{mobile}, #{priority}, #{status},#{owner.id})
+    <insert id="add" parameterType="com.etn.shoppingmall.core.entity.Shop" useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id">
+		INSERT INTO t_shop( add_time,deleted,pic_urls,name,info,business,address,longitude,latitude,mobile,priority,status,owner_id )
+		VALUES
+		(#{addTime},#{deleted},#{picUrls,jdbcType=VARCHAR,typeHandler=com.etn.shoppingmall.core.mybatis.JsonStringArrayTypeHandler},
+		#{name},#{info},#{business},#{address},#{longitude},#{latitude},#{mobile},#{priority},#{status},#{owner.id})
 	</insert>
 </mapper>
