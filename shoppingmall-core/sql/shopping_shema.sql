@@ -183,7 +183,7 @@ DROP TABLE IF EXISTS `t_act`;
 CREATE TABLE `t_act` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(127) NOT NULL DEFAULT '' COMMENT '商铺名称',
-  `pic` varchar(127) NOT NULL DEFAULT '' COMMENT '商铺照片',
+  `pic` varchar(255) NOT NULL DEFAULT '' COMMENT '商铺照片',
   `act_date` varchar(127) NOT NULL DEFAULT '' COMMENT '活动开始时间',
   `content` varchar(255) NOT NULL DEFAULT '' COMMENT '活动内容',
   `address` varchar(127) NOT NULL DEFAULT '' COMMENT '商铺地址',
