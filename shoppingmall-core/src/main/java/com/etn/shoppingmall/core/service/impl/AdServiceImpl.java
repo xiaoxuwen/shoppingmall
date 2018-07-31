@@ -97,11 +97,7 @@ public class AdServiceImpl implements AdService {
         Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
         criteria.andEqualTo("enabled", true);
-
-        if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
-            example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
-        }
-
+        example.setOrderByClause("priority" + " " + "desc");
         return adMapper.selectByExample(example);
     }
 }

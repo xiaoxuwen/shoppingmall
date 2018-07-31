@@ -1,4 +1,4 @@
-package com.etn.shoppingmall.admin.exception;
+package com.etn.shoppingmall.core.exception;
 
 /**
  * 业务异常
