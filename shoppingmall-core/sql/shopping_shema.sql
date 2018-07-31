@@ -120,6 +120,8 @@ CREATE TABLE `t_product` (
   `sn` varchar(63) NOT NULL DEFAULT '' COMMENT '产品编号',
   `name` varchar(127) NOT NULL DEFAULT '' COMMENT '产品名称',
   `brief` varchar(255) DEFAULT '' COMMENT '产品简介',
+  `info` text COMMENT '使用须知',
+  `fen` int(11) DEFAULT '0' COMMENT '份数',
   `content` text COMMENT '产品详细介绍，是富文本格式',
   `pic_url` varchar(255) DEFAULT NULL COMMENT '产品页面产品图片',
   `gallery` varchar(1023) DEFAULT NULL COMMENT '产品宣传图片列表',
@@ -128,8 +130,6 @@ CREATE TABLE `t_product` (
   `priority` int(11) DEFAULT '0' COMMENT '排序',
   `retail_price` decimal(10,2) DEFAULT '0.00' COMMENT '零售价格',
   `counter_price` decimal(10,2) DEFAULT '0.00' COMMENT '会员价格',
-  `discount_type` tinyint(3) DEFAULT '0' COMMENT '优惠类型，1.满减 2.打折 3.自定义价格',
-  `discount_money` varchar(50) DEFAULT NULL COMMENT '优惠价格 满减/打折/自定义优惠价格',
   `during` tinyint(3) DEFAULT '1' COMMENT '使用期限，1.永久 2.自定义',
   `start_date` date DEFAULT NULL COMMENT '产品开始使用时间',
   `end_date` date DEFAULT NULL COMMENT '产品过期时间',
@@ -178,3 +178,17 @@ CREATE TABLE `t_keyword` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='搜索关键字表';
+
+DROP TABLE IF EXISTS `t_act`;
+CREATE TABLE `t_act` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(127) NOT NULL DEFAULT '' COMMENT '商铺名称',
+  `pic` varchar(127) NOT NULL DEFAULT '' COMMENT '商铺照片',
+  `act_date` varchar(127) NOT NULL DEFAULT '' COMMENT '活动开始时间',
+  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '活动内容',
+  `address` varchar(127) NOT NULL DEFAULT '' COMMENT '商铺地址',
+  `priority` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='活动专场表';

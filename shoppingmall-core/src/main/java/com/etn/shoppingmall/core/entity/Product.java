@@ -1,11 +1,11 @@
 package com.etn.shoppingmall.core.entity;
 
+import io.swagger.models.auth.In;
 import lombok.Data;
 
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * Description:产品基本信息实体类
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Table(name = "t_product")
-public class Product extends BaseEntity{
+public class Product extends BaseEntity {
     /**
      * 商品编号
      */
@@ -28,6 +28,14 @@ public class Product extends BaseEntity{
      * 商品简介
      */
     private String brief;
+    /**
+     * 份数
+     */
+    private Integer fen;
+    /**
+     * 使用须知
+     */
+    private String info;
     /**
      * 商品详细介绍，是富文本格式
      */
@@ -55,19 +63,11 @@ public class Product extends BaseEntity{
     /**
      * 零售价格
      */
-    private BigDecimal retail_price;
+    private BigDecimal retailPrice;
     /**
      * 会员价格
      */
-    private BigDecimal counter_price;
-    /**
-     * 优惠类型，满减/打折/自定义价格
-     */
-    private Integer discountType;
-    /**
-     * 优惠价格 满减/打折/自定义优惠价格
-     */
-    private String discountMoney;
+    private BigDecimal counterPrice;
     /**
      * 使用期限，1.永久 2.自定义
      */
@@ -87,5 +87,5 @@ public class Product extends BaseEntity{
     /**
      * 商品所属店铺ID
      */
-    private Shop shop;
+    private Integer shopId;
 }

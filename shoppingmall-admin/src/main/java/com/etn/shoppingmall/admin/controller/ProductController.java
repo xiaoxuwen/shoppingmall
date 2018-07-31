@@ -39,9 +39,9 @@ public class ProductController {
      */
     @ResponseBody
     @GetMapping("/list")
-    public Pager<Product> list() {
+    public Pager<Product> list(String name) {
         SystemContext.setSort("priority");
         SystemContext.setOrder("desc");
-        return productService.find();
+        return productService.find(name);
     }
 }

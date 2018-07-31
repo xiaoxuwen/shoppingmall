@@ -6,6 +6,8 @@
         <result column="sn" jdbcType="VARCHAR" property="sn"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="brief" jdbcType="VARCHAR" property="brief"/>
+        <result column="fen" jdbcType="INTEGER" property="fen"/>
+        <result column="info" jdbcType="VARCHAR" property="info"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
         <result column="pic_url" jdbcType="VARCHAR" property="picUrl"/>
         <result column="gallery" jdbcType="VARCHAR" property="gallery"
@@ -15,20 +17,12 @@
         <result column="priority" jdbcType="INTEGER" property="priority"/>
         <result column="retail_price" jdbcType="DECIMAL" property="retailPrice"/>
         <result column="counter_price" jdbcType="DECIMAL" property="counterPrice"/>
-        <result column="discount_type" jdbcType="INTEGER" property="discountType"/>
-        <result column="discount_money" jdbcType="VARCHAR" property="discountMoney"/>
         <result column="during" jdbcType="INTEGER" property="during"/>
         <result column="start_date" jdbcType="DATE" property="startDate"/>
         <result column="end_date" jdbcType="DATE" property="endDate"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
         <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
-        <association property="shop" column="shop_id" javaType="com.etn.shoppingmall.core.entity.Shop">
-            <id column="id" jdbcType="INTEGER" property="id"/>
-            <result column="name" property="name"/>
-            <result column="address" property="address"/>
-            <result column="shop_img" property="shopImg"/>
-            <result column="priority" property="priority"/>
-        </association>
+        <result column="shop_id" jdbcType="INTEGER" property="shopId"/>
     </resultMap>
 </mapper>

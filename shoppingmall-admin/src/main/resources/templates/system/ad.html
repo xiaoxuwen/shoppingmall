@@ -53,8 +53,7 @@
                 {
                     field: 'pic',
                     title: '图片',
-                    templet: '#ad-tpl-pic',
-                    event: 'setSign'
+                    templet: '#ad-tpl-pic'
                 },
                 {field: 'name', title: '标题'},
                 {field: 'content', title: '内容'},
@@ -91,16 +90,6 @@
                             layer.msg(data.msg, {icon: 2});
                         }
                     });
-                });
-            } else if (layEvent === 'setSign') {
-                layer.open({
-                    type: 1,
-                    title: false,
-                    closeBtn: 0,
-                    area: '516px',
-                    skin: 'layui-layer-nobg', //没有背景色
-                    shadeClose: true,
-                    content: '<img src="' + obj.data.url + '">'
                 });
             }
         });

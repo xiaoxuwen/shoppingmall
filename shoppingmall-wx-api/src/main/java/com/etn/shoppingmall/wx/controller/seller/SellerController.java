@@ -1,6 +1,5 @@
 package com.etn.shoppingmall.wx.controller.seller;
 
-import com.etn.shoppingmall.core.entity.Seller;
 import com.etn.shoppingmall.core.service.SellerService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;

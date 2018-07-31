@@ -1,6 +1,5 @@
 package com.etn.shoppingmall.core.service.impl;
 
-import com.etn.shoppingmall.core.entity.Order;
 import com.etn.shoppingmall.core.entity.Product;
 import com.etn.shoppingmall.core.mapper.ProductMapper;
 import com.etn.shoppingmall.core.model.Pager;
@@ -62,10 +61,12 @@ public class ProductServiceImpl implements ProductService {
      * @return
      */
     @Override
-    public Pager<Product> find() {
+    public Pager<Product> find(String name) {
         Example example = new Example(Product.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
+
+        if (!StringUtils.isEmpty(name)) criteria.andLike("name", name);
 
         if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
             example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());

@@ -15,5 +15,5 @@ public interface ProductService extends BaseService<Product> {
      *
      * @return
      */
-    Pager<Product> find();
+    Pager<Product> find(String name);
 }

@@ -1,0 +1,109 @@
+<style type="text/css">
+    .layui-table-cell {
+        height: 100%;
+    }
+</style>
+<div class="layui-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb pull-right">
+          <a href="#!home_console">首页</a>
+            <a><cite>产品管理</cite></a>
+          <a><cite>优惠产品</cite></a>
+        </span>
+    </div>
+    <div class="layui-card-body">
+        <div class="layui-form toolbar">
+            搜索：
+            <input id="name" class="layui-input search-input" type="text" placeholder="店铺名称"/>&emsp;
+            <button id="product-btn-search" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
+            <button id="product-btn-add" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
+        </div>
+
+        <table class="layui-table" id="product-table" lay-filter="product-table"></table>
+    </div>
+</div>
+<!-- 表格操作列 -->
+<script type="text/html" id="product-table-bar">
+    <a class="layui-btn layui-btn-xs" lay-event="product-detail">详情</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+</script>
+<script type="text/html" id="product-tpl-pic">
+    <div><img src="{{d.picUrl}}" height="100%" width="40%"></div>
+</script>
+
+<script>
+    layui.use(['form', 'table', 'util', 'admin', 'element'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var layer = layui.layer;
+        var util = layui.util;
+        var admin = layui.admin;
+        var element = layui.element;
+
+        form.render('select');
+
+        table.render({
+            elem: '#product-table',
+            url: '/sys/product/list',
+            page: true,
+            cols: [[
+                {
+                    field: 'picUrl',
+                    title: 'Logo',
+                    templet: '#product-tpl-pic'
+                },
+                {field: 'name', title: '产品名称'},
+                {field: 'fen', title: '份数'},
+                {field: 'retailPrice', title: '原价格'},
+                {field: 'counterPrice', title: '会员价格'},
+                {field: 'during', title: '使用期限'},
+                {field: 'priority', title: '排序号'},
+                {field: 'isOnSale', title: '是否上架'},
+                {field: 'categoryId', title: '所属分类'},
+                {field: 'shopId', title: '所属店铺'},
+                {align: 'center', toolbar: '#product-table-bar', title: '操作'}
+            ]]
+        });
+
+        // 搜索按钮点击事件
+        $('#product-btn-search').click(function () {
+            table.reload('product-table', {where: {name: $('#name').val()}});
+        });
+
+        // 添加按钮点击事件
+        $('#product-btn-add').click(function () {
+            showEditModel();
+        });
+
+        // 显示表单弹窗
+        var showEditModel = function (data) {
+            var title = data ? '修改店铺' : '添加店铺';
+            admin.putTempData('t_product', data);
+            admin.popupCenter({
+                title: title,
+                path: '/sys/product/editForm',
+                area: ['800px', '600px'],
+                finish: function () {
+                    table.reload('product-table', {});
+                }
+            });
+        };
+
+        // 工具条点击事件
+        table.on('tool(product-table)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'product-detail') {
+                var title = '店铺详情';
+                admin.putTempData('t_product', data);
+                admin.popupCenter({
+                    title: title,
+                    path: '/sys/product/detail',
+                    area: ['800px', '600px']
+                });
+            } else if (layEvent === 'edit') { // 修改
+                showEditModel(data);
+            }
+        })
+    });
+</script>
