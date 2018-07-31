@@ -187,6 +187,7 @@ CREATE TABLE `t_act` (
   `act_date` varchar(127) NOT NULL DEFAULT '' COMMENT '活动开始时间',
   `content` varchar(255) NOT NULL DEFAULT '' COMMENT '活动内容',
   `address` varchar(127) NOT NULL DEFAULT '' COMMENT '商铺地址',
+  `is_on_sale` tinyint(1) DEFAULT '1' COMMENT '是否上架',
   `priority` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',

@@ -1,0 +1,128 @@
+<!-- ad表单弹窗 -->
+<form id="act-form" lay-filter="act-form" class="layui-form model-form">
+    <input name="id" type="hidden"/>
+    <input name="pic" type="hidden"/>
+    <div class="layui-form-item">
+        <div class="layui-upload">
+            <label class="layui-form-label">活动图片</label>
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" id="act_upload">上传图片</button>
+                <div class="layui-upload-list">
+                    <img id="demo1">
+                    <p id="demoText"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商铺名称</label>
+        <div class="layui-input-block">
+            <input name="name" placeholder="请输入标题" type="text" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商铺地址</label>
+        <div class="layui-input-block">
+            <input name="address" placeholder="请输入商铺地址" type="text" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">活动内容</label>
+        <div class="layui-input-block">
+            <textarea name="content" placeholder="请输入活动内容" lay-verify="required" class="layui-textarea" maxlength="200"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">活动时间</label>
+        <div class="layui-input-block">
+            <input id="logr-edt-date" class="layui-input date-icon" lay-verify="required" name="actDate" type="text" placeholder="请选择日期范围"/>&emsp;
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序号</label>
+        <div class="layui-input-block">
+            <input name="priority" placeholder="数字越大，排序越靠前" type="number" class="layui-input" lay-verify="required"
+                   required/>
+        </div>
+    </div>
+    <div class="layui-form-item model-form-footer">
+        <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        <button class="layui-btn" lay-filter="act-form-submit" lay-submit>保存</button>
+    </div>
+</form>
+
+<script>
+    layui.use(['layer', 'admin', 'form', 'upload', 'laydate'], function () {
+        var layer = layui.layer;
+        var admin = layui.admin;
+        var form = layui.form;
+        var upload = layui.upload;
+        var laydate = layui.laydate;
+
+        form.render('radio');
+
+        // 时间范围
+        laydate.render({
+            elem: '#logr-edt-date',
+            type: 'date',
+            range: true,
+            theme: 'molv'
+        });
+
+        var url = '/sys/act/add';
+        // 回显act数据
+        var act = admin.getTempData('t_act');
+        if (act) {
+            url = '/sys/act/update';
+            $('#demo1').attr("src",act.pic);
+            form.val('act-form', act);
+        }
+
+        // 表单提交事件
+        form.on('submit(act-form-submit)', function (data) {
+            layer.load(2);
+            $.post(url, data.field, function (data) {
+                layer.closeAll('loading');
+                if (data.code === 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    admin.finishPopupCenter();
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            });
+            return false;
+        });
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#act_upload',
+            url: '/os/storage/create',
+            before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            },
+            done: function (res) {
+                //上传成功
+                if (res.code === 1) {
+                    $(":input[name='pic']").val(res.data.url);
+                    return layer.msg("上传成功");
+                } else {
+                    return layer.msg(res.msg);
+                }
+
+            },
+            error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+
+
+    });
+</script>

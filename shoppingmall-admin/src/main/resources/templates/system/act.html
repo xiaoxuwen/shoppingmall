@@ -1,0 +1,131 @@
+<style type="text/css">
+    .layui-table-cell {
+        height: 100%;
+    }
+</style>
+<div class="layui-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb pull-right">
+          <a href="#!home_console">首页</a>
+            <a><cite>活动专场</cite></a>
+          <a><cite>活动列表</cite></a>
+        </span>
+    </div>
+    <div class="layui-card-body">
+        <div class="layui-form toolbar">
+            <button id="act-btn-add" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
+        </div>
+
+        <table class="layui-table" id="act-table" lay-filter="act-table"></table>
+    </div>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="act-table-bar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+</script>
+
+<!-- 表格状态列 -->
+<script type="text/html" id="act-tpl-state">
+    <input type="checkbox" lay-filter="act-tpl-state" value="{{d.id}}" lay-skin="switch" lay-text="上架|下架"
+           {{d.isOnSale==true?'checked':''}}/>
+</script>
+<script type="text/html" id="act-tpl-pic">
+    <div><img src="{{d.pic}}" width="100%" height="100%"></div>
+</script>
+<script>
+    layui.use(['form', 'table', 'util', 'admin', 'element'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var layer = layui.layer;
+        var util = layui.util;
+        var admin = layui.admin;
+        var element = layui.element;
+
+        form.render('select');
+
+        // 渲染表格
+        table.render({
+            elem: '#act-table',
+            url: '/sys/act/list',
+            cols: [[
+                {
+                    field: 'pic',
+                    title: '图片',
+                    templet: '#act-tpl-pic'
+                },
+                {field: 'name', title: '商铺名称'},
+                {field: 'address', title: '商铺地址'},
+                {field: 'content', title: '活动内容'},
+                {field: 'actDate', title: '活动时间'},
+                {field: 'priority', sort: true, title: '排序号'},
+                {field: 'enabled', templet: '#act-tpl-state', title: '状态'},
+                {align: 'center', toolbar: '#act-table-bar', title: '操作'}
+            ]]
+        });
+
+        // 添加按钮点击事件
+        $('#act-btn-add').click(function () {
+            showEditModel();
+        });
+
+        // 工具条点击事件
+        table.on('tool(act-table)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'edit') { // 修改
+                showEditModel(data);
+            } else if (layEvent === 'delete') { // 重置密码
+                layer.confirm('确定删除此广告吗？', function (i) {
+                    layer.close(i);
+                    layer.load(2);
+                    $.post('/sys/act/delete', {
+                        actId: obj.data.id
+                    }, function (data) {
+                        layer.closeAll('loading');
+                        if (data.code === 1) {
+                            obj.del();
+                            layer.msg(data.msg, {icon: 1});
+                        } else {
+                            layer.msg(data.msg, {icon: 2});
+                        }
+                    });
+                });
+            }
+        });
+
+        // 显示表单弹窗
+        var showEditModel = function (data) {
+            var title = data ? '修改广告' : '添加广告';
+            admin.putTempData('t_act', data);
+            admin.popupCenter({
+                title: title,
+                path: '/sys/act/editForm',
+                area: ['800px', '600px'],
+                finish: function () {
+                    table.reload('act-table', {});
+                }
+            });
+        };
+
+        // 修改ad状态
+        form.on('switch(act-tpl-state)', function (obj) {
+            layer.load(2);
+            $.post('/sys/act/updateStatus', {
+                actId: obj.elem.value,
+                status: obj.elem.checked
+            }, function (data) {
+                layer.closeAll('loading');
+                if (data.code === 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    // table.reload('table-ad', {});
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                    $(obj.elem).prop('checked', !obj.elem.checked);
+                    form.render('checkbox');
+                }
+            });
+        });
+    })
+</script>
