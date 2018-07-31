@@ -1,6 +1,46 @@
+<style>
+    #upload_img_list {
+        margin: 10px 0 0 0
+    }
+
+    #upload_img_list dd {
+        position: relative;
+        margin: 0 10px 10px 0;
+        float: left
+    }
+
+    #upload_img_list .operate {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1
+    }
+
+    #upload_img_list .operate i {
+        cursor: pointer;
+        background: #2F4056;
+        padding: 2px;
+        line-height: 15px;
+        text-align: center;
+        color: #fff;
+        margin-left: 1px;
+        float: left;
+        filter: alpha(opacity=80);
+        -moz-opacity: .8;
+        -khtml-opacity: .8;
+        opacity: .8
+    }
+
+    #upload_img_list dd .img {
+        max-height: 150px;
+        max-width: 500px
+    }
+</style>
+
 <!-- shop表单弹窗 -->
 <form id="shop-form" lay-filter="shop-form" class="layui-form model-form">
     <input name="id" type="hidden"/>
+
     <input name="shopImg" type="hidden"/>
     <div class="layui-form-item">
         <label class="layui-form-label">LOGO</label>
@@ -18,12 +58,11 @@
                 <button type="button" class="layui-btn" id="test2">多图片上传</button>
                 <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
                     预览图：
-                    <div class="layui-upload-list" id="demo2"></div>
+                    <div class="layui-upload-list" id="upload_img_list"></div>
                 </blockquote>
             </div>
         </div>
     </div>
-
     <div id="picUrls"></div>
 
     <div class="layui-form-item">
@@ -88,6 +127,7 @@
             <input name="phone" placeholder="请输入手机号" type="text" class="layui-input" lay-verify="required|phone"/>
         </div>
     </div>
+    <input name="sellerId" type="hidden"/>
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
         <div class="layui-input-block">
@@ -114,7 +154,18 @@
         var shop = admin.getTempData('t_shop');
         if (shop) {
             url = '/sys/shop/update';
-            $('#demo1').attr("src", shop.url);
+            $('#demo1').attr("src", shop.shopImg);
+            $(":input[name='realName']").val(shop.owner.realName);
+            $(":input[name='phone']").val(shop.owner.phone);
+            $(":input[name='sellerId']").val(shop.owner.id);
+            if (shop.picUrls !=undefined) {
+                for (var i = 0; i < shop.picUrls.length; i++) {
+                    var l1 = shop.picUrls[i].lastIndexOf("/");
+                    var l2 = shop.picUrls[i].lastIndexOf(".");
+                    var res = shop.picUrls[i].substring(l1 + 1, l2);
+                    $('#upload_img_list').append('<dd id="' + res + '"><div class="operate"><i onclick=UPLOAD_IMG_DEL("' + res + '") class="close layui-icon"></i></div><img src="' + shop.picUrls[i] + '" class="img" ><input type="hidden" name="picUrls[]" value="' + shop.picUrls[i] + '" /></dd>');
+                }
+            }
             form.val('shop-form', shop);
         }
 
@@ -163,7 +214,7 @@
             }
         });
 
-        //多图片上传
+        // 多图片上传
         upload.render({
             elem: '#test2',
             url: '/os/storage/create',
@@ -171,13 +222,23 @@
             before: function (obj) {
                 //预读本地文件示例，不支持ie8
                 obj.preview(function (index, file, result) {
-                    $('#demo2').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img">')
+                    layer.msg('图片上传中...', {
+                        icon: 16,
+                        shade: 0.01,
+                        time: 0
+                    })
                 });
             },
             done: function (res) {
                 //上传完毕
-                $('#picUrls').append('<input name="picUrls[]" type="hidden" value="' + res.data.url + '">')
+                layer.close(layer.msg());//关闭上传提示窗口
+                $('#upload_img_list').append('<dd id="' + res.data.id + '"><div class="operate"><i onclick=UPLOAD_IMG_DEL("' + res.data.id + '") class="close layui-icon"></i></div><img src="' + res.data.url + '" class="img" ><input type="hidden" name="picUrls[]" value="' + res.data.url + '" /></dd>');
             }
         });
+
     });
+
+    function UPLOAD_IMG_DEL(id) {
+        $("#" + id).remove();
+    }
 </script>

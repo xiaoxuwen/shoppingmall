@@ -93,8 +93,9 @@ public class ShopController {
      **/
     @ResponseBody
     @RequestMapping("/update")
-    public ResponseUtil update(Shop shop) {
-        if (shopService.update(shop)) {
+    public ResponseUtil update(Shop shop, Seller seller,Integer sellerId) {
+        seller.setId(sellerId);
+        if (shopService.update(shop, seller)) {
             return ResponseUtil.ok(1, "修改成功");
         } else {
             return ResponseUtil.fail(0, "修改失败");

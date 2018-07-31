@@ -19,4 +19,6 @@ public interface ShopService extends BaseService<Shop> {
     Pager<Shop> find(Integer status, String name);
 
     boolean add(Shop shop, Seller seller);
+
+    boolean update(Shop shop, Seller seller);
 }

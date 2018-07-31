@@ -48,4 +48,20 @@
 		(#{addTime},#{deleted},#{shopImg},#{picUrls,jdbcType=VARCHAR,typeHandler=com.etn.shoppingmall.core.mybatis.JsonStringArrayTypeHandler},
 		#{name},#{info},#{business},#{address},#{longitude},#{latitude},#{mobile},#{priority},#{status},#{owner.id})
 	</insert>
+
+    <update id="update" parameterType="com.etn.shoppingmall.core.entity.Shop">
+		update t_shop
+		set
+		shop_img=#{shopImg},
+		pic_urls=#{picUrls,jdbcType=VARCHAR,typeHandler=com.etn.shoppingmall.core.mybatis.JsonStringArrayTypeHandler},
+		name=#{name},
+		info=#{info},
+		business=#{business},
+		address=#{address},
+		longitude=#{longitude},
+		latitude=#{latitude},
+		mobile=#{mobile},
+		priority=#{priority}
+	    where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

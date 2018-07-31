@@ -80,4 +80,11 @@ public class ShopServiceImpl implements ShopService {
         }
         return false;
     }
+
+    @Override
+    public boolean update(Shop shop, Seller seller) {
+        sellerMapper.updateByPrimaryKeySelective(seller);
+        if (shopMapper.update(shop)) return true;
+        return false;
+    }
 }
