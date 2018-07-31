@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Description:类目Controller
@@ -46,7 +47,8 @@ public class CategoryController {
     public Pager<Category> list() {
         SystemContext.setSort("priority");
         SystemContext.setOrder("desc");
-        return categoryService.find();
+        List<Category> list = categoryService.list();
+        return new Pager<>(list.size(), list);
     }
 
     /**

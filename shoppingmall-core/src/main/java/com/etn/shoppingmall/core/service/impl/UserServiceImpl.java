@@ -80,4 +80,28 @@ public class UserServiceImpl implements UserService {
 
         return new Pager<>(pageList.getTotal(), list);
     }
+
+    /**
+     * @param openId 小程序标识
+     * @return
+     */
+    @Override
+    public User queryByOpenid(String openId) {
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("openid", openId);
+        return userMapper.selectOneByExample(example);
+    }
+
+    /**
+     * @param phone 手机号
+     * @return
+     */
+    @Override
+    public List<User> queryByPhone(String phone) {
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("phone", phone);
+        return userMapper.selectByExample(example);
+    }
 }

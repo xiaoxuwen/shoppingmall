@@ -3,6 +3,8 @@ package com.etn.shoppingmall.core.service;
 import com.etn.shoppingmall.core.entity.User;
 import com.etn.shoppingmall.core.model.Pager;
 
+import java.util.List;
+
 /**
  * Description:
  * User: xiaoxuwen
@@ -19,4 +21,16 @@ public interface UserService extends BaseService<User> {
      * @return
      */
     Pager<User> findUser(Integer level, String phone);
+
+    /**
+     * @param openId 小程序标识
+     * @return
+     */
+    User queryByOpenid(String openId);
+
+    /**
+     * @param phone 手机号
+     * @return
+     */
+    List<User> queryByPhone(String phone);
 }

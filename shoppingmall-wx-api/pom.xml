@@ -22,6 +22,15 @@
             <groupId>com.etn.shoppingmall</groupId>
             <artifactId>shoppingmall-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-pay</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

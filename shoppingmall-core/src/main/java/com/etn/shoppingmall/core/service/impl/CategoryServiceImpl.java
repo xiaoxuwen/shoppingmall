@@ -1,6 +1,5 @@
 package com.etn.shoppingmall.core.service.impl;
 
-import com.etn.shoppingmall.core.entity.Admin;
 import com.etn.shoppingmall.core.entity.Category;
 import com.etn.shoppingmall.core.mapper.CategoryMapper;
 import com.etn.shoppingmall.core.model.Pager;
@@ -62,7 +61,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
-    public Pager<Category> find() {
+    public List<Category> list() {
         Example example = new Example(Category.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
@@ -70,11 +69,12 @@ public class CategoryServiceImpl implements CategoryService {
         if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
             example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
         }
-        PageHelper.startPage(SystemContext.getPageOffset(), SystemContext.getPageSize());
-        List<Category> list = categoryMapper.selectByExample(example);
-        PageInfo<Category> pageList = new PageInfo<>(list);
+        return categoryMapper.selectByExample(example);
+    }
 
-        return new Pager<>(pageList.getTotal(), list);
+    @Override
+    public List<Category> listCategory() {
+        return null;
     }
 
 }

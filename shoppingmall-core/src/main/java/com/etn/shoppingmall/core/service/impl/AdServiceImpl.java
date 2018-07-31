@@ -1,7 +1,6 @@
 package com.etn.shoppingmall.core.service.impl;
 
 import com.etn.shoppingmall.core.entity.Ad;
-import com.etn.shoppingmall.core.entity.User;
 import com.etn.shoppingmall.core.mapper.AdMapper;
 import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.model.SystemContext;
@@ -84,6 +83,20 @@ public class AdServiceImpl implements AdService {
         Example example = new Example(Ad.class);
         Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
+
+        if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
+            example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
+        }
+
+        return adMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<Ad> listAd() {
+        Example example = new Example(Ad.class);
+        Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deleted", false);
+        criteria.andEqualTo("enabled", true);
 
         if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
             example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());

@@ -3,6 +3,8 @@ package com.etn.shoppingmall.core.service;
 import com.etn.shoppingmall.core.entity.Category;
 import com.etn.shoppingmall.core.model.Pager;
 
+import java.util.List;
+
 /**
  * Description:类目Service
  * User: xiaoxuwen
@@ -15,5 +17,7 @@ public interface CategoryService extends BaseService<Category> {
      *
      * @return
      */
-    Pager<Category> find();
+    List<Category> list();
+
+    List<Category> listCategory();
 }
