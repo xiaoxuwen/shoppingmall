@@ -2,7 +2,6 @@ package com.etn.shoppingmall.core.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
 import javax.persistence.Table;
 
 /**
@@ -58,11 +57,32 @@ public class Shop extends BaseEntity {
      * 超级管理员给店家的提醒，包括为什么审核不通过等
      */
     private String advice;
-    /**
-     * 店铺是属于哪个店家的
-     */
-    private Seller owner;
 
+    /**
+     * 营业时间
+     */
     private String business;
+
+    /**
+     * 订单数量
+     */
+    private Integer orderNum;
+
+    /**
+     * 小程序关联id
+     */
+    private String openid;
+    /**
+     * 密码
+     */
+    private String password;
+    /**
+     * 真实姓名
+     */
+    private String realName;
+    /**
+     * 联系方式
+     */
+    private String phone;
 
 }

@@ -47,21 +47,6 @@ CREATE TABLE `t_user` (
   KEY `openid` (`openid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
-DROP TABLE IF EXISTS `t_seller`;
-CREATE TABLE `t_seller` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `openid` varchar(255) default NULL COMMENT '小程序标识',
-  `password` varchar(255) default NULL COMMENT '密码',
-  `real_name` varchar(20) NOT NULL COMMENT '真实姓名',
-  `phone` varchar(11) NOT NULL COMMENT '手机号',
-  `avatar_url` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像图片',
-  `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '1 可用, 0 禁用',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除,0.正常，1 已删除',
-  PRIMARY KEY (`id`),
-  KEY `openid` (`openid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商家表';
-
 DROP TABLE IF EXISTS `t_shop`;
 CREATE TABLE `t_shop` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -73,12 +58,15 @@ CREATE TABLE `t_shop` (
   `latitude` double NOT NULL DEFAULT '0.0' COMMENT '纬度',
   `mobile` varchar(20) NOT NULL COMMENT '手机号',
   `shop_img` varchar(255) NOT NULL DEFAULT '' COMMENT '店铺门面图片地址',
-  `pic_urls` varchar(1023) DEFAULT NULL COMMENT '图片地址列表',
+  `pic_urls` varchar(1023) DEFAULT '[]' COMMENT '图片地址列表',
   `priority` int(11) DEFAULT '0' COMMENT '排序',
   `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '-1.不可用 0.审核中 1.可用',
   `advice` varchar(255) DEFAULT NULL COMMENT '超级管理员给店家的提醒，包括为什么审核不通过等',
-  `owner_id` int(10) NOT NULL COMMENT '店铺是属于哪个店家的',
   `order_num` int(10) NOT NULL DEFAULT '0' COMMENT '客户订单量',
+  `openid` varchar(255) default NULL COMMENT '小程序标识',
+  `password` varchar(255) default NULL COMMENT '密码',
+  `real_name` varchar(20) NOT NULL COMMENT '真实姓名',
+  `phone` varchar(11) NOT NULL COMMENT '手机号',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除,0.正常，1 已删除',
   PRIMARY KEY (`id`)
@@ -123,7 +111,7 @@ CREATE TABLE `t_product` (
   `fen` int(11) DEFAULT '0' COMMENT '份数',
   `content` text COMMENT '产品详细介绍，是富文本格式',
   `pic_url` varchar(255) DEFAULT NULL COMMENT '产品页面产品图片',
-  `gallery` varchar(1023) DEFAULT NULL COMMENT '产品宣传图片列表',
+  `gallery` varchar(1023) DEFAULT '[]' COMMENT '产品宣传图片列表',
   `keywords` varchar(255) DEFAULT '' COMMENT '产品关键字，采用逗号间隔',
   `is_on_sale` tinyint(1) DEFAULT '1' COMMENT '是否上架',
   `priority` int(11) DEFAULT '0' COMMENT '排序',
@@ -204,7 +192,7 @@ CREATE TABLE `t_bargain` (
   `fen` int(11) DEFAULT '0' COMMENT '份数',
   `content` text COMMENT '产品详细介绍，是富文本格式',
   `pic_url` varchar(255) DEFAULT NULL COMMENT '产品页面产品图片',
-  `gallery` varchar(1023) DEFAULT NULL COMMENT '产品宣传图片列表',
+  `gallery` varchar(1023) DEFAULT '[]' COMMENT '产品宣传图片列表',
   `keywords` varchar(255) DEFAULT '' COMMENT '产品关键字，采用逗号间隔',
   `is_on_sale` tinyint(1) DEFAULT '1' COMMENT '是否上架',
   `priority` int(11) DEFAULT '0' COMMENT '排序',
@@ -236,7 +224,7 @@ CREATE TABLE `t_bargain_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='砍价产品用户关联表';
 
 DROP TABLE IF EXISTS `t_collage`;
-CREATE TABLE `t_bargain` (
+CREATE TABLE `t_collage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `shop_id` int(11) DEFAULT '0' COMMENT '产品所属店铺ID',
   `name` varchar(127) NOT NULL DEFAULT '' COMMENT '产品名称',
@@ -245,7 +233,7 @@ CREATE TABLE `t_bargain` (
   `fen` int(11) DEFAULT '0' COMMENT '份数',
   `content` text COMMENT '产品详细介绍，是富文本格式',
   `pic_url` varchar(255) DEFAULT NULL COMMENT '产品页面产品图片',
-  `gallery` varchar(1023) DEFAULT NULL COMMENT '产品宣传图片列表',
+  `gallery` varchar(1023) DEFAULT '[]' COMMENT '产品宣传图片列表',
   `keywords` varchar(255) DEFAULT '' COMMENT '产品关键字，采用逗号间隔',
   `is_on_sale` tinyint(1) DEFAULT '1' COMMENT '是否上架',
   `priority` int(11) DEFAULT '0' COMMENT '排序',

@@ -1,7 +1,6 @@
 package com.etn.shoppingmall.admin.controller;
 
 import com.etn.shoppingmall.common.util.ResponseUtil;
-import com.etn.shoppingmall.core.entity.Seller;
 import com.etn.shoppingmall.core.entity.Shop;
 import com.etn.shoppingmall.core.model.FinalValue;
 import com.etn.shoppingmall.core.model.Pager;
@@ -74,14 +73,12 @@ public class ShopController {
      **/
     @ResponseBody
     @PostMapping("/add")
-    public ResponseUtil add(Shop shop, Seller seller) {
+    public ResponseUtil add(Shop shop) {
         shop.setStatus(FinalValue.SHOP_STATUS_SUCCESS);
         shop.setDeleted(false);
         shop.setAddTime(LocalDateTime.now());
-        seller.setDeleted(false);
-        seller.setStatus(1);
-        seller.setAddTime(LocalDateTime.now());
-        if (shopService.add(shop, seller)) {
+
+        if (shopService.add(shop)) {
             return ResponseUtil.ok(1, "添加成功");
         } else {
             return ResponseUtil.fail(0, "添加失败");
@@ -93,9 +90,8 @@ public class ShopController {
      **/
     @ResponseBody
     @RequestMapping("/update")
-    public ResponseUtil update(Shop shop, Seller seller,Integer sellerId) {
-        seller.setId(sellerId);
-        if (shopService.update(shop, seller)) {
+    public ResponseUtil update(Shop shop) {
+        if (shopService.update(shop)) {
             return ResponseUtil.ok(1, "修改成功");
         } else {
             return ResponseUtil.fail(0, "修改失败");

@@ -105,10 +105,9 @@
         var shop = admin.getTempData('t_shop');
         if (shop) {
             $('#demo1').attr("src", shop.shopImg);
-            $(":input[name='realName']").val(shop.owner.realName);
-            $(":input[name='phone']").val(shop.owner.phone);
-            for (var i=0;i<shop.picUrls.length;i++){
-                $('#demo2').append('<img src="' + shop.picUrls[i] + '" class="layui-upload-img">')
+            if (shop.picUrls!=null&& shop.picUrls!=undefined) {
+                for (var i = 0; i < shop.picUrls.length; i++) {
+                    $('#demo2').append('<img src="' + shop.picUrls[i] + '" class="layui-upload-img">')               }
             }
             form.val('shop-detail-form', shop);
         }

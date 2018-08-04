@@ -25,6 +25,7 @@
 <!-- 表格操作列 -->
 <script type="text/html" id="product-table-bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>
 <script type="text/html" id="product-tpl-pic">
     <div><img src="{{d.picUrl}}" height="100%" width="100%"></div>
@@ -86,7 +87,7 @@
 
         // 显示表单弹窗
         var showEditModel = function (data) {
-            var title = data ? '修改店铺' : '添加店铺';
+            var title = data ? '修改产品' : '添加产品';
             admin.putTempData('t_product', data);
             admin.popupCenter({
                 title: title,
@@ -102,16 +103,24 @@
         table.on('tool(product-table)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
-            if (layEvent === 'product-detail') {
-                var title = '店铺详情';
-                admin.putTempData('t_product', data);
-                admin.popupCenter({
-                    title: title,
-                    path: '/sys/product/detail',
-                    area: ['800px', '600px']
-                });
-            } else if (layEvent === 'edit') { // 修改
+            if (layEvent === 'edit') { // 修改
                 showEditModel(data);
+            } else if (layEvent === 'delete') { // 重置密码
+                layer.confirm('确定删除此广告吗？', function (i) {
+                    layer.close(i);
+                    layer.load(2);
+                    $.post('/sys/product/delete', {
+                        productId: obj.data.id
+                    }, function (data) {
+                        layer.closeAll('loading');
+                        if (data.code === 1) {
+                            obj.del();
+                            layer.msg(data.msg, {icon: 1});
+                        } else {
+                            layer.msg(data.msg, {icon: 2});
+                        }
+                    });
+                });
             }
         });
 

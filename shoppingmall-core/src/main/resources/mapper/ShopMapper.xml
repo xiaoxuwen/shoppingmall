@@ -14,23 +14,23 @@
                 typeHandler="com.etn.shoppingmall.core.mybatis.JsonStringArrayTypeHandler"/>
         <result column="priority" jdbcType="INTEGER" property="priority"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="order_num" jdbcType="INTEGER" property="orderNum"/>
         <result column="advice" jdbcType="VARCHAR" property="advice"/>
         <result column="business" jdbcType="VARCHAR" property="business"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
-        <association property="owner" column="owner_id" javaType="com.etn.shoppingmall.core.entity.Seller">
-            <id column="id" property="id"/>
-            <result column="ownerName" property="realName"/>
-            <result column="ownerPhone" property="phone"/>
-        </association>
+        <result column="openid" jdbcType="VARCHAR" property="openid"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
     </resultMap>
 
     <select id="find" resultMap="BaseResultMap">
         select
-        s.id,s.name,s.info,s.address,s.longitude,s.latitude,s.mobile,s.shop_img,s.pic_urls,s.priority,s.status,s.advice,s.add_time,s.deleted,s.business,
-        o.id,o.real_name as ownerName,o.phone as ownerPhone
+        s.id,s.name,s.info,s.address,s.longitude,s.latitude,s.mobile,s.shop_img,
+        s.pic_urls,s.priority,s.status,s.advice,s.add_time,s.deleted,s.business,s.order_num,
+        s.real_name,s.phone
         from t_shop s
-        left join t_seller o on o.id=s.owner_id
         where 1=1
         <if test="status != null">
             and s.status = #{status}
@@ -38,15 +38,15 @@
         <if test="name != null and name != ''">
             and s.name like '%${name}%'
         </if>
-        order by o.add_time desc
+        order by s.add_time desc
     </select>
 
     <insert id="add" parameterType="com.etn.shoppingmall.core.entity.Shop" useGeneratedKeys="true" keyProperty="id"
             keyColumn="id">
-		INSERT INTO t_shop( add_time,deleted,shop_img,pic_urls,name,info,business,address,longitude,latitude,mobile,priority,status,owner_id )
+		INSERT INTO t_shop( add_time,deleted,shop_img,pic_urls,name,info,business,address,longitude,latitude,mobile,priority,status,real_name,phone )
 		VALUES
 		(#{addTime},#{deleted},#{shopImg},#{picUrls,jdbcType=VARCHAR,typeHandler=com.etn.shoppingmall.core.mybatis.JsonStringArrayTypeHandler},
-		#{name},#{info},#{business},#{address},#{longitude},#{latitude},#{mobile},#{priority},#{status},#{owner.id})
+		#{name},#{info},#{business},#{address},#{longitude},#{latitude},#{mobile},#{priority},#{status},#{realName},#{phone})
 	</insert>
 
     <update id="update" parameterType="com.etn.shoppingmall.core.entity.Shop">
@@ -61,7 +61,9 @@
 		longitude=#{longitude},
 		latitude=#{latitude},
 		mobile=#{mobile},
-		priority=#{priority}
+		priority=#{priority},
+		real_name=#{realName},
+		phone=#{phone}
 	    where id = #{id,jdbcType=INTEGER}
     </update>
 </mapper>

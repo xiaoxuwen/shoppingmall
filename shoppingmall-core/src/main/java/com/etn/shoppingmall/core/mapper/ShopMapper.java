@@ -14,8 +14,4 @@ import java.util.List;
  */
 public interface ShopMapper extends MyMapper<Shop> {
     List<Shop> find(@Param("status") Integer status, @Param("name") String name);
-
-    boolean add(Shop shop);
-
-    boolean update(Shop shop);
 }

@@ -1,6 +1,5 @@
 package com.etn.shoppingmall.core.service;
 
-import com.etn.shoppingmall.core.entity.Seller;
 import com.etn.shoppingmall.core.entity.Shop;
 import com.etn.shoppingmall.core.model.Pager;
 
@@ -18,7 +17,4 @@ public interface ShopService extends BaseService<Shop> {
      */
     Pager<Shop> find(Integer status, String name);
 
-    boolean add(Shop shop, Seller seller);
-
-    boolean update(Shop shop, Seller seller);
 }

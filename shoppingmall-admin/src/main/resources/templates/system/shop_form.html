@@ -155,10 +155,7 @@
         if (shop) {
             url = '/sys/shop/update';
             $('#demo1').attr("src", shop.shopImg);
-            $(":input[name='realName']").val(shop.owner.realName);
-            $(":input[name='phone']").val(shop.owner.phone);
-            $(":input[name='sellerId']").val(shop.owner.id);
-            if (shop.picUrls !=undefined) {
+            if (shop.picUrls!=null&& shop.picUrls!=undefined) {
                 for (var i = 0; i < shop.picUrls.length; i++) {
                     var l1 = shop.picUrls[i].lastIndexOf("/");
                     var l2 = shop.picUrls[i].lastIndexOf(".");

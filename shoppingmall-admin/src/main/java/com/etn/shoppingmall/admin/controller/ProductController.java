@@ -8,8 +8,11 @@ import com.etn.shoppingmall.core.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.time.LocalDateTime;
 
 /**
  * Description:产品Controller
@@ -44,6 +47,31 @@ public class ProductController {
         SystemContext.setSort("priority");
         SystemContext.setOrder("desc");
         return productService.find(name);
+    }
+
+    @ResponseBody
+    @PostMapping("/add")
+    public ResponseUtil add(Product product) {
+        product.setDeleted(false);
+        product.setAddTime(LocalDateTime.now());
+        if (productService.add(product)) {
+            return ResponseUtil.ok(1, "添加成功");
+        } else {
+            return ResponseUtil.fail(0, "添加失败");
+        }
+    }
+
+    /**
+     * 删除活动
+     **/
+    @ResponseBody
+    @RequestMapping("/delete")
+    public ResponseUtil delete(Integer productId) {
+        if (productService.delete(productId)) {
+            return ResponseUtil.ok(1, "删除成功");
+        } else {
+            return ResponseUtil.fail(0, "删除失败");
+        }
     }
 
     /**
