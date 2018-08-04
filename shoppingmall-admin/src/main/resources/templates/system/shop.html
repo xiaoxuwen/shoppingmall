@@ -16,7 +16,7 @@
             搜索：
             <input id="name" class="layui-input search-input" type="text" placeholder="店铺名称"/>&emsp;
             <button id="shop-btn-search" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
-            <button id="shop-btn-add" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
+            <button id="shop-btn-add" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>开通商家</button>
         </div>
 
         <table class="layui-table" id="shop-table" lay-filter="shop-table"></table>
@@ -78,6 +78,7 @@
                 title: title,
                 path: '/sys/shop/editForm',
                 area: ['800px', '600px'],
+                maxmin:true,
                 finish: function () {
                     table.reload('shop-table', {});
                 }
@@ -94,7 +95,8 @@
                 admin.popupCenter({
                     title: title,
                     path: '/sys/shop/detail',
-                    area: ['800px', '600px']
+                    area: ['800px', '600px'],
+                    maxmin:true
                 });
             } else if (layEvent === 'edit') { // 修改
                 showEditModel(data);

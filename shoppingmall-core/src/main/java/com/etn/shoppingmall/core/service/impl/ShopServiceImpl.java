@@ -33,18 +33,6 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean add(Shop shop) {
-        return shopMapper.insertSelective(shop) > 0;
-    }
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED)
-    public boolean update(Shop shop) {
-        return shopMapper.updateByPrimaryKeySelective(shop) > 0;
-    }
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED)
     public boolean delete(Integer id) {
         Shop shop = new Shop();
         shop.setId(id);
@@ -64,6 +52,17 @@ public class ShopServiceImpl implements ShopService {
         List<Shop> list = shopMapper.find(status, name);
         PageInfo<Shop> pageList = new PageInfo<>(list);
         return new Pager<>(pageList.getTotal(), list);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean add(Shop shop) {
+        return shopMapper.add(shop);
+    }
+
+    @Override
+    public boolean update(Shop shop) {
+        return shopMapper.update(shop);
     }
 
 }

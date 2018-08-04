@@ -36,11 +36,6 @@ public class ShopController {
         return "system/shop_form.html";
     }
 
-    @GetMapping("/add")
-    public String add() {
-        return "system/shop_add.html";
-    }
-
     @GetMapping("/detail")
     public String detail() {
         return "system/shop_detail.html";
