@@ -15,11 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 public class AdminLoginInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        Admin admin = (Admin) request.getSession().getAttribute("admin");
-//        if (admin == null) {
-//            response.sendRedirect(request.getContextPath() + "/login");
-//        }
-
+        Admin admin = (Admin) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+        }
         return super.preHandle(request, response, handler);
     }
 }

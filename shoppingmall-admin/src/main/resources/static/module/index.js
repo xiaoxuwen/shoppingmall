@@ -138,7 +138,7 @@ layui.define(['admin', 'layer', 'element'], function (exports) {
 
             // 个人信息点击事件
             $('#setInfo').click(function () {
-
+                admin.popupRight('home/info');
             });
 
             // 消息点击事件

@@ -76,4 +76,15 @@ public class AdminServiceImpl implements AdminService {
 
         return new Pager<>(pageList.getTotal(), list);
     }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public Admin login(String username, String password) {
+        Example example = new Example(Admin.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deleted", false);
+        criteria.andEqualTo("username", username);
+        criteria.andEqualTo("password", password);
+        return adminMapper.selectOneByExample(example);
+    }
 }

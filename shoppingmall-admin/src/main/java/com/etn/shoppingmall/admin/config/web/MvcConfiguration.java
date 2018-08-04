@@ -1,9 +1,11 @@
 package com.etn.shoppingmall.admin.config.web;
 
+import com.etn.shoppingmall.admin.web.interceptor.AdminLoginInterceptor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -22,32 +24,11 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter implements Applica
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//		InterceptorRegistration loginInterceptor =registry.addInterceptor(new AdminLoginInterceptor());
-//		String shopLoginInterceptPath = "/index";
-//
-//		//登录权限限定
-//		loginInterceptor.addPathPatterns(shopLoginInterceptPath);
-//
-//
-//		InterceptorRegistration permissionIR = registry.addInterceptor(new ShopPermissionInterceptor());
-//		// 配置拦截的路径
-//		permissionIR.addPathPatterns(shopLoginInterceptPath);
-//		// 配置不拦截的路径
-//		/** shoplist page **/
-//		permissionIR.excludePathPatterns("/shopadmin/shoplist");
-//		permissionIR.excludePathPatterns("/shopadmin/getshoplist");
-//		/** shopregister page **/
-//		permissionIR.excludePathPatterns("/shopadmin/getshopinitinfo");
-//		permissionIR.excludePathPatterns("/shopadmin/registershop");
-//		permissionIR.excludePathPatterns("/shopadmin/shopoperation");
-//		/** shopmanage page **/
-//		permissionIR.excludePathPatterns("/shopadmin/shopmanagement");
-//		permissionIR.excludePathPatterns("/shopadmin/getmanagementinfo");
-//		/** shopauthmanagement page **/
-//		permissionIR.excludePathPatterns("/shopadmin/addshopauthmap");
-//		/** scan **/
-//		permissionIR.excludePathPatterns("/shopadmin/adduserproductmap");
-//		permissionIR.excludePathPatterns("/shopadmin/exchangeaward");
+		InterceptorRegistration loginInterceptor =registry.addInterceptor(new AdminLoginInterceptor());
+		//登录权限限定
+		loginInterceptor.addPathPatterns("/");
+		loginInterceptor.addPathPatterns("/index");
+		loginInterceptor.addPathPatterns("/sys/**");
     }
 
 }

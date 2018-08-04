@@ -16,4 +16,6 @@ public interface AdminService extends BaseService<Admin> {
      * @return
      */
     Pager<Admin> find();
+
+    Admin login(String username, String password);
 }

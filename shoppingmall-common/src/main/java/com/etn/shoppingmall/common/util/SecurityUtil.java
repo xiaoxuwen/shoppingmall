@@ -37,8 +37,7 @@ public class SecurityUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(SecurityUtil.md5("admin", "admin"));
-        System.out.println("f6fdffe48c908deb0f4c3bd36c032e72");
+        System.out.println(SecurityUtil.md5("admin"));
     }
 
 }
