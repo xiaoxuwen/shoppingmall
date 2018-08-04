@@ -54,6 +54,7 @@ public class ActController {
     @ResponseBody
     @RequestMapping("/add")
     public ResponseUtil add(Act act) {
+        act.setIsOnSale(true);
         act.setAddTime(LocalDateTime.now());
         act.setDeleted(false);
         if (actService.add(act)) {

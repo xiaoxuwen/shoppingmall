@@ -8,7 +8,7 @@
                图标
             </label>
             <div class="layui-input-block">
-                <button type="button" class="layui-btn" id="test1">上传图片</button>
+                <button type="button" class="layui-btn" id="category_test1">上传图片</button>
                 <div class="layui-upload-list">
                     <img id="demo1">
                     <p id="demoText"></p>
@@ -76,7 +76,7 @@
 
         //普通图片上传
         var uploadInst = upload.render({
-            elem: '#test1',
+            elem: '#category_test1',
             url: '/os/storage/create',
             before: function (obj) {
                 //预读本地文件示例，不支持ie8
