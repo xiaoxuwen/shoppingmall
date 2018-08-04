@@ -2,11 +2,13 @@ package com.etn.shoppingmall.core.service.impl;
 
 import com.etn.shoppingmall.core.entity.Keyword;
 import com.etn.shoppingmall.core.mapper.KeywordMapper;
+import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.KeywordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -60,6 +62,10 @@ public class KeywordServiceImpl implements KeywordService {
         Example example = new Example(Keyword.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
+
+        if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
+            example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
+        }
         return keywordMapper.selectByExample(example);
     }
 }

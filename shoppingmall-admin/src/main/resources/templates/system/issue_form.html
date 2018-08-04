@@ -1,0 +1,61 @@
+<!-- user表单弹窗 -->
+<form id="issue-form" lay-filter="issue-form" class="layui-form model-form">
+    <input name="id" type="hidden"/>
+    <div class="layui-form-item">
+        <label class="layui-form-label">问题标题</label>
+        <div class="layui-input-block">
+            <input name="question" placeholder="请输入标题" type="text" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">问题内容</label>
+        <div class="layui-input-block">
+            <input name="answer" placeholder="请输入内容" type="text" class="layui-input" lay-verify="required" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序号</label>
+        <div class="layui-input-block">
+            <input name="priority" placeholder="数字越大，排序越靠前" type="number" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item model-form-footer">
+        <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        <button class="layui-btn" lay-filter="issue-form-submit" lay-submit>保存</button>
+    </div>
+</form>
+
+<script>
+    layui.use(['layer', 'admin', 'form'], function () {
+        var layer = layui.layer;
+        var admin = layui.admin;
+        var form = layui.form;
+
+        form.render('radio');
+        form.render('select');
+
+        var url = '/sys/issue/add';
+        // 回显user数据
+        var issue = admin.getTempData('t_issue');
+        if (issue) {
+            url = '/sys/issue/update';
+            form.val('issue-form', issue);
+        }
+
+        // 表单提交事件
+        form.on('submit(issue-form-submit)', function (data) {
+            layer.load(2);
+            $.post(url, data.field, function (data) {
+                layer.closeAll('loading');
+                if (data.code === 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    admin.finishPopupCenter();
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            });
+            return false;
+        });
+
+    });
+</script>

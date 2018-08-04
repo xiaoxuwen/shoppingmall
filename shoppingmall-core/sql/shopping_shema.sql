@@ -164,6 +164,7 @@ CREATE TABLE `t_issue` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `question` varchar(255) DEFAULT NULL COMMENT '问题标题',
   `answer` varchar(255) DEFAULT NULL COMMENT '问题答案',
+  `priority` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
   PRIMARY KEY (`id`)

@@ -12,7 +12,7 @@ import javax.persistence.Table;
  */
 @Data
 @Table(name = "t_issue")
-public class Issue extends BaseEntity{
+public class Issue extends BaseEntity {
     /**
      * 问题标题
      */
@@ -21,4 +21,8 @@ public class Issue extends BaseEntity{
      * 问题答案
      */
     private String answer;
+    /**
+     * 排序
+     */
+    private Integer priority;
 }

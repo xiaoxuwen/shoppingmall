@@ -1,0 +1,96 @@
+<style type="text/css">
+    .layui-table-cell {
+        height: 100%;
+    }
+</style>
+<div class="layui-card">
+    <div class="layui-card-header">
+        <span class="layui-breadcrumb pull-right">
+          <a href="#!home_console">首页</a>
+            <a><cite>系统管理</cite></a>
+          <a><cite>常见问题</cite></a>
+        </span>
+    </div>
+    <div class="layui-card-body">
+        <div class="layui-form toolbar">
+            <button id="issue-btn-add" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
+        </div>
+
+        <table class="layui-table" id="issue-table" lay-filter="issue-table"></table>
+    </div>
+</div>
+<!-- 表格操作列 -->
+<script type="text/html" id="issue-table-bar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+</script>
+<script>
+    layui.use(['form', 'table', 'util', 'admin', 'element'], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var layer = layui.layer;
+        var util = layui.util;
+        var admin = layui.admin;
+        var element = layui.element;
+
+        form.render('select');
+
+        // 渲染表格
+        table.render({
+            elem: '#issue-table',
+            url: '/sys/issue/list',
+            cols: [[
+                {type: 'numbers'},
+                {field: 'question', title: '问题标题'},
+                {field: 'answer', title: '问题内容'},
+                {field: 'priority', sort: true, title: '排序号'},
+                {field: 'addTime',  title: '添加时间'},
+                {align: 'center', toolbar: '#issue-table-bar', title: '操作'}
+            ]]
+        });
+        // 添加按钮点击事件
+        $('#issue-btn-add').click(function () {
+            showEditModel();
+        });
+
+        // 工具条点击事件
+        table.on('tool(issue-table)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'edit') { // 修改
+                showEditModel(data);
+            } else if (layEvent === 'delete') { // 重置密码
+                layer.confirm('确定删除此数据吗？', function (i) {
+                    layer.close(i);
+                    layer.load(2);
+                    $.post('/sys/issue/delete', {
+                        issueId: obj.data.id
+                    }, function (data) {
+                        layer.closeAll('loading');
+                        if (data.code === 1) {
+                            obj.del();
+                            layer.msg(data.msg, {icon: 1});
+                        } else {
+                            layer.msg(data.msg, {icon: 2});
+                        }
+                    });
+                });
+            }
+        });
+
+        // 显示表单弹窗
+        var showEditModel = function (data) {
+            var title = data ? '修改常见问题' : '添加常见问题';
+            admin.putTempData('t_issue', data);
+            admin.popupCenter({
+                title: title,
+                path: '/sys/issue/editForm',
+                area: ['800px', '600px'],
+                finish: function () {
+                    table.reload('issue-table', {});
+                }
+            });
+        };
+
+    })
+</script>
