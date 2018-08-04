@@ -17,10 +17,6 @@ import java.time.LocalDate;
 @Table(name = "t_product")
 public class Product extends BaseEntity {
     /**
-     * 商品编号
-     */
-    private String sn;
-    /**
      * 商品名称
      */
     private String name;

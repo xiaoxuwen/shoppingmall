@@ -14,7 +14,7 @@
     <div class="layui-card-body">
         <div class="layui-form toolbar">
             搜索：
-            <input id="name" class="layui-input search-input" type="text" placeholder="店铺名称"/>&emsp;
+            <input id="name" class="layui-input search-input" type="text" placeholder="产品名称"/>&emsp;
             <button id="product-btn-search" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
             <button id="product-btn-add" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
         </div>
@@ -24,13 +24,24 @@
 </div>
 <!-- 表格操作列 -->
 <script type="text/html" id="product-table-bar">
-    <a class="layui-btn layui-btn-xs" lay-event="product-detail">详情</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
 </script>
 <script type="text/html" id="product-tpl-pic">
-    <div><img src="{{d.picUrl}}" height="100%" width="40%"></div>
+    <div><img src="{{d.picUrl}}" height="100%" width="100%"></div>
+</script>
+<script id="product-during" type="text/html">
+    {{# if (d.during=== 1) { }}
+    <span>永久</span>
+    {{# } else if(d.during=== 2) { }}
+    <span>{{d.startDate}}至{{d.product.endDate}}</span>
+    {{# } }}
 </script>
 
+<!-- 表格状态列 -->
+<script type="text/html" id="product-tpl-state">
+    <input type="checkbox" lay-filter="product-tpl-state" value="{{d.id}}" lay-skin="switch" lay-text="上架|下架"
+           {{d.isOnSale==true?'checked':''}}/>
+</script>
 <script>
     layui.use(['form', 'table', 'util', 'admin', 'element'], function () {
         var form = layui.form;
@@ -53,14 +64,12 @@
                     templet: '#product-tpl-pic'
                 },
                 {field: 'name', title: '产品名称'},
-                {field: 'fen', title: '份数'},
                 {field: 'retailPrice', title: '原价格'},
                 {field: 'counterPrice', title: '会员价格'},
-                {field: 'during', title: '使用期限'},
+                {field: 'fen', title: '剩余份数'},
+                {field: 'during', title: '产品有效期', templet: '#product-during'},
                 {field: 'priority', title: '排序号'},
-                {field: 'isOnSale', title: '是否上架'},
-                {field: 'categoryId', title: '所属分类'},
-                {field: 'shopId', title: '所属店铺'},
+                {field: 'isOnSale', title: '是否上架',templet: '#product-tpl-state'},
                 {align: 'center', toolbar: '#product-table-bar', title: '操作'}
             ]]
         });
@@ -104,6 +113,25 @@
             } else if (layEvent === 'edit') { // 修改
                 showEditModel(data);
             }
-        })
+        });
+
+        // 修改ad状态
+        form.on('switch(product-tpl-state)', function (obj) {
+            layer.load(2);
+            $.post('/sys/product/updateStatus', {
+                productId: obj.elem.value,
+                status: obj.elem.checked
+            }, function (data) {
+                layer.closeAll('loading');
+                if (data.code === 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    // table.reload('table-ad', {});
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                    $(obj.elem).prop('checked', !obj.elem.checked);
+                    form.render('checkbox');
+                }
+            });
+        });
     });
 </script>

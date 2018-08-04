@@ -3,7 +3,6 @@
 <mapper namespace="com.etn.shoppingmall.core.mapper.ProductMapper">
     <resultMap id="BaseResultMap" type="com.etn.shoppingmall.core.entity.Product">
         <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="sn" jdbcType="VARCHAR" property="sn"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="brief" jdbcType="VARCHAR" property="brief"/>
         <result column="fen" jdbcType="INTEGER" property="fen"/>

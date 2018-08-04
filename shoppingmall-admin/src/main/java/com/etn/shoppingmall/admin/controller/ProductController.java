@@ -1,5 +1,6 @@
 package com.etn.shoppingmall.admin.controller;
 
+import com.etn.shoppingmall.common.util.ResponseUtil;
 import com.etn.shoppingmall.core.entity.Product;
 import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.model.SystemContext;
@@ -43,5 +44,25 @@ public class ProductController {
         SystemContext.setSort("priority");
         SystemContext.setOrder("desc");
         return productService.find(name);
+    }
+
+    /**
+     * 上下架
+     *
+     * @param productId 产品id
+     * @param status
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/updateStatus")
+    public ResponseUtil updateStatus(Integer productId, Boolean status) {
+        Product product = new Product();
+        product.setId(productId);
+        product.setIsOnSale(status);
+        if (productService.update(product)) {
+            return ResponseUtil.ok(1, "操作成功");
+        } else {
+            return ResponseUtil.fail(0, "修改失败");
+        }
     }
 }

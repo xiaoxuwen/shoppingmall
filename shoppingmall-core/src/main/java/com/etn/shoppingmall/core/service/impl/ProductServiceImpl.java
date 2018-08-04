@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
 
-        if (!StringUtils.isEmpty(name)) criteria.andLike("name", name);
+        if (!StringUtils.isEmpty(name)) criteria.andLike("name", "%" + name + "%");
 
         if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
             example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());

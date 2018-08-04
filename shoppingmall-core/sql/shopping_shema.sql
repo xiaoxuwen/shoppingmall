@@ -117,7 +117,6 @@ CREATE TABLE `t_product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) DEFAULT '0' COMMENT '产品所属类目ID',
   `shop_id` int(11) DEFAULT '0' COMMENT '产品所属店铺ID',
-  `sn` varchar(63) NOT NULL DEFAULT '' COMMENT '产品编号',
   `name` varchar(127) NOT NULL DEFAULT '' COMMENT '产品名称',
   `brief` varchar(255) DEFAULT '' COMMENT '产品简介',
   `info` text COMMENT '使用须知',
@@ -136,7 +135,6 @@ CREATE TABLE `t_product` (
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
   PRIMARY KEY (`id`),
-  KEY `product_sn` (`sn`),
   KEY `cat_id` (`category_id`),
   KEY `shop_id` (`shop_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='产品基本信息表';
@@ -151,6 +149,7 @@ CREATE TABLE `t_order` (
   `qr_code_url` varchar(255) DEFAULT NULL COMMENT '订单二维码链接',
   `product_id` int(11) DEFAULT '0' COMMENT '预定产品ID',
   `shop_id` int(11) DEFAULT '0' COMMENT '订单所属店铺ID',
+  'order_type' int(11) COMMENT '订单类型，1 优惠产品订单 2 拼团订单 3 砍价订单',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`),
@@ -194,3 +193,82 @@ CREATE TABLE `t_act` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='活动专场表';
+
+DROP TABLE IF EXISTS `t_bargain`;
+CREATE TABLE `t_bargain` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `shop_id` int(11) DEFAULT '0' COMMENT '产品所属店铺ID',
+  `name` varchar(127) NOT NULL DEFAULT '' COMMENT '产品名称',
+  `brief` varchar(255) DEFAULT '' COMMENT '产品简介',
+  `info` text COMMENT '使用须知',
+  `fen` int(11) DEFAULT '0' COMMENT '份数',
+  `content` text COMMENT '产品详细介绍，是富文本格式',
+  `pic_url` varchar(255) DEFAULT NULL COMMENT '产品页面产品图片',
+  `gallery` varchar(1023) DEFAULT NULL COMMENT '产品宣传图片列表',
+  `keywords` varchar(255) DEFAULT '' COMMENT '产品关键字，采用逗号间隔',
+  `is_on_sale` tinyint(1) DEFAULT '1' COMMENT '是否上架',
+  `priority` int(11) DEFAULT '0' COMMENT '排序',
+  `price` decimal(10,2) DEFAULT '0.00' COMMENT '价格',
+  `low_price` decimal(10,2) DEFAULT '0.00' COMMENT '砍价最低价格',
+  `now_price` decimal(10,2) DEFAULT '0.00' COMMENT '现价',
+  `people` int(11) DEFAULT '0' COMMENT '砍价人数设置',
+  `join_people` int(11) DEFAULT '0' COMMENT '已参与人数',
+  `during` tinyint(3) DEFAULT '1' COMMENT '活动时间，1.永久 2.自定义',
+  `start_date` date DEFAULT NULL COMMENT '活动开始时间',
+  `end_date` date DEFAULT NULL COMMENT '活动结束时间',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
+  PRIMARY KEY (`id`),
+  KEY `shop_id` (`shop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='砍价产品表';
+
+DROP TABLE IF EXISTS `t_bargain_user`;
+CREATE TABLE `t_bargain_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) DEFAULT '0' COMMENT '产品ID',
+  `user_id` int(11) DEFAULT '0' COMMENT '用户ID',
+  `price` decimal(10,2) DEFAULT '0.00' COMMENT '砍价价格',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='砍价产品用户关联表';
+
+DROP TABLE IF EXISTS `t_collage`;
+CREATE TABLE `t_bargain` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `shop_id` int(11) DEFAULT '0' COMMENT '产品所属店铺ID',
+  `name` varchar(127) NOT NULL DEFAULT '' COMMENT '产品名称',
+  `brief` varchar(255) DEFAULT '' COMMENT '产品简介',
+  `info` text COMMENT '使用须知',
+  `fen` int(11) DEFAULT '0' COMMENT '份数',
+  `content` text COMMENT '产品详细介绍，是富文本格式',
+  `pic_url` varchar(255) DEFAULT NULL COMMENT '产品页面产品图片',
+  `gallery` varchar(1023) DEFAULT NULL COMMENT '产品宣传图片列表',
+  `keywords` varchar(255) DEFAULT '' COMMENT '产品关键字，采用逗号间隔',
+  `is_on_sale` tinyint(1) DEFAULT '1' COMMENT '是否上架',
+  `priority` int(11) DEFAULT '0' COMMENT '排序',
+  `price` decimal(10,2) DEFAULT '0.00' COMMENT '价格',
+  `people` int(11) DEFAULT '0' COMMENT '拼团人数设置',
+  `join_people` int(11) DEFAULT '0' COMMENT '已参与人数',
+  `during` tinyint(3) DEFAULT '1' COMMENT '活动时间，1.永久 2.自定义',
+  `start_date` date DEFAULT NULL COMMENT '活动开始时间',
+  `end_date` date DEFAULT NULL COMMENT '活动结束时间',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
+  PRIMARY KEY (`id`),
+  KEY `shop_id` (`shop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='拼团产品表';
+
+DROP TABLE IF EXISTS `t_collage_user`;
+CREATE TABLE `t_collage_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) DEFAULT '0' COMMENT '产品ID',
+  `user_id` int(11) DEFAULT '0' COMMENT '用户ID',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='拼团产品用户关联表';
