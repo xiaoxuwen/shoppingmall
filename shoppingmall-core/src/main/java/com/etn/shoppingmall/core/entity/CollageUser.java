@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.persistence.Table;
 
 /**
- * Description:
+ * Description:参与拼团的用户实体类
  * User: xiaoxuwen
  * Date: 2018/8/6  22:09
  * Modified By:
