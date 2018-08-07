@@ -84,4 +84,9 @@ public class Product extends BaseEntity {
      * 商品所属店铺ID
      */
     private Integer shopId;
+    /**
+     * 折扣
+     */
+    private Integer discount;
+
 }

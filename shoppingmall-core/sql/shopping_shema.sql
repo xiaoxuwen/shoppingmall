@@ -117,6 +117,7 @@ CREATE TABLE `t_product` (
   `priority` int(11) DEFAULT '0' COMMENT '排序',
   `retail_price` decimal(10,2) DEFAULT '0.00' COMMENT '零售价格',
   `counter_price` decimal(10,2) DEFAULT '0.00' COMMENT '会员价格',
+  `discount` int(11) DEFAULT '100' COMMENT '折扣',
   `during` tinyint(3) DEFAULT '1' COMMENT '使用期限，1.永久 2.自定义',
   `start_date` date DEFAULT NULL COMMENT '产品开始使用时间',
   `end_date` date DEFAULT NULL COMMENT '产品过期时间',
