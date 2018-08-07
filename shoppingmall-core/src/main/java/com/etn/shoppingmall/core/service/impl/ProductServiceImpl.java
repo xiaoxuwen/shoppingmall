@@ -76,4 +76,30 @@ public class ProductServiceImpl implements ProductService {
         PageInfo<Product> pageList = new PageInfo<>(list);
         return new Pager<>(pageList.getTotal(), list);
     }
+
+    @Override
+    public List<Product> listDiscountProduct(String name) {
+        return null;
+    }
+
+    /**
+     * 距离最近的产品
+     *
+     * @return
+     */
+    @Override
+    public List<Product> listDistanceProduct(String name) {
+        return null;
+    }
+
+    /**
+     * 根据行业获取产品
+     *
+     * @param categoryId 行业id
+     * @return
+     */
+    @Override
+    public List<Product> listProduct(Integer categoryId) {
+        return null;
+    }
 }

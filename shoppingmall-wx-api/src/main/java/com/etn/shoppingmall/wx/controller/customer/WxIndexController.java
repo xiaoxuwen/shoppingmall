@@ -1,11 +1,10 @@
 package com.etn.shoppingmall.wx.controller.customer;
 
 import com.etn.shoppingmall.common.util.ResponseUtil;
-import com.etn.shoppingmall.core.service.AdService;
-import com.etn.shoppingmall.core.service.CategoryService;
-import com.etn.shoppingmall.core.service.ProductService;
+import com.etn.shoppingmall.core.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +18,7 @@ import java.util.Map;
  * Version: V1.0
  */
 @RestController
-@RequestMapping("/wx/customer")
+@RequestMapping("/wx/user")
 public class WxIndexController {
     @Autowired
     private AdService adService;
@@ -27,9 +26,13 @@ public class WxIndexController {
     private CategoryService categoryService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private ShopService shopService;
+    @Autowired
+    private ActService actService;
 
     /**
-     * 首页信息(广告数据、行业属性列表、折扣最低的产品)
+     * 1、首页信息(广告数据、行业属性列表、折扣最低的产品)
      *
      * @return
      */
@@ -38,7 +41,75 @@ public class WxIndexController {
         Map<String, Object> data = new HashMap<>();
         data.put("ads", adService.listAd());
         data.put("categorys", categoryService.listCategory());
-        data.put("products", "");
+        data.put("products", productService.listDiscountProduct(null));
         return ResponseUtil.ok(data);
+    }
+
+    /**
+     * 2、折扣最低的产品
+     *
+     * @param name 产品名称
+     * @return
+     */
+    @PostMapping
+    public ResponseUtil discountProduct(String name) {
+        return ResponseUtil.ok(productService.listDiscountProduct(name));
+    }
+
+    /**
+     * 3、距离最近的产品(用户与店铺的距离)
+     *
+     * @param name 产品名称
+     * @return
+     */
+    @PostMapping("/distanceProduct")
+    public ResponseUtil distanceProduct(String name) {
+
+        return ResponseUtil.ok(productService.listDistanceProduct(name));
+    }
+
+    /**
+     * 4、人气最旺的店铺(店铺的订单数量降序)
+     *
+     * @param name 产品名称
+     * @return
+     */
+    @PostMapping("/hotShop")
+    public ResponseUtil hotShop(String name) {
+
+        return ResponseUtil.ok(shopService.listHotShop(name));
+    }
+
+    /**
+     * 5、广告链接-活动专场
+     *
+     * @return
+     */
+    @GetMapping("/act")
+    public ResponseUtil act() {
+
+        return ResponseUtil.ok(actService.listAct());
+    }
+
+    /**
+     * 6、广告链接-新店展示
+     *
+     * @return
+     */
+    @GetMapping("/newShop")
+    public ResponseUtil newShop() {
+
+        return ResponseUtil.ok(shopService.listNewShop());
+    }
+
+    /**
+     * 7、产品筛选（行业属性筛选）
+     *
+     * @param categoryId 行业属性id
+     * @return
+     */
+    @PostMapping("/listProduct")
+    public ResponseUtil listProduct(Integer categoryId) {
+        return ResponseUtil.ok(productService.listProduct(categoryId));
     }
 }

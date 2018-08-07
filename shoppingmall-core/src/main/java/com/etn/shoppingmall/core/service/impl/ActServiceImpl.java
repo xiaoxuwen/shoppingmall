@@ -1,7 +1,6 @@
 package com.etn.shoppingmall.core.service.impl;
 
 import com.etn.shoppingmall.core.entity.Act;
-import com.etn.shoppingmall.core.entity.Ad;
 import com.etn.shoppingmall.core.mapper.ActMapper;
 import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.model.SystemContext;
@@ -58,7 +57,7 @@ public class ActServiceImpl implements ActService {
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
     public Pager<Act> find() {
-        Example example = new Example(Ad.class);
+        Example example = new Example(Act.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
 
@@ -71,6 +70,19 @@ public class ActServiceImpl implements ActService {
         PageInfo<Act> pageList = new PageInfo<>(list);
 
         return new Pager<>(pageList.getTotal(), list);
+    }
+
+    @Override
+    public List<Act> listAct() {
+        Example example = new Example(Act.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deleted", false);
+
+        if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
+            example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
+        }
+
+        return actMapper.selectByExample(example);
     }
 
 }

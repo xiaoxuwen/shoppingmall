@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/wx/customer")
+@RequestMapping("/wx/user")
 public class WxAuthController {
     private final Log logger = LogFactory.getLog(WxAuthController.class);
 
@@ -41,7 +41,7 @@ public class WxAuthController {
     private WxMaService wxService;
 
     /**
-     * 微信登录
+     * 1、用户微信登录
      *
      * @param wxLoginInfo 请求内容，{ code: xxx, userInfo: xxx }
      * @return 登录结果

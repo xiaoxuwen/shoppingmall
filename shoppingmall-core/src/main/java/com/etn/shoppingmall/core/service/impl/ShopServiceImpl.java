@@ -65,4 +65,19 @@ public class ShopServiceImpl implements ShopService {
         return shopMapper.update(shop);
     }
 
+    /**
+     * 人气最旺的店铺
+     *
+     * @return
+     */
+    @Override
+    public List<Shop> listHotShop(String name) {
+        return null;
+    }
+
+    @Override
+    public List<Shop> listNewShop() {
+        return null;
+    }
+
 }

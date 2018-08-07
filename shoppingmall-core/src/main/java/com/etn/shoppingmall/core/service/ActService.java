@@ -3,6 +3,8 @@ package com.etn.shoppingmall.core.service;
 import com.etn.shoppingmall.core.entity.Act;
 import com.etn.shoppingmall.core.model.Pager;
 
+import java.util.List;
+
 /**
  * Description:广告Service
  * User: xiaoxuwen
@@ -16,4 +18,6 @@ public interface ActService extends BaseService<Act> {
      * @return
      */
     Pager<Act> find();
+
+    List<Act> listAct();
 }
