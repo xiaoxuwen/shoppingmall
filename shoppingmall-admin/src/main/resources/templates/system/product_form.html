@@ -163,7 +163,16 @@
         var upload = layui.upload;
         var formSelects = layui.formSelects;
         var laydate = layui.laydate;
-        var layedit = layui.layedit
+        var layedit = layui.layedit;
+
+        var url = '/sys/product/add';
+        // 回显ad数据
+        var product = admin.getTempData('t_product');
+        if (product) {
+            url = '/sys/product/update';
+            $('#demo1').attr("src", product.picUrl);
+            form.val('product-form', product);
+        }
 
         form.render('radio');
         formSelects.btns('shopId', ['remove']);
@@ -187,16 +196,10 @@
                 ,type: 'post' //默认post
             }
         });
-        layedit.build('LAY_demo1');
+        var index = layedit.build('LAY_demo1');
+        $("#LAY_demo1").val(layedit.getContent(index));
 
-        var url = '/sys/product/add';
-        // 回显ad数据
-        var product = admin.getTempData('t_product');
-        if (product) {
-            url = '/sys/product/update';
-            $('#demo1').attr("src", product.picUrl);
-            form.val('product-form', product);
-        }
+
 
         // 表单提交事件
         form.on('submit(product-form-submit)', function (data) {
