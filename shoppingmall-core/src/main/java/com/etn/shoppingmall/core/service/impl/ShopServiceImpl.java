@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -71,13 +73,18 @@ public class ShopServiceImpl implements ShopService {
      * @return
      */
     @Override
-    public List<Shop> listHotShop(String name) {
-        return null;
-    }
+    public List<Shop> listShop(String name) {
+        Example example = new Example(Shop.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deleted", false);
 
-    @Override
-    public List<Shop> listNewShop() {
-        return null;
+        if (!StringUtils.isEmpty(name)) criteria.andLike("name", "%" + name + "%");
+
+        if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
+            example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
+        }
+
+        return shopMapper.selectByExample(example);
     }
 
 }

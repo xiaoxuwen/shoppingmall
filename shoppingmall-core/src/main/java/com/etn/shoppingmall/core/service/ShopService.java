@@ -24,11 +24,9 @@ public interface ShopService extends BaseService<Shop> {
     boolean update(Shop shop);
 
     /**
-     * 人气最旺的店铺
+     * 店铺
      *
      * @return
      */
-    List<Shop> listHotShop(String name);
-
-    List<Shop> listNewShop();
+    List<Shop> listShop(String name);
 }

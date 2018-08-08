@@ -79,7 +79,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> listDiscountProduct(String name) {
-        return null;
+        Example example = new Example(Product.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deleted", false);
+
+        if (!StringUtils.isEmpty(name)) criteria.andLike("name", "%" + name + "%");
+
+        example.setOrderByClause("discount" + " " + "desc");
+        return productMapper.selectByExample(example);
     }
 
     /**
@@ -100,6 +107,10 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<Product> listProduct(Integer categoryId) {
-        return null;
+        Example example = new Example(Product.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deleted", false);
+        criteria.andEqualTo("categoryId", categoryId);
+        return productMapper.selectByExample(example);
     }
 }

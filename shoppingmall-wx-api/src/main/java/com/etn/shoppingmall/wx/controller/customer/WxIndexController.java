@@ -1,6 +1,7 @@
 package com.etn.shoppingmall.wx.controller.customer;
 
 import com.etn.shoppingmall.common.util.ResponseUtil;
+import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,7 +52,7 @@ public class WxIndexController {
      * @param name 产品名称
      * @return
      */
-    @PostMapping
+    @PostMapping("/discountProduct")
     public ResponseUtil discountProduct(String name) {
         return ResponseUtil.ok(productService.listDiscountProduct(name));
     }
@@ -76,8 +77,9 @@ public class WxIndexController {
      */
     @PostMapping("/hotShop")
     public ResponseUtil hotShop(String name) {
-
-        return ResponseUtil.ok(shopService.listHotShop(name));
+        SystemContext.setSort("order_num");
+        SystemContext.setOrder("desc");
+        return ResponseUtil.ok(shopService.listShop(name));
     }
 
     /**
@@ -87,7 +89,8 @@ public class WxIndexController {
      */
     @GetMapping("/act")
     public ResponseUtil act() {
-
+        SystemContext.setSort("priority");
+        SystemContext.setOrder("desc");
         return ResponseUtil.ok(actService.listAct());
     }
 
@@ -98,8 +101,9 @@ public class WxIndexController {
      */
     @GetMapping("/newShop")
     public ResponseUtil newShop() {
-
-        return ResponseUtil.ok(shopService.listNewShop());
+        SystemContext.setSort("add_time");
+        SystemContext.setOrder("desc");
+        return ResponseUtil.ok(shopService.listShop(null));
     }
 
     /**
