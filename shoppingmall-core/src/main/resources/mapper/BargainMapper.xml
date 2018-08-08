@@ -22,6 +22,7 @@
         <result column="during" jdbcType="INTEGER" property="during"/>
         <result column="start_date" jdbcType="DATE" property="startDate"/>
         <result column="end_date" jdbcType="DATE" property="endDate"/>
+        <result column="valid_date" jdbcType="VARCHAR" property="validDate"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
         <result column="shop_id" jdbcType="INTEGER" property="shopId"/>

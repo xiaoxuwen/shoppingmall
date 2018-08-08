@@ -50,77 +50,83 @@
             </div>
         </div>
     </div>
-    /**
-    * 商品所属类目ID
-    */
-    private Integer categoryId;
-    /**
-    * 商品所属店铺ID
-    */
-    private Integer shopId;
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属分类</label>
+        <div class="layui-input-block">
+            <select name="categoryId" xm-select="categoryId" xm-select-search xm-select-radio lay-verify="required">
+                <% for(category in categories) { %>
+                <option value="${category.id}">${category.name}</option>
+                <% } %>
+            </select>
+        </div>
+    </div>
+
     <div class="layui-form-item">
         <label class="layui-form-label">所属店铺</label>
         <div class="layui-input-block">
-            <select name="shopId" xm-select="shopId" lay-verify="required">
+            <select name="shopId" xm-select="shopId" xm-select-search xm-select-radio lay-verify="required" >
                 <% for(shop in shops) { %>
                 <option value="${shop.id}">${shop.name}</option>
                 <% } %>
             </select>
         </div>
     </div>
+
     <div class="layui-form-item">
-        <label class="layui-form-label">所属分类</label>
+        <label class="layui-form-label">产品名称</label>
         <div class="layui-input-block">
-            <input name="mobile" placeholder="请输入店铺电话" type="text" class="layui-input" lay-verify="required"/>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">商品名称</label>
-        <div class="layui-input-block">
-            <input name="name" placeholder="请输入商品名称" type="text" class="layui-input" lay-verify="required"/>
+            <input name="name" placeholder="请输入产品名称" type="text" class="layui-input" lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">原价格</label>
         <div class="layui-input-block">
-            <input name="retailPrice" placeholder="请输入店长姓名" type="text" class="layui-input" lay-verify="required"/>
+            <input name="retailPrice" placeholder="请输入产品价格" type="number" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">折扣</label>
+        <div class="layui-input-block">
+            <input name="discount" placeholder="请输入折扣(百分比，如：50)" type="number" class="layui-input" lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">会员价格</label>
         <div class="layui-input-block">
-            <input name="counterPrice" placeholder="请输入手机号" type="text" class="layui-input" lay-verify="required|phone"/>
+            <input name="counterPrice" placeholder="请输入会员价格" type="number" class="layui-input" lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">商品份数</label>
+        <label class="layui-form-label">产品份数</label>
         <div class="layui-input-block">
-            <input name="fen" placeholder="请输入商品份数" type="number" class="layui-input" lay-verify="required"/>
+            <input name="fen" placeholder="请输入产品份数" type="number" class="layui-input" lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">商品关键字</label>
+        <label class="layui-form-label">产品关键字</label>
         <div class="layui-input-block">
-            <input name="keywords" placeholder="请输入商品名称" type="text" class="layui-input" lay-verify="required"/>
+            <input id="tokenfield" name="keywords" placeholder="请输入产品关键字(4个,以回车符分割)" type="text" class="layui-input" data-am-tagsinput lay-verify="required"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">商品有效期</label>
+        <label class="layui-form-label">排序号</label>
         <div class="layui-input-block">
-            <input name="during" placeholder="请输入商品名称" type="text" class="layui-input" lay-verify="required"/>
+            <input name="priority" placeholder="数字越大，排序越靠前" type="number" class="layui-input"
+                   lay-verify="required|number"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">商品有效期</label>
+        <label class="layui-form-label">使用有效期</label>
         <div class="layui-input-block">
-            <input name="during" placeholder="请输入商品名称" type="text" class="layui-input" lay-verify="required"/>
+            <input type="radio" name="during" value="1" title="永久" checked="">
+            <input type="radio" name="during" value="2" title="自定义">
         </div>
     </div>
+
     <div class="layui-form-item">
-        <label class="layui-form-label">时间设置</label>
+        <label class="layui-form-label">有效期设置</label>
         <div class="layui-input-block">
-            <input name="startDate" placeholder="请输入商品名称" type="text" class="layui-input" lay-verify="required"/>
-            <input name="endDate" placeholder="请输入商品名称" type="text" class="layui-input" lay-verify="required"/>
+            <input name="validDate" placeholder="请输入有效期" type="text" class="layui-input" lay-verify="required" id="test10"/>
         </div>
     </div>
     <div class="layui-form-item">
@@ -138,16 +144,11 @@
     <div class="layui-form-item">
         <label class="layui-form-label">商品详情</label>
         <div class="layui-input-block">
-            <input name="content" placeholder="请输入纬度" type="number" class="layui-input" lay-verify="required"/>
+            <textarea class="layui-textarea" name="content" lay-verify="content" id="LAY_demo1">
+            </textarea>
         </div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">排序号</label>
-        <div class="layui-input-block">
-            <input name="priority" placeholder="数字越大，排序越靠前" type="number" class="layui-input"
-                   lay-verify="required|number"/>
-        </div>
-    </div>
+
     <div class="layui-form-item model-form-footer">
         <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
         <button class="layui-btn" lay-filter="product-form-submit" lay-submit>保存</button>
@@ -155,13 +156,38 @@
 </form>
 
 <script>
-    layui.use(['layer', 'admin', 'form', 'upload', 'formSelects'], function () {
+    layui.use(['layer', 'admin', 'form', 'upload', 'formSelects','laydate','layedit'], function () {
         var layer = layui.layer;
         var admin = layui.admin;
         var form = layui.form;
         var upload = layui.upload;
+        var formSelects = layui.formSelects;
+        var laydate = layui.laydate;
+        var layedit = layui.layedit
 
         form.render('radio');
+        formSelects.btns('shopId', ['remove']);
+        formSelects.btns('categoryId', ['remove']);
+        formSelects.render('shopId');
+        formSelects.render('categoryId');
+
+        $('#tokenfield').tagsinput();
+
+        //日期时间范围
+        laydate.render({
+            elem: '#test10'
+            ,type: 'datetime'
+            ,range: '~'
+        });
+
+        //上传图片,必须放在 创建一个编辑器前面
+        layedit.set({
+            uploadImage: {
+                url: '/os/storage/upload' //接口url
+                ,type: 'post' //默认post
+            }
+        });
+        layedit.build('LAY_demo1');
 
         var url = '/sys/product/add';
         // 回显ad数据
@@ -169,14 +195,6 @@
         if (product) {
             url = '/sys/product/update';
             $('#demo1').attr("src", product.picUrl);
-            if (product.picUrls!=null&& product.picUrls!=undefined) {
-                for (var i = 0; i < product.picUrls.length; i++) {
-                    var l1 = product.picUrls[i].lastIndexOf("/");
-                    var l2 = product.picUrls[i].lastIndexOf(".");
-                    var res = product.picUrls[i].substring(l1 + 1, l2);
-                    $('#upload_img_list').append('<dd id="' + res + '"><div class="operate"><i onclick=UPLOAD_IMG_DEL("' + res + '") class="close layui-icon"></i></div><img src="' + product.picUrls[i] + '" class="img" ><input type="hidden" name="picUrls[]" value="' + product.picUrls[i] + '" /></dd>');
-                }
-            }
             form.val('product-form', product);
         }
 

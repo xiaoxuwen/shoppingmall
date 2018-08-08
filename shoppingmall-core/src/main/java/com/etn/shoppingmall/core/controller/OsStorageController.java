@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/os/storage")
@@ -45,6 +47,26 @@ public class OsStorageController {
     public Object list(String key, String name) {
         Pager<Storage> pager = storageService.listSelective(key, name);
         return ResponseUtil.ok(pager);
+    }
+
+    @PostMapping("/upload")
+    public Object upload(@RequestParam("file") MultipartFile file) {
+        String originalFilename = file.getOriginalFilename();
+        String key = generateKey(originalFilename);
+        localOsService.store(file, key);
+        String url = localOsService.generateUrl(key);
+        Storage storage = new Storage();
+        storage.setName(originalFilename);
+        storage.setSize((int) file.getSize());
+        storage.setType(file.getContentType());
+        storage.setAddTime(LocalDateTime.now());
+        storage.setIkey(key);
+        storage.setUrl(url);
+        storageService.add(storage);
+        Map<String, Object> map = new HashMap<>();
+        map.put("src", storage.getUrl());
+        map.put("title", storage.getName());
+        return new ResponseUtil(0,"",map);
     }
 
     @PostMapping("/create")

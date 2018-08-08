@@ -11,8 +11,6 @@ public class UserTokenManager {
     private static Map<Integer, UserToken> idMap = new HashMap<>();
 
     public static Integer getUserId(String token) {
-
-
         UserToken userToken = tokenMap.get(token);
         if (userToken == null) {
             return null;

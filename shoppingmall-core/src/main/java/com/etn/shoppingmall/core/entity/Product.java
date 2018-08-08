@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Description:产品基本信息实体类
@@ -71,11 +72,11 @@ public class Product extends BaseEntity {
     /**
      * 商品开始使用时间
      */
-    private LocalDate startDate;
+    private LocalDateTime startDate;
     /**
      * 商品过期时间
      */
-    private LocalDate endDate;
+    private LocalDateTime endDate;
     /**
      * 商品所属类目ID
      */
@@ -88,5 +89,9 @@ public class Product extends BaseEntity {
      * 折扣
      */
     private Integer discount;
+    /**
+     * 有效时间
+     */
+    private String validDate;
 
 }

@@ -83,4 +83,8 @@ public class Collage extends BaseEntity {
      * 活动结束时间
      */
     private LocalDateTime endDate;
+    /**
+     * 有效时间
+     */
+    private String validDate;
 }

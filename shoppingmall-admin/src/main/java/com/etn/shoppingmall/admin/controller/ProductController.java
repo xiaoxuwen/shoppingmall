@@ -1,18 +1,25 @@
 package com.etn.shoppingmall.admin.controller;
 
 import com.etn.shoppingmall.common.util.ResponseUtil;
+import com.etn.shoppingmall.core.entity.Category;
 import com.etn.shoppingmall.core.entity.Product;
+import com.etn.shoppingmall.core.entity.Shop;
 import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.model.SystemContext;
+import com.etn.shoppingmall.core.service.CategoryService;
 import com.etn.shoppingmall.core.service.ProductService;
+import com.etn.shoppingmall.core.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * Description:产品Controller
@@ -25,6 +32,10 @@ import java.time.LocalDateTime;
 public class ProductController {
     @Autowired
     private ProductService productService;
+    @Autowired
+    private ShopService shopService;
+    @Autowired
+    private CategoryService categoryService;
 
     @RequestMapping
     public String index() {
@@ -32,7 +43,11 @@ public class ProductController {
     }
 
     @RequestMapping("/editForm")
-    public String editForm() {
+    public String editForm(Model model) {
+        List<Shop> shops = shopService.listShop(null);
+        model.addAttribute("shops", shops);
+        List<Category> categories = categoryService.list();
+        model.addAttribute("categories", categories);
         return "system/product_form.html";
     }
 
@@ -52,6 +67,9 @@ public class ProductController {
     @ResponseBody
     @PostMapping("/add")
     public ResponseUtil add(Product product) {
+        String[] str = product.getValidDate().split(" ~ ");
+        product.setStartDate(LocalDateTime.parse(str[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        product.setEndDate(LocalDateTime.parse(str[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         product.setDeleted(false);
         product.setAddTime(LocalDateTime.now());
         if (productService.add(product)) {
@@ -93,4 +111,5 @@ public class ProductController {
             return ResponseUtil.fail(0, "修改失败");
         }
     }
+
 }
