@@ -1,18 +1,11 @@
 package com.etn.shoppingmall.wx.controller.seller;
 
 import com.etn.shoppingmall.common.util.ResponseUtil;
-import com.etn.shoppingmall.core.entity.Order;
-import com.etn.shoppingmall.core.entity.Product;
-import com.etn.shoppingmall.core.model.Pager;
-import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.OrderService;
 import com.etn.shoppingmall.core.service.ProductService;
 import com.etn.shoppingmall.core.service.UserService;
-import com.etn.shoppingmall.wx.model.MemberStatisticsInfo;
-import com.etn.shoppingmall.wx.util.StatisticsUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -41,80 +33,57 @@ public class WxDateStatisticsController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 获取产品核销统计结果
+     * @param shopId 店铺id
+     * @return {
+     *              "prc": 5,           产品剩余数量
+     *              "pc": 6,            产品总数
+     *              "pName": "String",  产品名称
+     *              "pId": 1,           产品id
+     *              "prvc": 0,          产品未核销数量
+     *              "pvc": 1            产品核销数量
+     *          }
+     */
     @ApiOperation(value = "产品核销统计",notes = "产品核销统计的接口")
     @ApiImplicitParam(name = "shopId",value = "商铺id",required = true,dataType = "Integer",paramType = "query")
     @GetMapping("/pvs")
     public Object productVerificationStatistics(@RequestParam("shopId") Integer shopId){
-        //查询全部订单
-        SystemContext.setPageOffset(0);
-        SystemContext.setPageSize(0);
-        Pager<Order> pagerOrder = orderService.find(null,null,null);
-        //查询全部产品
-        SystemContext.setSort("priority");
-        SystemContext.setOrder("desc");
-        SystemContext.setPageOffset(0);
-        SystemContext.setPageSize(0);
-        Pager<Product> productPager = productService.find("");
-        if (pagerOrder.getCode() == -1 || productPager.getCode() == -1){
-            return ResponseUtil.fail();
+        if (shopId == null){
+            return ResponseUtil.badArgumentValue();
         }
-        if (pagerOrder.getCount() == 0){
-            return ResponseUtil.ok("暂无核销记录");
+        List<Map<String,Object>> statistics = orderService.listProductStatistics(shopId);
+        if (statistics == null){
+            return ResponseUtil.ok(0,"暂无统计信息");
         }
-        //对数据进行统计
-        StatisticsUtil sUtil = new StatisticsUtil(shopId,pagerOrder.getData(),productPager.getData());
-        return ResponseUtil.ok(sUtil.getPSI());
+        return ResponseUtil.ok(statistics);
     }
 
+
+    /**
+     *  获取会员消费统计结果
+     * @param shopId
+     * @return
+     *  {
+     *       "memberAvatarUrl": "http://127.0.0.1:8082/os/storage/fetch/ta4pmytf7ed5vhs0qss6.gif",  会员头像链接
+     *       "expenseCount": 50,      会员消费的总金额
+     *       "phone": "123456",       会员电话
+     *       "memberName": "String",  会员名
+     *       "memberId": 1            会员id
+     *     }
+     */
     @ApiOperation(value = "会员消费统计",notes = "会员消费统计的接口")
     @ApiImplicitParam(name = "shopId",value = "商铺id",required = true,dataType = "Integer",paramType = "query")
     @GetMapping("/mes")
     public Object memberExpenseStatistics(@RequestParam("shopId") Integer shopId){
-        //查询全部订单
-        SystemContext.setPageOffset(0);
-        SystemContext.setPageSize(0);
-        Pager<Order> pagerOrder = orderService.find(null,null,null);
-        List<Order> orderList = pagerOrder.getData();
-
-        if (pagerOrder.getCode() == -1){
-            return ResponseUtil.fail();
+        if (shopId == null){
+            return ResponseUtil.badArgumentValue();
         }
-        if (pagerOrder.getCount() == 0){
-            return ResponseUtil.ok("暂无会员消费记录");
+        List<Map<String,Object>> statistics = orderService.listMemberStatistics(shopId);
+        if (statistics == null){
+            return ResponseUtil.ok(0,"暂无统计信息");
         }
-
-        //清除其他店铺订单和非会员订单
-        Set<Integer> userIdSet = new HashSet<Integer>();
-        for (int i = orderList.size()-1; i >= 0 ; i--) {
-            if (orderList.get(i).getShop().getId() != shopId || userService.load(orderList.get(i).getUser().getId()).getUserLevel() != 1){
-                orderList.remove(i);
-            }else {
-                userIdSet.add(orderList.get(i).getUser().getId());
-            }
-        }
-
-        List<MemberStatisticsInfo> listMSI = new ArrayList<MemberStatisticsInfo>();
-        for (Integer id : userIdSet){
-            //首次初始化
-            MemberStatisticsInfo MSI = new MemberStatisticsInfo();
-            //计算每个会员的消费情况
-            for (int i = orderList.size()-1 ; i >= 0 ; i--) {
-                if (id == orderList.get(i).getUser().getId()){
-                    MSI.setMemberId(id);
-                    MSI.setMemberName(orderList.get(i).getUser().getRealName());
-                    MSI.setPhone(orderList.get(i).getUser().getPhone());
-                    BigDecimal money = productService.load(orderList.get(i).getProduct().getId()).getCounterPrice();
-                    if (MSI.getExpenseCount()!=null){
-                        money.add(MSI.getExpenseCount());
-                    }
-                    MSI.setExpenseCount(money);
-                    orderList.remove(i);
-                }
-            }
-            listMSI.add(MSI);
-        }
-
-        return ResponseUtil.ok(listMSI);
+        return ResponseUtil.ok(statistics);
     }
 
 

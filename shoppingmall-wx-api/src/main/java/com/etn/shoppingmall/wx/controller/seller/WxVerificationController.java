@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,14 +81,14 @@ public class WxVerificationController {
             return ResponseUtil.fail(0,"核销失败,订单错误:产品不存在");
         }
         //获取当前系统时间
-        LocalDate localDate = LocalDate.now();
+        LocalDateTime localDateTime = LocalDateTime.now();
         //验证预定产品是否过期或未到使用期限
         if (product.getDuring() == 2){
-            if(product.getStartDate().isAfter(localDate)){
+            if(product.getStartDate().isAfter(localDateTime)){
                 logger.info("核销失败,预定产品还未到使用时间!");
                 return ResponseUtil.fail(0,"核销失败,预定产品还未到使用时间!");
             }
-            if (product.getEndDate().isBefore(localDate)){
+            if (product.getEndDate().isBefore(localDateTime)){
                 logger.info("核销失败,预定产品已过期!");
                 return ResponseUtil.fail(0,"核销失败,预定产品已过期!");
             }
@@ -116,23 +117,7 @@ public class WxVerificationController {
     @ApiImplicitParam(name = "shopId",value = "商铺id",required = true,dataType = "Integer",paramType = "query")
     @GetMapping("/verificationRecord")
     public Object verificationRecord(@RequestParam("shopId") Integer shopId){
-        SystemContext.setPageOffset(0);
-        SystemContext.setPageSize(0);
-        Pager<Order> orderPager = orderService.find(null,null,null);
-        List<Order> orderList = orderPager.getData();
-        List<Order> endOrderList = new ArrayList<Order>();
-        //清除掉此店铺之外的订单
-        for (Order order : orderList){
-            Shop shop = order.getShop();
-            if(shop == null){
-                logger.error("订单异常:订单编号="+order.getSn()+"的商铺不存在");
-                continue;
-            }
-            if(shop.getId() == shopId && order.getStatus() == 2){
-                endOrderList.add(order);
-            }
-        }
-        orderPager.setData(endOrderList);
-        return ResponseUtil.ok(orderPager);
+        List<Order> orderList = orderService.listByStatusOrId(shopId,2);
+        return ResponseUtil.ok(orderList);
     }
 }

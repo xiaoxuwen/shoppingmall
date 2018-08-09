@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description:
@@ -61,8 +62,37 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Pager<Order> find(String realName, String phone, String sn) {
         PageHelper.startPage(SystemContext.getPageOffset(), SystemContext.getPageSize());
-        List<Order> list = orderMapper.find(realName, phone, sn);
+        List<Order> list = orderMapper.find(realName, phone, sn,null,null);
         PageInfo<Order> pageList = new PageInfo<>(list);
         return new Pager<>(pageList.getTotal(), list);
+    }
+
+    /**
+     * 根据商铺id和订单状态获取订单
+     * @param shopId 商铺id
+     * @param status 订单状态
+     * @return
+     */
+    @Override
+    public List<Order> listByStatusOrId(Integer shopId ,Integer status){
+        return orderMapper.find(null,null,null,shopId,status);
+    }
+
+    /**
+     * 获取产品核销统计
+     * @param shopId 商铺id
+     * @return 统计结果
+     */
+    public List<Map<String,Object>> listProductStatistics(Integer shopId){
+        return orderMapper.listProductStatistics(shopId);
+    }
+
+    /**
+     * 获取会员消费统计
+     * @param shopId 店铺id
+     * @return 统计结果
+     */
+    public List<Map<String,Object>> listMemberStatistics(Integer shopId){
+        return orderMapper.listMemberStatistics(shopId);
     }
 }
