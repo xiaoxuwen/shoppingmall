@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2018-07-31 18:06:47
+Date: 2018-08-09 18:01:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,7 +30,7 @@ CREATE TABLE `os_storage` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除,0.正常，1 已删除',
   PRIMARY KEY (`id`),
   KEY `ikey` (`ikey`)
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8 COMMENT='文件存储表';
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8 COMMENT='文件存储表';
 
 -- ----------------------------
 -- Records of os_storage
@@ -161,6 +161,36 @@ INSERT INTO `os_storage` VALUES ('123', 'n46k7e2bidlkgp5rvvda.png', 'ban1.png', 
 INSERT INTO `os_storage` VALUES ('124', 'he5fvy5fg6h8guvlplv1.jpg', 'bff2e49136fcef1fd829f5036e07f116.jpg', 'image/jpeg', '240054', 'http://127.0.0.1:8082/os/storage/fetch/he5fvy5fg6h8guvlplv1.jpg', '2018-07-31 17:10:13', '0');
 INSERT INTO `os_storage` VALUES ('125', 'fj5g0elpslp69pfky88z.jpg', '65091eebc48899298171c2eb6696fe27.jpg', 'image/jpeg', '179318', 'http://127.0.0.1:8082/os/storage/fetch/fj5g0elpslp69pfky88z.jpg', '2018-07-31 17:10:26', '0');
 INSERT INTO `os_storage` VALUES ('126', 'ta4pmytf7ed5vhs0qss6.gif', 'f778738c-e4f8-4870-b634-56703b4acafe.gif', 'image/gif', '58215', 'http://127.0.0.1:8082/os/storage/fetch/ta4pmytf7ed5vhs0qss6.gif', '2018-07-31 17:15:04', '0');
+INSERT INTO `os_storage` VALUES ('127', 'ug7x1p8wvg8gnm9axucq.png', 'clothes.png', 'image/png', '3364', 'http://127.0.0.1:8082/os/storage/fetch/ug7x1p8wvg8gnm9axucq.png', '2018-08-03 10:46:49', '0');
+INSERT INTO `os_storage` VALUES ('128', 'yww8yaburinu9k3a1mf9.png', 'clothes.png', 'image/png', '3364', 'http://127.0.0.1:8082/os/storage/fetch/yww8yaburinu9k3a1mf9.png', '2018-08-03 10:47:05', '0');
+INSERT INTO `os_storage` VALUES ('129', 'of2r3chsbme3c6g306qk.png', 'clothes.png', 'image/png', '3364', 'http://127.0.0.1:8082/os/storage/fetch/of2r3chsbme3c6g306qk.png', '2018-08-03 10:48:04', '0');
+INSERT INTO `os_storage` VALUES ('130', 'qdougdh8p75r1ywnfkgx.png', 'clothes.png', 'image/png', '3364', 'http://127.0.0.1:8082/os/storage/fetch/qdougdh8p75r1ywnfkgx.png', '2018-08-03 10:48:27', '0');
+INSERT INTO `os_storage` VALUES ('131', 'uo5xod9bikrvfjyld2by.png', 'my1.png', 'image/png', '3086', 'http://127.0.0.1:8082/os/storage/fetch/uo5xod9bikrvfjyld2by.png', '2018-08-03 15:32:50', '0');
+INSERT INTO `os_storage` VALUES ('132', 'xt67r6xydd28qstkysju.png', 'ban1.png', 'image/png', '248025', 'http://127.0.0.1:8082/os/storage/fetch/xt67r6xydd28qstkysju.png', '2018-08-04 15:20:32', '0');
+INSERT INTO `os_storage` VALUES ('133', 'jfwrwbfy4sjimpbcp7x4.jpg', '14925822213780237.jpg', 'image/jpeg', '220261', 'http://127.0.0.1:8082/os/storage/fetch/jfwrwbfy4sjimpbcp7x4.jpg', '2018-08-04 15:51:18', '0');
+INSERT INTO `os_storage` VALUES ('134', '359gvax9k61i61djca8z.png', 'ban1.png', 'image/png', '248025', 'http://127.0.0.1:8082/os/storage/fetch/359gvax9k61i61djca8z.png', '2018-08-04 15:51:23', '0');
+INSERT INTO `os_storage` VALUES ('135', 'gbk4fzp2udh8qsvrmsfk.jpg', '14927748974441080.jpg', 'image/jpeg', '180843', 'http://127.0.0.1:8082/os/storage/fetch/gbk4fzp2udh8qsvrmsfk.jpg', '2018-08-04 15:53:44', '0');
+INSERT INTO `os_storage` VALUES ('136', 'uwjem7qcaoik79qzn00o.jpg', '14925822213780237.jpg', 'image/jpeg', '220261', 'http://127.0.0.1:8082/os/storage/fetch/uwjem7qcaoik79qzn00o.jpg', '2018-08-04 15:53:49', '0');
+INSERT INTO `os_storage` VALUES ('137', 'fuva27cej1sogx0y8vhu.png', 'ban1.png', 'image/png', '248025', 'http://127.0.0.1:8082/os/storage/fetch/fuva27cej1sogx0y8vhu.png', '2018-08-04 16:02:10', '0');
+INSERT INTO `os_storage` VALUES ('138', 'j90xeonlwwgaqw39vnx1.png', 'ban1.png', 'image/png', '248025', 'http://127.0.0.1:8082/os/storage/fetch/j90xeonlwwgaqw39vnx1.png', '2018-08-04 16:06:41', '0');
+INSERT INTO `os_storage` VALUES ('139', '3ocpp050gw1qkiw98rj0.jpg', '14927748974441080.jpg', 'image/jpeg', '180843', 'http://127.0.0.1:8082/os/storage/fetch/3ocpp050gw1qkiw98rj0.jpg', '2018-08-04 16:28:02', '0');
+INSERT INTO `os_storage` VALUES ('140', '1kvhb6iry0q8ynypg6so.jpg', '14925822213780237.jpg', 'image/jpeg', '220261', 'http://127.0.0.1:8082/os/storage/fetch/1kvhb6iry0q8ynypg6so.jpg', '2018-08-04 16:31:26', '0');
+INSERT INTO `os_storage` VALUES ('141', 'wsp0j95bl5q4fp4avoau.png', 'ban1.png', 'image/png', '248025', 'http://127.0.0.1:8082/os/storage/fetch/wsp0j95bl5q4fp4avoau.png', '2018-08-04 16:39:29', '0');
+INSERT INTO `os_storage` VALUES ('142', 'wmfya5z75o9cpak8yuh5.jpg', '54nmo0563nda2c8zvu2y.jpg', 'image/jpeg', '130125', 'http://127.0.0.1:8082/os/storage/fetch/wmfya5z75o9cpak8yuh5.jpg', '2018-08-06 14:48:15', '0');
+INSERT INTO `os_storage` VALUES ('143', 'mmch0tu0x59xtoqxpcix.jpg', 'uwjem7qcaoik79qzn00o.jpg', 'image/jpeg', '220261', 'http://127.0.0.1:8082/os/storage/fetch/mmch0tu0x59xtoqxpcix.jpg', '2018-08-06 14:50:22', '0');
+INSERT INTO `os_storage` VALUES ('144', '5kau3umuz2dwu3iyhc6n.jpg', '1kvhb6iry0q8ynypg6so.jpg', 'image/jpeg', '220261', 'http://127.0.0.1:8082/os/storage/fetch/5kau3umuz2dwu3iyhc6n.jpg', '2018-08-06 14:51:18', '0');
+INSERT INTO `os_storage` VALUES ('145', 'i33orgxh8wg6j145ltnd.jpg', '14925822213780237.jpg', 'image/jpeg', '220261', 'http://127.0.0.1:8082/os/storage/fetch/i33orgxh8wg6j145ltnd.jpg', '2018-08-08 14:41:50', '0');
+INSERT INTO `os_storage` VALUES ('146', 'z5dhji919o7f656webkp.jpg', '14925822213780237.jpg', 'image/jpeg', '220261', 'http://127.0.0.1:8082/os/storage/fetch/z5dhji919o7f656webkp.jpg', '2018-08-08 14:49:20', '0');
+INSERT INTO `os_storage` VALUES ('147', '4yeqm9hz7byjyazizhml.jpg', '14925822213780237.jpg', 'image/jpeg', '220261', 'http://127.0.0.1:8082/os/storage/fetch/4yeqm9hz7byjyazizhml.jpg', '2018-08-08 14:58:15', '0');
+INSERT INTO `os_storage` VALUES ('148', 'bqdjkig1kctkxx03w3tp.jpg', '14927748974441080.jpg', 'image/jpeg', '180843', 'http://127.0.0.1:8082/os/storage/fetch/bqdjkig1kctkxx03w3tp.jpg', '2018-08-08 14:59:41', '0');
+INSERT INTO `os_storage` VALUES ('149', '1rw1j2i19jed4rdru4bk.jpg', '14927748974441080.jpg', 'image/jpeg', '180843', 'http://127.0.0.1:8082/os/storage/fetch/1rw1j2i19jed4rdru4bk.jpg', '2018-08-08 15:02:23', '0');
+INSERT INTO `os_storage` VALUES ('150', '7cljf4t3obbdrcietqpm.png', 'ban1.png', 'image/png', '248025', 'http://127.0.0.1:8082/os/storage/fetch/7cljf4t3obbdrcietqpm.png', '2018-08-08 15:04:34', '0');
+INSERT INTO `os_storage` VALUES ('151', 'yseavszbhktr4a1igp1y.jpg', '14927748974441080.jpg', 'image/jpeg', '180843', 'http://127.0.0.1:8082/os/storage/fetch/yseavszbhktr4a1igp1y.jpg', '2018-08-08 15:05:20', '0');
+INSERT INTO `os_storage` VALUES ('152', '33k8go4qp47pb6c96i4n.png', 'ban1.png', 'image/png', '248025', 'http://127.0.0.1:8082/os/storage/fetch/33k8go4qp47pb6c96i4n.png', '2018-08-08 15:21:03', '0');
+INSERT INTO `os_storage` VALUES ('153', 'vz2g2eebv88jcmzx5ki1.jpg', '14925822213780237.jpg', 'image/jpeg', '220261', 'http://127.0.0.1:8082/os/storage/fetch/vz2g2eebv88jcmzx5ki1.jpg', '2018-08-08 15:28:52', '0');
+INSERT INTO `os_storage` VALUES ('154', 'j2s5sifjvgi5dken2j5o.jpg', '14925822213780237.jpg', 'image/jpeg', '220261', 'http://127.0.0.1:8082/os/storage/fetch/j2s5sifjvgi5dken2j5o.jpg', '2018-08-08 15:33:56', '0');
+INSERT INTO `os_storage` VALUES ('155', '60lbr226q4v6367sr7mv.jpg', '14927748974441080.jpg', 'image/jpeg', '180843', 'http://127.0.0.1:8082/os/storage/fetch/60lbr226q4v6367sr7mv.jpg', '2018-08-08 16:00:27', '0');
+INSERT INTO `os_storage` VALUES ('156', 'm5x2o26sqdoirry11pqc.jpg', '14925822213780237.jpg', 'image/jpeg', '220261', 'http://127.0.0.1:8082/os/storage/fetch/m5x2o26sqdoirry11pqc.jpg', '2018-08-08 16:00:52', '0');
 
 -- ----------------------------
 -- Table structure for `t_act`
@@ -176,12 +206,16 @@ CREATE TABLE `t_act` (
   `priority` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  `is_on_sale` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='活动专场表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='活动专场表';
 
 -- ----------------------------
 -- Records of t_act
 -- ----------------------------
+INSERT INTO `t_act` VALUES ('1', '测试', 'http://127.0.0.1:8082/os/storage/fetch/3ocpp050gw1qkiw98rj0.jpg', '2018-08-16 - 2018-09-07', 'test', '测试', '2', '2018-08-04 16:28:07', '0', '1');
+INSERT INTO `t_act` VALUES ('2', '商城', 'http://127.0.0.1:8082/os/storage/fetch/1kvhb6iry0q8ynypg6so.jpg', '2018-08-09 - 2018-09-29', 'test', '南阳市仲景路', '1', '2018-08-04 16:31:38', '0', '1');
+INSERT INTO `t_act` VALUES ('3', '我的VIP_1型隧道', 'http://127.0.0.1:8082/os/storage/fetch/wsp0j95bl5q4fp4avoau.png', '2018-08-24 - 2018-09-28', '特', '南阳市仲景路', '3', '2018-08-04 16:39:44', '1', '1');
 
 -- ----------------------------
 -- Table structure for `t_ad`
@@ -226,24 +260,69 @@ CREATE TABLE `t_admin` (
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除,0.正常，1 已删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='管理员表';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
 -- ----------------------------
 -- Records of t_admin
 -- ----------------------------
-INSERT INTO `t_admin` VALUES ('1', 'admin', 'admin', 'admin', '123456', '2018-07-25 14:35:20', '10.12', '0', '2018-07-25 14:35:32', '0');
-INSERT INTO `t_admin` VALUES ('2', '2', '2', '2', '2', '2018-07-25 15:16:58', '2', '0', '2018-07-25 15:17:02', '0');
-INSERT INTO `t_admin` VALUES ('3', '3', '3', '3', '3', '2018-07-25 15:17:10', '3', '0', '2018-07-25 15:17:13', '0');
-INSERT INTO `t_admin` VALUES ('4', '4', '4', '4', '4', '2018-07-25 15:17:23', '4', '0', '2018-07-25 15:17:26', '0');
-INSERT INTO `t_admin` VALUES ('5', '5', '5', '5', '5', '2018-07-25 15:17:42', '5', '0', '2018-07-25 15:17:46', '1');
-INSERT INTO `t_admin` VALUES ('6', '6', '6', '6', '6', '2018-07-25 15:17:55', '6', '0', '2018-07-25 15:17:59', '1');
-INSERT INTO `t_admin` VALUES ('7', '7', '7', '7', '7', '2018-07-25 15:18:18', '7', '0', '2018-07-25 15:19:08', '1');
-INSERT INTO `t_admin` VALUES ('8', '8', '8', '8', '8', '2018-07-25 15:18:17', '8', '0', '2018-07-25 15:18:58', '1');
-INSERT INTO `t_admin` VALUES ('9', '9', '9', '9', '9', '2018-07-25 15:18:46', '9', '0', '2018-07-25 15:19:06', '1');
-INSERT INTO `t_admin` VALUES ('10', '10', '10', '10', '10', '2018-07-25 15:18:44', '10', '0', '2018-07-25 15:19:04', '1');
-INSERT INTO `t_admin` VALUES ('11', '11', '11', '11', '11', '2018-07-25 15:18:42', '111', '0', '2018-07-25 15:19:01', '1');
+INSERT INTO `t_admin` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', '123456', '2018-08-09 17:55:00', '127.0.0.1', '23', '2018-07-25 14:35:32', '0');
 INSERT INTO `t_admin` VALUES ('12', 'zhangsan', 'e10adc3949ba59abbe56e057f20f883e', '张三', '15083386045', null, null, '0', '2018-07-25 17:45:40', '0');
-INSERT INTO `t_admin` VALUES ('13', 'zhangsan', 'e10adc3949ba59abbe56e057f20f883e', 'zhangsan', '15083386023', null, null, '0', '2018-07-25 17:47:37', '0');
+
+-- ----------------------------
+-- Table structure for `t_bargain`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_bargain`;
+CREATE TABLE `t_bargain` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `shop_id` int(11) DEFAULT '0' COMMENT '产品所属店铺ID',
+  `name` varchar(127) NOT NULL DEFAULT '' COMMENT '产品名称',
+  `brief` varchar(255) DEFAULT '' COMMENT '产品简介',
+  `info` text COMMENT '使用须知',
+  `fen` int(11) DEFAULT '0' COMMENT '份数',
+  `content` text COMMENT '产品详细介绍，是富文本格式',
+  `pic_url` varchar(255) DEFAULT NULL COMMENT '产品页面产品图片',
+  `gallery` varchar(1023) DEFAULT '[]' COMMENT '产品宣传图片列表',
+  `keywords` varchar(255) DEFAULT '' COMMENT '产品关键字，采用逗号间隔',
+  `is_on_sale` tinyint(1) DEFAULT '1' COMMENT '是否上架',
+  `priority` int(11) DEFAULT '0' COMMENT '排序',
+  `price` decimal(10,2) DEFAULT '0.00' COMMENT '价格',
+  `low_price` decimal(10,2) DEFAULT '0.00' COMMENT '砍价最低价格',
+  `now_price` decimal(10,2) DEFAULT '0.00' COMMENT '现价',
+  `people` int(11) DEFAULT '0' COMMENT '砍价人数设置',
+  `join_people` int(11) DEFAULT '0' COMMENT '已参与人数',
+  `during` tinyint(3) DEFAULT '1' COMMENT '活动时间，1.永久 2.自定义',
+  `start_date` date DEFAULT NULL COMMENT '活动开始时间',
+  `end_date` date DEFAULT NULL COMMENT '活动结束时间',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
+  `valid_date` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `shop_id` (`shop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='砍价产品表';
+
+-- ----------------------------
+-- Records of t_bargain
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `t_bargain_user`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_bargain_user`;
+CREATE TABLE `t_bargain_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) DEFAULT '0' COMMENT '产品ID',
+  `user_id` int(11) DEFAULT '0' COMMENT '用户ID',
+  `price` decimal(10,2) DEFAULT '0.00' COMMENT '砍价价格',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='砍价产品用户关联表';
+
+-- ----------------------------
+-- Records of t_bargain_user
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `t_category`
@@ -258,49 +337,68 @@ CREATE TABLE `t_category` (
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='类目表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='类目表';
 
 -- ----------------------------
 -- Records of t_category
 -- ----------------------------
 INSERT INTO `t_category` VALUES ('1', '2', '2', '1', '0', '2018-07-27 15:41:24', '1');
-INSERT INTO `t_category` VALUES ('2', 'test', 'test', 'http://127.0.0.1:8082/os/storage/fetch/zshzy997xym8rsto46e9.png', '3', '2018-07-30 14:33:57', '0');
-INSERT INTO `t_category` VALUES ('3', 'test', 'test', 'http://127.0.0.1:8082/os/storage/fetch/tdwtplefmt0eeqm6m7tg.png', '2', '2018-07-30 14:35:24', '0');
+INSERT INTO `t_category` VALUES ('2', '女装', '潮流女装', 'http://127.0.0.1:8082/os/storage/fetch/ug7x1p8wvg8gnm9axucq.png', '0', '2018-07-30 14:33:57', '1');
+INSERT INTO `t_category` VALUES ('3', '女装', '潮流女装', 'http://127.0.0.1:8082/os/storage/fetch/yww8yaburinu9k3a1mf9.png', '1', '2018-07-30 14:35:24', '0');
+INSERT INTO `t_category` VALUES ('4', '女装', '潮流女装', 'http://127.0.0.1:8082/os/storage/fetch/of2r3chsbme3c6g306qk.png', '2', '2018-08-03 10:48:16', '0');
+INSERT INTO `t_category` VALUES ('5', '女装', '潮流女装', 'http://127.0.0.1:8082/os/storage/fetch/qdougdh8p75r1ywnfkgx.png', '3', '2018-08-03 10:48:35', '0');
 
 -- ----------------------------
--- Table structure for `t_goods`
+-- Table structure for `t_collage`
 -- ----------------------------
-DROP TABLE IF EXISTS `t_goods`;
-CREATE TABLE `t_goods` (
+DROP TABLE IF EXISTS `t_collage`;
+CREATE TABLE `t_collage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `category_id` int(11) DEFAULT '0' COMMENT '商品所属类目ID',
-  `shop_id` int(11) DEFAULT '0' COMMENT '商品所属店铺ID',
-  `sn` varchar(63) NOT NULL DEFAULT '' COMMENT '商品编号',
-  `name` varchar(127) NOT NULL DEFAULT '' COMMENT '商品名称',
-  `brief` varchar(255) DEFAULT '' COMMENT '商品简介',
-  `content` text COMMENT '商品详细介绍，是富文本格式',
-  `pic_url` varchar(255) DEFAULT NULL COMMENT '商品页面商品图片',
-  `gallery` varchar(1023) DEFAULT NULL COMMENT '商品宣传图片列表',
-  `keywords` varchar(255) DEFAULT '' COMMENT '商品关键字，采用逗号间隔',
+  `shop_id` int(11) DEFAULT '0' COMMENT '产品所属店铺ID',
+  `name` varchar(127) NOT NULL DEFAULT '' COMMENT '产品名称',
+  `brief` varchar(255) DEFAULT '' COMMENT '产品简介',
+  `info` text COMMENT '使用须知',
+  `fen` int(11) DEFAULT '0' COMMENT '份数',
+  `content` text COMMENT '产品详细介绍，是富文本格式',
+  `pic_url` varchar(255) DEFAULT NULL COMMENT '产品页面产品图片',
+  `gallery` varchar(1023) DEFAULT '[]' COMMENT '产品宣传图片列表',
+  `keywords` varchar(255) DEFAULT '' COMMENT '产品关键字，采用逗号间隔',
   `is_on_sale` tinyint(1) DEFAULT '1' COMMENT '是否上架',
-  `priority` tinyint(3) DEFAULT '0' COMMENT '排序',
-  `retail_price` decimal(10,2) DEFAULT '0.00' COMMENT '零售价格',
-  `counter_price` decimal(10,2) DEFAULT '0.00' COMMENT '会员价格',
-  `discountType` tinyint(3) DEFAULT '0' COMMENT '优惠类型，1.满减 2.打折 3.自定义价格',
-  `discountMoney` varchar(50) DEFAULT NULL COMMENT '优惠价格 满减/打折/自定义优惠价格',
-  `during` tinyint(3) DEFAULT '1' COMMENT '使用期限，1.永久 2.自定义',
-  `start_date` datetime DEFAULT NULL COMMENT '商品开始使用时间',
-  `end_end` datetime DEFAULT NULL COMMENT '商品过期时间',
+  `priority` int(11) DEFAULT '0' COMMENT '排序',
+  `price` decimal(10,2) DEFAULT '0.00' COMMENT '价格',
+  `people` int(11) DEFAULT '0' COMMENT '拼团人数设置',
+  `join_people` int(11) DEFAULT '0' COMMENT '已参与人数',
+  `during` tinyint(3) DEFAULT '1' COMMENT '活动时间，1.永久 2.自定义',
+  `start_date` date DEFAULT NULL COMMENT '活动开始时间',
+  `end_date` date DEFAULT NULL COMMENT '活动结束时间',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
+  `valid_date` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `shop_id` (`shop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='拼团产品表';
+
+-- ----------------------------
+-- Records of t_collage
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `t_collage_user`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_collage_user`;
+CREATE TABLE `t_collage_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) DEFAULT '0' COMMENT '产品ID',
+  `user_id` int(11) DEFAULT '0' COMMENT '用户ID',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
   PRIMARY KEY (`id`),
-  KEY `goods_sn` (`sn`),
-  KEY `cat_id` (`category_id`),
-  KEY `shop_id` (`shop_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品基本信息表';
+  KEY `product_id` (`product_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='拼团产品用户关联表';
 
 -- ----------------------------
--- Records of t_goods
+-- Records of t_collage_user
 -- ----------------------------
 
 -- ----------------------------
@@ -311,14 +409,17 @@ CREATE TABLE `t_issue` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `question` varchar(255) DEFAULT NULL COMMENT '问题标题',
   `answer` varchar(255) DEFAULT NULL COMMENT '问题答案',
+  `priority` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='常见问题表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='常见问题表';
 
 -- ----------------------------
 -- Records of t_issue
 -- ----------------------------
+INSERT INTO `t_issue` VALUES ('1', 'test2', 'test2', '1', '2018-08-04 09:12:07', '1');
+INSERT INTO `t_issue` VALUES ('2', 'test', 'test', '3', '2018-08-04 09:15:55', '0');
 
 -- ----------------------------
 -- Table structure for `t_keyword`
@@ -331,11 +432,13 @@ CREATE TABLE `t_keyword` (
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='搜索关键字表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='搜索关键字表';
 
 -- ----------------------------
 -- Records of t_keyword
 -- ----------------------------
+INSERT INTO `t_keyword` VALUES ('1', 'test1', '0', '2018-08-04 09:11:59', '0');
+INSERT INTO `t_keyword` VALUES ('2', 'test1', '3', '2018-08-04 09:19:31', '0');
 
 -- ----------------------------
 -- Table structure for `t_order`
@@ -352,16 +455,26 @@ CREATE TABLE `t_order` (
   `shop_id` int(11) DEFAULT '0' COMMENT '订单所属店铺ID',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  `order_type` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `shop_id` (`shop_id`),
   KEY `product_id` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 -- ----------------------------
 -- Records of t_order
 -- ----------------------------
-INSERT INTO `t_order` VALUES ('1', '1', '1', '1', '1', '1', '1', '1', '2018-07-27 15:42:56', '0');
+INSERT INTO `t_order` VALUES ('1', '1', '1', '2', '1', '1', '1', '1', '2018-07-27 15:42:56', '0', '1');
+INSERT INTO `t_order` VALUES ('2', '2', '2', '1', '1', '1', '2', '2', '2018-08-04 17:19:11', '0', '1');
+INSERT INTO `t_order` VALUES ('3', '3', '3', '1', '1', '1', '3', '3', '2018-08-04 17:19:11', '0', '1');
+INSERT INTO `t_order` VALUES ('4', '4', '4', '1', '1', '1', '4', '4', '2018-08-04 17:19:11', '0', '1');
+INSERT INTO `t_order` VALUES ('5', '5', '5', '1', '1', '1', '8', '5', '2018-08-04 17:19:11', '0', '1');
+INSERT INTO `t_order` VALUES ('6', '6', '6', '2', '1', '1', '5', '1', '2018-08-04 17:19:11', '0', '1');
+INSERT INTO `t_order` VALUES ('7', '1', '7', '2', '1', '1', '2', '2', '2018-08-04 17:19:11', '0', '1');
+INSERT INTO `t_order` VALUES ('8', '2', '8', '1', '1', '1', '3', '3', '2018-08-04 17:19:11', '0', '1');
+INSERT INTO `t_order` VALUES ('9', '3', '9', '1', '1', '1', '6', '4', '2018-08-04 17:19:11', '0', '1');
+INSERT INTO `t_order` VALUES ('10', '4', '10', '1', '1', '1', '8', '5', '2018-08-04 17:19:11', '0', '1');
 
 -- ----------------------------
 -- Table structure for `t_product`
@@ -378,62 +491,42 @@ CREATE TABLE `t_product` (
   `fen` int(11) DEFAULT '0' COMMENT '份数',
   `content` text COMMENT '产品详细介绍，是富文本格式',
   `pic_url` varchar(255) DEFAULT NULL COMMENT '产品页面产品图片',
-  `gallery` varchar(1023) DEFAULT NULL COMMENT '产品宣传图片列表',
+  `gallery` varchar(1023) DEFAULT '[]' COMMENT '产品宣传图片列表',
   `keywords` varchar(255) DEFAULT '' COMMENT '产品关键字，采用逗号间隔',
   `is_on_sale` tinyint(1) DEFAULT '1' COMMENT '是否上架',
   `priority` int(11) DEFAULT '0' COMMENT '排序',
   `retail_price` decimal(10,2) DEFAULT '0.00' COMMENT '零售价格',
   `counter_price` decimal(10,2) DEFAULT '0.00' COMMENT '会员价格',
   `during` tinyint(3) DEFAULT '1' COMMENT '使用期限，1.永久 2.自定义',
-  `start_date` date DEFAULT NULL COMMENT '产品开始使用时间',
-  `end_date` date DEFAULT NULL COMMENT '产品过期时间',
+  `start_date` datetime DEFAULT NULL COMMENT '产品开始使用时间',
+  `end_date` datetime DEFAULT NULL COMMENT '产品过期时间',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
+  `valid_date` varchar(50) DEFAULT NULL,
+  `discount` int(11) DEFAULT NULL COMMENT '产品折扣',
   PRIMARY KEY (`id`),
   KEY `product_sn` (`sn`),
   KEY `cat_id` (`category_id`),
   KEY `shop_id` (`shop_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='产品基本信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='产品基本信息表';
 
 -- ----------------------------
 -- Records of t_product
 -- ----------------------------
-INSERT INTO `t_product` VALUES ('1', '1', '1', 'test', 'test', 'test', 'test', '0', 'test', 'test', '[]', 'test', '1', '0', '0.00', '0.00', '1', '2018-07-31', '2018-07-31', '2018-07-31 17:19:26', '0');
-
--- ----------------------------
--- Table structure for `t_seller`
--- ----------------------------
-DROP TABLE IF EXISTS `t_seller`;
-CREATE TABLE `t_seller` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `openid` varchar(255) DEFAULT NULL COMMENT '小程序标识',
-  `password` varchar(255) DEFAULT NULL COMMENT '密码',
-  `real_name` varchar(20) NOT NULL COMMENT '真实姓名',
-  `phone` varchar(11) NOT NULL COMMENT '手机号',
-  `avatar_url` varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像图片',
-  `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '1 可用, 0 禁用',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除,0.正常，1 已删除',
-  PRIMARY KEY (`id`),
-  KEY `openid` (`openid`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='商家表';
-
--- ----------------------------
--- Records of t_seller
--- ----------------------------
-INSERT INTO `t_seller` VALUES ('1', '1', '1', '1', '15083386045', 'http://127.0.0.1:8082/os/storage/fetch/ta4pmytf7ed5vhs0qss6.gif', '1', '2018-07-27 15:40:41', '0');
-INSERT INTO `t_seller` VALUES ('2', null, null, '1', '15083386023', '', '1', '2018-07-30 16:16:02', '0');
-INSERT INTO `t_seller` VALUES ('3', null, null, '李四4', '15083386045', '', '1', '2018-07-30 16:16:39', '0');
-INSERT INTO `t_seller` VALUES ('4', null, null, '管理员', '15083386023', '', '1', '2018-07-30 16:24:24', '0');
-INSERT INTO `t_seller` VALUES ('11', null, null, '1', '15083386023', '', '1', '2018-07-30 17:01:59', '0');
-INSERT INTO `t_seller` VALUES ('12', null, null, '李四4', '15083386045', '', '1', '2018-07-30 17:08:41', '0');
-INSERT INTO `t_seller` VALUES ('13', null, null, '管理员', '15083386023', '', '1', '2018-07-31 10:13:11', '0');
-INSERT INTO `t_seller` VALUES ('14', null, null, '管理员', '15083386023', '', '1', '2018-07-31 10:20:19', '0');
-INSERT INTO `t_seller` VALUES ('15', null, null, '1', '15083386023', '', '1', '2018-07-31 10:59:45', '0');
-INSERT INTO `t_seller` VALUES ('16', null, null, '李四4', '15083386023', '', '1', '2018-07-31 11:02:45', '0');
-INSERT INTO `t_seller` VALUES ('17', null, null, '李四4', '15083386023', '', '1', '2018-07-31 11:03:37', '0');
-INSERT INTO `t_seller` VALUES ('18', null, null, '李四4', '15083386023', '', '1', '2018-07-31 11:05:56', '0');
-INSERT INTO `t_seller` VALUES ('19', null, null, '张三2', '15083386045', '', '1', '2018-07-31 11:09:08', '0');
+INSERT INTO `t_product` VALUES ('1', '1', '1', 'test', 'test1', 'test', 'test', '5', 'test', 'http://127.0.0.1:8082/os/storage/fetch/hisnry5v7d0jb2ojekss.jpg', '[]', 'test', '1', '0', '90.00', '50.00', '1', '2018-08-03 00:00:00', '2018-08-05 00:00:00', '2018-07-31 17:19:26', '0', null, null);
+INSERT INTO `t_product` VALUES ('2', '2', '2', 'test1', 'test2', 'test', 'test', '66', 'test', 'http://127.0.0.1:8082/os/storage/fetch/hisnry5v7d0jb2ojekss.jpg', '[]', 'test', '1', '0', '65.30', '55.00', '1', '2018-08-06 00:00:00', '2018-08-06 00:00:00', '2018-08-06 15:04:13', '0', null, null);
+INSERT INTO `t_product` VALUES ('3', '3', '3', 'test1', 'test3', 'test', 'test', '60', 'test', 'http://127.0.0.1:8082/os/storage/fetch/hisnry5v7d0jb2ojekss.jpg', '[]', 'test', '1', '0', '50.00', '25.60', '1', '2018-08-06 00:00:00', '2018-08-06 00:00:00', '2018-08-06 15:04:13', '0', null, null);
+INSERT INTO `t_product` VALUES ('4', '5', '4', 'test1', 'test4', 'test', 'test', '50', 'test', 'http://127.0.0.1:8082/os/storage/fetch/hisnry5v7d0jb2ojekss.jpg', '[]', 'test', '1', '0', '60.00', '6.00', '1', '2018-08-06 00:00:00', '2018-08-06 00:00:00', '2018-08-06 15:04:13', '0', null, null);
+INSERT INTO `t_product` VALUES ('5', '5', '1', 'test1', 'test5', 'test', 'test', '6', 'test', 'http://127.0.0.1:8082/os/storage/fetch/hisnry5v7d0jb2ojekss.jpg', '[]', 'test', '1', '0', '6.00', '3.00', '1', '2018-08-06 00:00:00', '2018-08-06 00:00:00', '2018-08-06 15:04:13', '0', null, null);
+INSERT INTO `t_product` VALUES ('6', '1', '4', 'test1', 'test6', 'test', 'test', '12', 'test', 'http://127.0.0.1:8082/os/storage/fetch/hisnry5v7d0jb2ojekss.jpg', '[]', 'test', '1', '0', '124.55', '65.55', '1', '2018-08-06 00:00:00', '2018-08-06 00:00:00', '2018-08-06 15:04:13', '0', null, null);
+INSERT INTO `t_product` VALUES ('7', '4', '2', 'test1', 'test7', 'test', 'test', '6', 'test', 'http://127.0.0.1:8082/os/storage/fetch/hisnry5v7d0jb2ojekss.jpg', '[]', 'test', '1', '0', '215.00', '60.00', '1', '2018-08-06 00:00:00', '2018-08-06 00:00:00', '2018-08-06 15:04:13', '0', null, null);
+INSERT INTO `t_product` VALUES ('8', '1', '5', 'test1', 'test8', 'test', 'test', '6', 'test', 'http://127.0.0.1:8082/os/storage/fetch/hisnry5v7d0jb2ojekss.jpg', '[]', 'test', '1', '0', '65.00', '50.00', '1', '2018-08-06 00:00:00', '2018-08-06 00:00:00', '2018-08-06 15:04:13', '0', null, null);
+INSERT INTO `t_product` VALUES ('9', '5', '2', 'test1', 'test9', 'test', 'test', '5', 'test', 'http://127.0.0.1:8082/os/storage/fetch/hisnry5v7d0jb2ojekss.jpg', '[]', 'test', '1', '0', '0.00', '0.00', '1', '2018-08-06 00:00:00', '2018-08-06 00:00:00', '2018-08-06 15:04:13', '0', null, null);
+INSERT INTO `t_product` VALUES ('10', '1', '2', 'test1', 'test10', 'test', 'test', '8', 'test', 'http://127.0.0.1:8082/os/storage/fetch/hisnry5v7d0jb2ojekss.jpg', '[]', 'test', '1', '0', '0.00', '0.00', '1', '2018-08-06 00:00:00', '2018-08-06 00:00:00', '2018-08-06 15:04:13', '0', null, null);
+INSERT INTO `t_product` VALUES ('11', '3', '1', '', '测试', 'test', 'tesst', '10', '            ', 'http://127.0.0.1:8082/os/storage/fetch/7cljf4t3obbdrcietqpm.png', '[]', 'test,tes,te', '1', '2', '34.00', '12.00', '2', '2018-08-08 00:00:00', '2018-08-08 00:00:00', '2018-08-08 15:05:27', '0', '2018-08-09 00:00:00 - 2018-09-12 00:00:00', '10');
+INSERT INTO `t_product` VALUES ('12', '3', '1', '', 'test', '1', '1', '1', '            ', '', '[]', 'arw', '1', '1', '1.00', '1.00', '2', '2018-08-17 00:00:00', '2018-08-25 00:00:00', '2018-08-08 15:46:23', '1', '2018-08-17 00:00:00 ~ 2018-08-25 00:00:00', '1');
+INSERT INTO `t_product` VALUES ('13', '3', '1', '', 'test', '1', '1', '1', '            ', '', '[]', 'arw', '1', '1', '1.00', '1.00', '2', '2018-08-17 00:00:00', '2018-08-25 00:00:00', '2018-08-08 15:48:13', '1', '2018-08-17 00:00:00 ~ 2018-08-25 00:00:00', '1');
+INSERT INTO `t_product` VALUES ('14', '3', '1', '', '商城', '1', '1', '1', '            ', 'http://127.0.0.1:8082/os/storage/fetch/60lbr226q4v6367sr7mv.jpg', '[]', '1', '1', '1', '34.00', '1.00', '2', '2018-08-23 00:00:00', '2018-09-19 00:00:00', '2018-08-08 16:01:12', '0', '2018-08-23 00:00:00 ~ 2018-09-19 00:00:00', '1');
 
 -- ----------------------------
 -- Table structure for `t_shop`
@@ -444,35 +537,33 @@ CREATE TABLE `t_shop` (
   `name` varchar(50) NOT NULL COMMENT '店铺名称',
   `info` varchar(255) NOT NULL COMMENT '店铺简介',
   `address` varchar(50) NOT NULL COMMENT '店铺地址',
+  `business` varchar(50) NOT NULL COMMENT '营业时间',
   `longitude` double NOT NULL DEFAULT '0' COMMENT '经度',
   `latitude` double NOT NULL DEFAULT '0' COMMENT '纬度',
   `mobile` varchar(20) NOT NULL COMMENT '手机号',
   `shop_img` varchar(255) NOT NULL DEFAULT '' COMMENT '店铺门面图片地址',
-  `pic_urls` varchar(1023) DEFAULT NULL COMMENT '图片地址列表',
+  `pic_urls` varchar(1023) DEFAULT '[]' COMMENT '图片地址列表',
   `priority` int(11) DEFAULT '0' COMMENT '排序',
   `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '-1.不可用 0.审核中 1.可用',
   `advice` varchar(255) DEFAULT NULL COMMENT '超级管理员给店家的提醒，包括为什么审核不通过等',
-  `owner_id` int(10) NOT NULL COMMENT '店铺是属于哪个店家的',
   `order_num` int(10) NOT NULL DEFAULT '0' COMMENT '客户订单量',
+  `openid` varchar(255) DEFAULT NULL COMMENT '小程序标识',
+  `password` varchar(255) DEFAULT NULL COMMENT '密码',
+  `real_name` varchar(20) NOT NULL COMMENT '真实姓名',
+  `phone` varchar(11) NOT NULL COMMENT '手机号',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除,0.正常，1 已删除',
-  `business` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='店铺表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='店铺表';
 
 -- ----------------------------
 -- Records of t_shop
 -- ----------------------------
-INSERT INTO `t_shop` VALUES ('1', '1', '1', '1', '0', '0', '1', 'http://127.0.0.1:8082/os/storage/fetch/2kvx041qydty8p5wdt2d.jpg', null, '0', '1', '1', '1', '0', '2018-07-27 15:41:08', '0', '15:00-24:00');
-INSERT INTO `t_shop` VALUES ('2', 'test', '特特', '测试1', '1', '1', '特特', 'http://127.0.0.1:8082/os/storage/fetch/czyahlr29voxbifvoipw.jpg', null, '1', '1', null, '11', '0', '2018-07-30 17:01:59', '0', '15:00-24:00');
-INSERT INTO `t_shop` VALUES ('3', 'test', '特', '测试', '2', '2', '特特', 'http://127.0.0.1:8082/os/storage/fetch/gu8ey3d8mx7h2sch1xuk.jpg', null, '2', '1', null, '12', '0', '2018-07-30 17:08:41', '0', '15:00-24:00');
-INSERT INTO `t_shop` VALUES ('4', '测试', '测试', '南阳市仲景路', '1', '1', '测试', 'http://127.0.0.1:8082/os/storage/fetch/hisnry5v7d0jb2ojekss.jpg', '[\"http://127.0.0.1:8082/os/storage/fetch/6hhfkqit5g1k1x1lmgdg.png\"]', '1', '1', null, '13', '0', '2018-07-31 10:13:11', '0', '15:00-24:00');
-INSERT INTO `t_shop` VALUES ('5', 'xiaoxuwen', '特', '测试', '1', '1', '测试', 'http://127.0.0.1:8082/os/storage/fetch/0tl1xeitjzgfmh86k7ai.png', '[\"http://127.0.0.1:8082/os/storage/fetch/a40plt8m7d7r8mzp46is.png\"]', '1', '1', null, '14', '0', '2018-07-31 10:20:19', '0', '15:00-24:00');
-INSERT INTO `t_shop` VALUES ('6', 'xiaoxuwen', 'te', '测试', '1', '1', '特特', 'http://127.0.0.1:8082/os/storage/fetch/f8w05hkob4h4l624ocwl.png', '[\"http://127.0.0.1:8082/os/storage/fetch/qg85hb95yyq4brdbfsrv.png\"]', '1', '1', null, '15', '0', '2018-07-31 10:59:45', '0', '15:00-24:00');
-INSERT INTO `t_shop` VALUES ('7', 'test', 'te', '测试', '2', '2', '特特', 'http://127.0.0.1:8082/os/storage/fetch/b0hixup34k9sab1orqbw.jpg', '[\"http://127.0.0.1:8082/os/storage/fetch/nqu28gv73qwxz2ank9by.png\"]', '2', '1', null, '16', '0', '2018-07-31 11:02:45', '0', '15:00-24:00');
-INSERT INTO `t_shop` VALUES ('8', 'test', 'te', '测试', '2', '2', '特特', 'http://127.0.0.1:8082/os/storage/fetch/ord2r8g4zbgsq3re1nqo.jpg', '[\"http://127.0.0.1:8082/os/storage/fetch/nqu28gv73qwxz2ank9by.png\"]', '2', '1', null, '17', '0', '2018-07-31 11:03:37', '0', '15:00-24:00');
-INSERT INTO `t_shop` VALUES ('9', 'test', 'te', '测试', '2', '2', '特特', 'http://127.0.0.1:8082/os/storage/fetch/54nmo0563nda2c8zvu2y.jpg', '[\"http://127.0.0.1:8082/os/storage/fetch/nqu28gv73qwxz2ank9by.png\"]', '2', '1', null, '18', '0', '2018-07-31 11:05:56', '0', '15:00-24:00');
-INSERT INTO `t_shop` VALUES ('10', '测试', '特', '测试1', '4', '4', '特特', 'http://127.0.0.1:8082/os/storage/fetch/92nc715k4dckxhcllefu.jpg', '[\"http://127.0.0.1:8082/os/storage/fetch/u0frgvcsww0bx809xaqs.png\"]', '4', '1', null, '19', '0', '2018-07-31 11:09:08', '0', '15:00-24:00');
+INSERT INTO `t_shop` VALUES ('1', '测试店铺1', '测速', '测试1', '15:00-24:00', '12', '12', '123456789', 'http://127.0.0.1:8082/os/storage/fetch/jfwrwbfy4sjimpbcp7x4.jpg', null, '1', '1', null, '0', null, null, '李四4', '15083386045', '2018-08-04 15:51:53', '0');
+INSERT INTO `t_shop` VALUES ('2', '测试店铺2', '特', '测试', '15:00-24:00', '2', '2', '特特', 'http://127.0.0.1:8082/os/storage/fetch/gbk4fzp2udh8qsvrmsfk.jpg', '[\"http://127.0.0.1:8082/os/storage/fetch/j90xeonlwwgaqw39vnx1.png\"]', '2', '1', null, '0', null, null, '管理员', '15083386045', '2018-08-04 15:54:03', '0');
+INSERT INTO `t_shop` VALUES ('3', '测试店铺3', '测试', '测试地址', '永久', '32.23', '66.66', '1234656789', 'http://127.0.0.1:8082/os/storage/fetch/wmfya5z75o9cpak8yuh5.jpg', null, '6', '1', null, '0', null, null, 'admin', '12345678910', '2018-08-06 14:49:50', '0');
+INSERT INTO `t_shop` VALUES ('4', '测试店铺4', '测试', '测试地址', '永久', '32.23', '66.66', '1234656789', 'http://127.0.0.1:8082/os/storage/fetch/mmch0tu0x59xtoqxpcix.jpg', null, '63', '1', null, '0', null, null, 'admin', '12345678910', '2018-08-06 14:50:51', '0');
+INSERT INTO `t_shop` VALUES ('5', '测试店铺5', '的', '测试地址', '永久', '32.23', '66.66', '1234656789', 'http://127.0.0.1:8082/os/storage/fetch/5kau3umuz2dwu3iyhc6n.jpg', null, '9', '1', null, '0', null, null, 'admin', '12345678910', '2018-08-06 14:51:35', '0');
 
 -- ----------------------------
 -- Table structure for `t_user`
@@ -495,9 +586,14 @@ CREATE TABLE `t_user` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除,0.正常，1 已删除',
   PRIMARY KEY (`id`),
   KEY `openid` (`openid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('1', 'test', 'test', 'test', '0', 'http://127.0.0.1:8082/os/storage/fetch/ta4pmytf7ed5vhs0qss6.gif', '123456', '1', '1', 'tes', 'test', '2018-07-27', '2018-07-27 10:09:52', '0');
+INSERT INTO `t_user` VALUES ('1', 'test', 'test1', 'test', '0', 'http://127.0.0.1:8082/os/storage/fetch/ta4pmytf7ed5vhs0qss6.gif', '123456', '1', '0', 'tes', 'test', '2018-07-27', '2018-07-27 10:09:52', '0');
+INSERT INTO `t_user` VALUES ('2', 'test', 'test2', 'test', '0', 'http://127.0.0.1:8082/os/storage/fetch/ta4pmytf7ed5vhs0qss6.gif', '123456', '1', '0', 'tes', 'test', '2018-07-27', '2018-07-27 10:09:52', '0');
+INSERT INTO `t_user` VALUES ('3', 'test', 'test3', 'test', '0', 'http://127.0.0.1:8082/os/storage/fetch/ta4pmytf7ed5vhs0qss6.gif', '123456', '1', '0', 'tes', 'test', '2018-07-27', '2018-08-06 10:09:52', '0');
+INSERT INTO `t_user` VALUES ('4', 'test', 'test4', 'test', '0', 'http://127.0.0.1:8082/os/storage/fetch/ta4pmytf7ed5vhs0qss6.gif', '123456', '1', '1', 'tes', 'test', '2018-07-27', '2018-07-28 10:09:52', '0');
+INSERT INTO `t_user` VALUES ('5', 'test', 'test5', 'test', '0', 'http://127.0.0.1:8082/os/storage/fetch/ta4pmytf7ed5vhs0qss6.gif', '123456', '1', '1', 'tes', 'test', '2018-07-27', '2018-07-28 10:09:52', '0');
+INSERT INTO `t_user` VALUES ('6', 'test', 'test6', 'test', '0', 'http://127.0.0.1:8082/os/storage/fetch/ta4pmytf7ed5vhs0qss6.gif', '123456', '1', '1', 'tes', 'test', '2018-07-27', '2018-08-02 10:09:52', '0');
