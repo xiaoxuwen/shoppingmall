@@ -3,7 +3,6 @@ package com.etn.shoppingmall.wx.controller.seller;
 import com.etn.shoppingmall.common.util.ResponseUtil;
 import com.etn.shoppingmall.core.entity.Order;
 import com.etn.shoppingmall.core.entity.Product;
-import com.etn.shoppingmall.core.entity.Shop;
 import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.OrderService;
@@ -13,14 +12,9 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,7 +40,7 @@ public class WxVerificationController {
      */
     @ApiOperation(value = "核销",notes = "核销的接口")
     @ApiImplicitParam(name = "sn",value = "订单编号",required = true,dataType = "String",paramType = "query")
-    @GetMapping("/verification")
+    @PostMapping("/verification")
     public Object verification(@RequestParam("sn") String sn){
         logger.info("调用核销接口成功，核销开始！");
         //验证参数
@@ -108,16 +102,4 @@ public class WxVerificationController {
         return ResponseUtil.fail(1,"核销成功");
     }
 
-    /**
-     * 获取核销记录
-     * @param shopId  店铺id
-     * @return
-     */
-    @ApiOperation(value = "获取核销记录",notes = "获取核销记录的接口")
-    @ApiImplicitParam(name = "shopId",value = "商铺id",required = true,dataType = "Integer",paramType = "query")
-    @GetMapping("/verificationRecord")
-    public Object verificationRecord(@RequestParam("shopId") Integer shopId){
-        List<Order> orderList = orderService.listByStatusOrId(shopId,2);
-        return ResponseUtil.ok(orderList);
-    }
 }

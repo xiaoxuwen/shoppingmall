@@ -2,16 +2,11 @@ package com.etn.shoppingmall.wx.controller.seller;
 
 import com.etn.shoppingmall.common.util.ResponseUtil;
 import com.etn.shoppingmall.core.service.OrderService;
-import com.etn.shoppingmall.core.service.ProductService;
-import com.etn.shoppingmall.core.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -28,10 +23,6 @@ public class WxDateStatisticsController {
 
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private ProductService productService;
-    @Autowired
-    private UserService userService;
 
     /**
      * 获取产品核销统计结果
@@ -47,7 +38,7 @@ public class WxDateStatisticsController {
      */
     @ApiOperation(value = "产品核销统计",notes = "产品核销统计的接口")
     @ApiImplicitParam(name = "shopId",value = "商铺id",required = true,dataType = "Integer",paramType = "query")
-    @GetMapping("/pvs")
+    @PostMapping("/pvs")
     public Object productVerificationStatistics(@RequestParam("shopId") Integer shopId){
         if (shopId == null){
             return ResponseUtil.badArgumentValue();
@@ -74,7 +65,7 @@ public class WxDateStatisticsController {
      */
     @ApiOperation(value = "会员消费统计",notes = "会员消费统计的接口")
     @ApiImplicitParam(name = "shopId",value = "商铺id",required = true,dataType = "Integer",paramType = "query")
-    @GetMapping("/mes")
+    @PostMapping("/mes")
     public Object memberExpenseStatistics(@RequestParam("shopId") Integer shopId){
         if (shopId == null){
             return ResponseUtil.badArgumentValue();

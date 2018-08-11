@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -62,20 +63,22 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Pager<Order> find(String realName, String phone, String sn) {
         PageHelper.startPage(SystemContext.getPageOffset(), SystemContext.getPageSize());
-        List<Order> list = orderMapper.find(realName, phone, sn,null,null);
+        List<Order> list = orderMapper.find(realName, phone, sn);
         PageInfo<Order> pageList = new PageInfo<>(list);
         return new Pager<>(pageList.getTotal(), list);
     }
 
     /**
-     * 根据商铺id和订单状态获取订单
-     * @param shopId 商铺id
-     * @param status 订单状态
+     * 不分页获取订单
+     * @param beforeTime 开始时间
+     * @param endTime    结束时间
+     * @param status     订单状态
+     * @param shopId     店铺id
      * @return
      */
     @Override
-    public List<Order> listByStatusOrId(Integer shopId ,Integer status){
-        return orderMapper.find(null,null,null,shopId,status);
+    public List<Order> list(Integer shopId , Integer status, LocalDateTime beforeTime,LocalDateTime endTime){
+        return orderMapper.list(beforeTime,endTime,status,shopId);
     }
 
     /**

@@ -7,10 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +33,7 @@ public class WxVerifyMemberController {
      */
     @ApiOperation(value = "扫描验证会员身份",notes = "扫描验证会员身份的接口")
     @ApiImplicitParam(name = "userId",value = "用户id",required = true,dataType = "Integer",paramType = "query")
-    @GetMapping("/verifyMember")
+    @PostMapping("/verifyMember")
     public Object verifyMember(@RequestParam("userId") Integer userId){
         User user = userService.load(userId);
         if(user == null){

@@ -3,6 +3,7 @@ package com.etn.shoppingmall.core.service;
 import com.etn.shoppingmall.core.entity.Order;
 import com.etn.shoppingmall.core.model.Pager;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -21,12 +22,14 @@ public interface OrderService extends BaseService<Order> {
     Pager<Order> find(String realName, String phone, String sn);
 
     /**
-     * 根据商铺id和订单状态获取订单
-     * @param shopId 商铺id
-     * @param status 订单状态
+     * 不分页获取订单
+     * @param shopId     店铺id
+     * @param status     订单状态
+     * @param beforeTime 开始时间
+     * @param endTime    结束时间
      * @return
      */
-    public List<Order> listByStatusOrId(Integer shopId ,Integer status);
+    public List<Order> list(Integer shopId , Integer status, LocalDateTime beforeTime,LocalDateTime endTime);
 
     /**
      * 获取产品核销统计

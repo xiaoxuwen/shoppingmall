@@ -51,12 +51,6 @@
         <if test="phone != null and phone != ''">
             and u.phone like '%${phone}%'
         </if>
-        <if test="shopId != null">
-            and s.id like '%${shopId}%'
-        </if>
-        <if test="status != null">
-            and o.status like '%${status}%'
-        </if>
 		order by o.add_time desc
 	</select>
 
@@ -113,4 +107,48 @@
         GROUP BY o.user_id
         ORDER BY expense_count DESC
     </select>
+
+
+    <resultMap id="ListResultMap" type="com.etn.shoppingmall.core.entity.Order">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="sn" jdbcType="VARCHAR" property="sn"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
+        <result column="deleted" jdbcType="BIT" property="deleted"/>
+        <association property="user" column="user_id" javaType="com.etn.shoppingmall.core.entity.User">
+            <id column="userId" jdbcType="INTEGER" property="id"/>
+            <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+            <result column="phone" jdbcType="VARCHAR" property="phone"/>
+            <result column="user_level" jdbcType="INTEGER" property="userLevel"/>
+        </association>
+        <association property="product" column="product_id" javaType="com.etn.shoppingmall.core.entity.Product">
+            <id column="productId" property="id"/>
+            <result column="productName" property="name"/>
+            <result column="during"  property="during"/>
+            <result column="start_date"  property="startDate"/>
+            <result column="end_date"  property="endDate"/>
+            <result column="retail_price" property="retailPrice"/>
+            <result column="counter_price" property="counterPrice"/>
+        </association>
+    </resultMap>
+    
+    <select id="list" resultMap="ListResultMap">
+        select
+        o.id,o.sn,o.status,o.add_time,o.deleted,
+        u.id as userId,u.real_name,u.phone,u.user_level,
+        p.id as productId,p.name as productName,p.during,p.start_date,p.end_date,retail_price,counter_price
+        from t_order o
+        left join t_user u ON u.id = o.user_id
+        left join t_product p ON p.id=o.product_id
+        where 1=1
+        <![CDATA[AND o.add_time >= #{beforeTime}
+        AND o.add_time <= #{endTime}]]>
+        AND o.shop_id = #{shopId}
+        <if test="status != null">
+            AND o.status = #{status}
+        </if>
+        order by o.add_time desc
+    </select>
+    
 </mapper>
