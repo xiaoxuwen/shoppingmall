@@ -83,11 +83,13 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 获取产品核销统计
+     * @param beforeTime 开始时间
+     * @param endTime    结束时间
      * @param shopId 商铺id
      * @return 统计结果
      */
-    public List<Map<String,Object>> listProductStatistics(Integer shopId){
-        return orderMapper.listProductStatistics(shopId);
+    public Map<String,Object> listProductStatistics(Integer shopId,LocalDateTime beforeTime,LocalDateTime endTime){
+        return orderMapper.listProductStatistics(shopId,beforeTime,endTime);
     }
 
     /**
@@ -95,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
      * @param shopId 店铺id
      * @return 统计结果
      */
-    public List<Map<String,Object>> listMemberStatistics(Integer shopId){
+   /* public List<Map<String,Object>> listMemberStatistics(Integer shopId){
         return orderMapper.listMemberStatistics(shopId);
-    }
+    }*/
 }

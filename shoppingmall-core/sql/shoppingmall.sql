@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 192.168.0.250_3306
+Source Server         : 192.168.0.250
 Source Server Version : 50505
 Source Host           : 192.168.0.250:3306
 Source Database       : shoppingmall
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2018-08-09 18:01:57
+Date: 2018-08-13 10:36:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,7 +30,7 @@ CREATE TABLE `os_storage` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除,0.正常，1 已删除',
   PRIMARY KEY (`id`),
   KEY `ikey` (`ikey`)
-) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8 COMMENT='文件存储表';
+) ENGINE=InnoDB AUTO_INCREMENT=159 DEFAULT CHARSET=utf8 COMMENT='文件存储表';
 
 -- ----------------------------
 -- Records of os_storage
@@ -191,6 +191,8 @@ INSERT INTO `os_storage` VALUES ('153', 'vz2g2eebv88jcmzx5ki1.jpg', '14925822213
 INSERT INTO `os_storage` VALUES ('154', 'j2s5sifjvgi5dken2j5o.jpg', '14925822213780237.jpg', 'image/jpeg', '220261', 'http://127.0.0.1:8082/os/storage/fetch/j2s5sifjvgi5dken2j5o.jpg', '2018-08-08 15:33:56', '0');
 INSERT INTO `os_storage` VALUES ('155', '60lbr226q4v6367sr7mv.jpg', '14927748974441080.jpg', 'image/jpeg', '180843', 'http://127.0.0.1:8082/os/storage/fetch/60lbr226q4v6367sr7mv.jpg', '2018-08-08 16:00:27', '0');
 INSERT INTO `os_storage` VALUES ('156', 'm5x2o26sqdoirry11pqc.jpg', '14925822213780237.jpg', 'image/jpeg', '220261', 'http://127.0.0.1:8082/os/storage/fetch/m5x2o26sqdoirry11pqc.jpg', '2018-08-08 16:00:52', '0');
+INSERT INTO `os_storage` VALUES ('157', 'f9509ycvpkhgce2vf70e.png', 'fushi.png', 'image/png', '3364', 'http://127.0.0.1:8082/os/storage/fetch/f9509ycvpkhgce2vf70e.png', '2018-08-11 10:16:31', '0');
+INSERT INTO `os_storage` VALUES ('158', '4j34k6ipxoz7nlvy05aj.png', 'fushi.png', 'image/png', '3364', 'http://127.0.0.1:8082/os/storage/fetch/4j34k6ipxoz7nlvy05aj.png', '2018-08-11 11:22:09', '0');
 
 -- ----------------------------
 -- Table structure for `t_act`
@@ -265,7 +267,7 @@ CREATE TABLE `t_admin` (
 -- ----------------------------
 -- Records of t_admin
 -- ----------------------------
-INSERT INTO `t_admin` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', '123456', '2018-08-09 17:55:00', '127.0.0.1', '23', '2018-07-25 14:35:32', '0');
+INSERT INTO `t_admin` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', '123456', '2018-08-11 11:21:33', '127.0.0.1', '25', '2018-07-25 14:35:32', '0');
 INSERT INTO `t_admin` VALUES ('12', 'zhangsan', 'e10adc3949ba59abbe56e057f20f883e', '张三', '15083386045', null, null, '0', '2018-07-25 17:45:40', '0');
 
 -- ----------------------------
@@ -346,7 +348,7 @@ INSERT INTO `t_category` VALUES ('1', '2', '2', '1', '0', '2018-07-27 15:41:24',
 INSERT INTO `t_category` VALUES ('2', '女装', '潮流女装', 'http://127.0.0.1:8082/os/storage/fetch/ug7x1p8wvg8gnm9axucq.png', '0', '2018-07-30 14:33:57', '1');
 INSERT INTO `t_category` VALUES ('3', '女装', '潮流女装', 'http://127.0.0.1:8082/os/storage/fetch/yww8yaburinu9k3a1mf9.png', '1', '2018-07-30 14:35:24', '0');
 INSERT INTO `t_category` VALUES ('4', '女装', '潮流女装', 'http://127.0.0.1:8082/os/storage/fetch/of2r3chsbme3c6g306qk.png', '2', '2018-08-03 10:48:16', '0');
-INSERT INTO `t_category` VALUES ('5', '女装', '潮流女装', 'http://127.0.0.1:8082/os/storage/fetch/qdougdh8p75r1ywnfkgx.png', '3', '2018-08-03 10:48:35', '0');
+INSERT INTO `t_category` VALUES ('5', '女装', '潮流女装', 'http://127.0.0.1:8082/os/storage/fetch/4j34k6ipxoz7nlvy05aj.png', '3', '2018-08-03 10:48:35', '0');
 
 -- ----------------------------
 -- Table structure for `t_collage`
@@ -471,10 +473,10 @@ INSERT INTO `t_order` VALUES ('3', '3', '3', '1', '1', '1', '3', '3', '2018-08-0
 INSERT INTO `t_order` VALUES ('4', '4', '4', '1', '1', '1', '4', '4', '2018-08-04 17:19:11', '0', '1');
 INSERT INTO `t_order` VALUES ('5', '5', '5', '1', '1', '1', '8', '5', '2018-08-04 17:19:11', '0', '1');
 INSERT INTO `t_order` VALUES ('6', '6', '6', '2', '1', '1', '5', '1', '2018-08-04 17:19:11', '0', '1');
-INSERT INTO `t_order` VALUES ('7', '1', '7', '2', '1', '1', '2', '2', '2018-08-04 17:19:11', '0', '1');
+INSERT INTO `t_order` VALUES ('7', '1', '7', '2', '1', '1', '2', '2', '2018-09-01 17:19:11', '0', '1');
 INSERT INTO `t_order` VALUES ('8', '2', '8', '1', '1', '1', '3', '3', '2018-08-04 17:19:11', '0', '1');
 INSERT INTO `t_order` VALUES ('9', '3', '9', '1', '1', '1', '6', '4', '2018-08-04 17:19:11', '0', '1');
-INSERT INTO `t_order` VALUES ('10', '4', '10', '1', '1', '1', '8', '5', '2018-08-04 17:19:11', '0', '1');
+INSERT INTO `t_order` VALUES ('10', '4', '10', '2', '1', '1', '8', '5', '2018-08-04 17:19:11', '0', '1');
 
 -- ----------------------------
 -- Table structure for `t_product`
@@ -564,6 +566,25 @@ INSERT INTO `t_shop` VALUES ('2', '测试店铺2', '特', '测试', '15:00-24:00
 INSERT INTO `t_shop` VALUES ('3', '测试店铺3', '测试', '测试地址', '永久', '32.23', '66.66', '1234656789', 'http://127.0.0.1:8082/os/storage/fetch/wmfya5z75o9cpak8yuh5.jpg', null, '6', '1', null, '0', null, null, 'admin', '12345678910', '2018-08-06 14:49:50', '0');
 INSERT INTO `t_shop` VALUES ('4', '测试店铺4', '测试', '测试地址', '永久', '32.23', '66.66', '1234656789', 'http://127.0.0.1:8082/os/storage/fetch/mmch0tu0x59xtoqxpcix.jpg', null, '63', '1', null, '0', null, null, 'admin', '12345678910', '2018-08-06 14:50:51', '0');
 INSERT INTO `t_shop` VALUES ('5', '测试店铺5', '的', '测试地址', '永久', '32.23', '66.66', '1234656789', 'http://127.0.0.1:8082/os/storage/fetch/5kau3umuz2dwu3iyhc6n.jpg', null, '9', '1', null, '0', null, null, 'admin', '12345678910', '2018-08-06 14:51:35', '0');
+
+-- ----------------------------
+-- Table structure for `t_shop_user`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_shop_user`;
+CREATE TABLE `t_shop_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `shop_id` int(11) DEFAULT '0' COMMENT '店铺ID',
+  `user_id` int(11) DEFAULT '0' COMMENT '用户ID',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
+  PRIMARY KEY (`id`),
+  KEY `shop_id` (`shop_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='店铺验证会员关联表';
+
+-- ----------------------------
+-- Records of t_shop_user
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `t_user`

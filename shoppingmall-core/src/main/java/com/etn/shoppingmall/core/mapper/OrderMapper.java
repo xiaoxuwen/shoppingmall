@@ -41,14 +41,17 @@ public interface OrderMapper extends MyMapper<Order> {
     /**
      * 不分页获取产品核销统计数据
      * @param shopId 店铺id
-     * @return        统计结果
+     * @param beforeTime 开始时间
+     * @param endTime    结束时间
+     * @return 统计结果
      */
-    List<Map<String,Object>> listProductStatistics(@Param("shopId") Integer shopId);
+    Map<String,Object> listProductStatistics(@Param("shopId") Integer shopId,
+                                                   @Param("beforeTime")LocalDateTime beforeTime,@Param("endTime")LocalDateTime endTime);
 
     /**
      * 不分页获取会员消费统计 (消费金额降序排列)
      * @param shopId 店铺id
      * @return        统计结果
      */
-    List<Map<String,Object>> listMemberStatistics(@Param("shopId") Integer shopId);
+   /* List<Map<String,Object>> listMemberStatistics(@Param("shopId") Integer shopId);*/
 }

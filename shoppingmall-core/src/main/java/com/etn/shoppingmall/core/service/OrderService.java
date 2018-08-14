@@ -34,15 +34,17 @@ public interface OrderService extends BaseService<Order> {
     /**
      * 获取产品核销统计
      * @param shopId 店铺id
+     * @param beforeTime 开始时间
+     * @param endTime    结束时间
      * @return 统计结果
      */
-    public List<Map<String,Object>> listProductStatistics(Integer shopId);
+    public Map<String,Object> listProductStatistics(Integer shopId,LocalDateTime beforeTime,LocalDateTime endTime);
 
     /**
      * 获取会员消费统计
      * @param shopId 店铺id
      * @return 统计结果
      */
-    public List<Map<String,Object>> listMemberStatistics(Integer shopId);
+    /*public List<Map<String,Object>> listMemberStatistics(Integer shopId);*/
 
 }
