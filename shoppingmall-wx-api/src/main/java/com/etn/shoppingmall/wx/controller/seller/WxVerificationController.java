@@ -41,7 +41,7 @@ public class WxVerificationController {
     @ApiOperation(value = "核销",notes = "核销的接口")
     @ApiImplicitParam(name = "sn",value = "订单编号",required = true,dataType = "String",paramType = "query")
     @PostMapping("/verification")
-    public Object verification(@RequestParam("sn") String sn){
+    public ResponseUtil verification(@RequestParam("sn") String sn){
         logger.info("调用核销接口成功，核销开始！");
         //验证参数
         if(sn.isEmpty() || sn == null){
