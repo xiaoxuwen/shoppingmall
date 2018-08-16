@@ -218,6 +218,7 @@ CREATE TABLE `t_bargain_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) DEFAULT '0' COMMENT '产品ID',
   `user_id` int(11) DEFAULT '0' COMMENT '用户ID',
+  `flag` tinyint(1) DEFAULT '1' COMMENT '标识 1.发起者, 2.参与者',
   `price` decimal(10,2) DEFAULT '0.00' COMMENT '砍价价格',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',

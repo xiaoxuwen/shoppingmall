@@ -5,6 +5,7 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="product_id" jdbcType="INTEGER" property="productId"/>
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="flag" jdbcType="INTEGER" property="flag"/>
         <result column="price" jdbcType="DECIMAL" property="price"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>

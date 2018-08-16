@@ -23,6 +23,10 @@ public class BargainUser extends BaseEntity {
      */
     private Integer userId;
     /**
+     * 标识 1.发起者, 2.参与者
+     */
+    private Integer flag;
+    /**
      * 砍价价格
      */
     private BigDecimal price;

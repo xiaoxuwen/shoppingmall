@@ -5,8 +5,6 @@ import com.etn.shoppingmall.common.util.ResponseUtil;
 import com.etn.shoppingmall.core.entity.Order;
 import com.etn.shoppingmall.core.service.OrderService;
 import com.etn.shoppingmall.wx.annotation.LoginUser;
-import io.swagger.models.auth.In;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,5 +54,6 @@ public class WxOrderCenterController {
         List<Order> orderList=orderService.list(shopId,newStatus,newBeforeTime,newEndTime);
         return ResponseUtil.ok(orderList);
     }
+
 
 }
