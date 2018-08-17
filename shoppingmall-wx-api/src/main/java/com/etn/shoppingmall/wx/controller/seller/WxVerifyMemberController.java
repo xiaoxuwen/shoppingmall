@@ -5,9 +5,7 @@ import com.etn.shoppingmall.core.entity.ShopUser;
 import com.etn.shoppingmall.core.entity.User;
 import com.etn.shoppingmall.core.service.ShopUserService;
 import com.etn.shoppingmall.core.service.UserService;
-import com.etn.shoppingmall.wx.annotation.LoginUser;
-import com.etn.shoppingmall.wx.model.UserToken;
-import com.etn.shoppingmall.wx.model.UserTokenManager;
+import com.etn.shoppingmall.wx.annotation.LoginShop;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -43,7 +41,7 @@ public class WxVerifyMemberController {
     @ApiOperation(value = "扫描验证会员身份",notes = "扫描验证会员身份的接口")
     @ApiImplicitParam(name = "userId",value = "用户id",required = true,dataType = "Integer",paramType = "query")
     @GetMapping("/verifyMember")
-    public ResponseUtil verifyMember(@LoginUser Integer shopId, @RequestParam("userId") Integer userId){
+    public ResponseUtil verifyMember(@LoginShop Integer shopId, @RequestParam("userId") Integer userId){
         if (shopId ==null){
             return ResponseUtil.fail();
         }

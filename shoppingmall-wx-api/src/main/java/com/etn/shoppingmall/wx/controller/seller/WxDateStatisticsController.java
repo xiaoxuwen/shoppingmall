@@ -5,6 +5,7 @@ import com.etn.shoppingmall.common.util.ResponseUtil;
 import com.etn.shoppingmall.core.entity.ShopUser;
 import com.etn.shoppingmall.core.service.OrderService;
 import com.etn.shoppingmall.core.service.ShopUserService;
+import com.etn.shoppingmall.wx.annotation.LoginShop;
 import com.etn.shoppingmall.wx.annotation.LoginUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -52,7 +53,7 @@ public class WxDateStatisticsController {
     @ApiOperation(value = "产品核销统计",notes = "产品核销统计的接口")
     @ApiImplicitParam(name = "shopId",value = "商铺id",required = true,dataType = "Integer",paramType = "query")
     @PostMapping("/statistics")
-    public ResponseUtil statistics(@LoginUser Integer shopId ,@RequestBody String body){
+    public ResponseUtil statistics(@LoginShop Integer shopId , @RequestBody String body){
         if (shopId == null){
             return ResponseUtil.badArgumentValue();
         }
