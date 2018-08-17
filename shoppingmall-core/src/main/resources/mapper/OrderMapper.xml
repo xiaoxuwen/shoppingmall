@@ -102,6 +102,7 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="sn" jdbcType="VARCHAR" property="sn"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="order_type" jdbcType="INTEGER" property="orderType"/>
         <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
@@ -124,18 +125,43 @@
     
     <select id="list" resultMap="ListResultMap">
         select
-        o.id,o.sn,o.status,o.add_time,o.deleted,
+        o.id,o.sn,o.status,o.add_time,o.deleted,o.order_type,
         u.id as userId,u.real_name,u.phone,u.user_level,
         p.id as productId,p.name as productName,p.during,p.start_date,p.end_date,retail_price,counter_price
         from t_order o
         left join t_user u ON u.id = o.user_id
         left join t_product p ON p.id=o.product_id
         where 1=1
+        <if test="beforeTime != '' and beforeTime !=null and endTime != '' and endTime !=null">
         <![CDATA[AND o.add_time >= #{beforeTime}
         AND o.add_time <= #{endTime}]]>
+        </if>
+        <if test="shopId != null">
         AND o.shop_id = #{shopId}
+        </if>
         <if test="status != null">
             AND o.status = #{status}
+        </if>
+        order by o.add_time desc
+    </select>
+
+    <select id="myOrderList" resultMap="ListResultMap">
+        select
+        o.id,o.sn,o.status,o.add_time,o.deleted,o.order_type,
+        u.id as userId,u.real_name,u.phone,u.user_level,
+        p.id as productId,p.name as productName,p.during,p.start_date,p.end_date,retail_price,counter_price
+        from t_order o
+        left join t_user u ON u.id = o.user_id
+        left join t_product p ON p.id=o.product_id
+        where 1=1
+        <if test="userId != null">
+            AND o.user_id = #{userId}
+        </if>
+        <if test="status != null">
+            AND o.status = #{status}
+        </if>
+        <if test="orderType != null">
+            AND o.order_type = #{orderType}
         </if>
         order by o.add_time desc
     </select>

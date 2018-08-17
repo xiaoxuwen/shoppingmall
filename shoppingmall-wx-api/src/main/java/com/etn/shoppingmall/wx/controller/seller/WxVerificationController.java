@@ -6,7 +6,7 @@ import com.etn.shoppingmall.core.entity.Product;
 import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.OrderService;
-import com.etn.shoppingmall.wx.annotation.LoginUser;
+import com.etn.shoppingmall.wx.annotation.LoginShop;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -41,9 +41,9 @@ public class WxVerificationController {
      */
     @ApiOperation(value = "核销",notes = "核销的接口")
     @ApiImplicitParam(name = "sn",value = "订单编号",required = true,dataType = "String",paramType = "query")
-    @PostMapping("/verification")
-    public ResponseUtil verification(@LoginUser Integer shopId, @RequestParam("sn") String sn){
-        logger.info("调用核销接口成功，核销开始！");
+    @GetMapping("/verification")
+    public ResponseUtil verification(@LoginShop Integer shopId, @RequestParam("sn") String sn){
+        logger.info("调用核销接口成功，核销开始！shopId="+shopId);
         //验证参数
         if(sn.isEmpty() || sn == null){
             logger.info("参数为空！");

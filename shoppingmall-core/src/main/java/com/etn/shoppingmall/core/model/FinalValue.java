@@ -28,4 +28,9 @@ public class FinalValue {
     public static final Integer SHOP_STATUS_FAIL = -1;          //审核不通过
     public static final Integer SHOP_STATUS_ING = 0;            //审核中
     public static final Integer SHOP_STATUS_SUCCESS = 1;        //审核通过
+
+    public static final Integer ORDER_TYPE_DIS = 1;          //折扣订单
+    public static final Integer ORDER_TYPE_COLLAGE = 2;         //拼团订单
+    public static final Integer ORDER_TYPE_BARGAIN = 3;      //砍价订单
+
 }

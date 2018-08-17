@@ -2,7 +2,10 @@ package com.etn.shoppingmall.core.mapper;
 
 import com.etn.shoppingmall.core.MyMapper;
 import com.etn.shoppingmall.core.entity.Order;
+import com.sun.org.apache.xpath.internal.operations.Or;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -49,9 +52,11 @@ public interface OrderMapper extends MyMapper<Order> {
                                                    @Param("beforeTime")LocalDateTime beforeTime,@Param("endTime")LocalDateTime endTime);
 
     /**
-     * 不分页获取会员消费统计 (消费金额降序排列)
-     * @param shopId 店铺id
-     * @return        统计结果
+     * 我的订单
+     * @param userId 用户id
+     * @param status 订单状态
+     * @param orderType 订单类型
+     * @return
      */
-   /* List<Map<String,Object>> listMemberStatistics(@Param("shopId") Integer shopId);*/
+    List<Order> myOrderList(@Param("userId")Integer userId, @Param("status")Integer status, @Param("orderType")Integer orderType);
 }

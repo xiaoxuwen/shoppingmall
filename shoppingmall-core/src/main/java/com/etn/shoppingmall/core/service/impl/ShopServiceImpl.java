@@ -87,4 +87,30 @@ public class ShopServiceImpl implements ShopService {
         return shopMapper.selectByExample(example);
     }
 
+    /**
+     * 商家登录
+     * @param phone
+     * @param password
+     * @return
+     */
+    @Override
+    public Shop login(String phone,String password){
+        Example example = new Example(Shop.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("phone",phone);
+        criteria.andEqualTo("password",password);
+        criteria.andEqualTo("deleted", false);
+        return shopMapper.selectOneByExample(example);
+    }
+
+    @Override
+    public List<Shop> openidByShop(String openid){
+        Example example = new Example(Shop.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("openid",openid);
+        criteria.andEqualTo("deleted", false);
+        return shopMapper.selectByExample(example);
+    }
+
+
 }

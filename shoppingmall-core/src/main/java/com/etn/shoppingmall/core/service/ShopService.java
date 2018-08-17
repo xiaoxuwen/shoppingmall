@@ -29,4 +29,18 @@ public interface ShopService extends BaseService<Shop> {
      * @return
      */
     List<Shop> listShop(String name);
+
+    /**
+     * 店铺登录
+     * @param phone
+     * @return
+     */
+    Shop login(String phone,String password);
+
+    /**
+     * 获取入驻申请
+     * @param openid
+     * @return
+     */
+    List<Shop> openidByShop(String openid);
 }

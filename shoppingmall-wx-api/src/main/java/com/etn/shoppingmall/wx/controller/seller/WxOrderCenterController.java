@@ -4,7 +4,7 @@ import com.etn.shoppingmall.common.util.JacksonUtil;
 import com.etn.shoppingmall.common.util.ResponseUtil;
 import com.etn.shoppingmall.core.entity.Order;
 import com.etn.shoppingmall.core.service.OrderService;
-import com.etn.shoppingmall.wx.annotation.LoginUser;
+import com.etn.shoppingmall.wx.annotation.LoginShop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +37,7 @@ public class WxOrderCenterController {
      * @return
      */
     @PostMapping("/list")
-    public ResponseUtil list(@LoginUser Integer shopId ,@RequestBody String body){
+    public ResponseUtil list(@LoginShop Integer shopId , @RequestBody String body){
         String status = JacksonUtil.parseString(body, "status");
         String beforeTime = JacksonUtil.parseString(body, "beforeTime");
         String endTime = JacksonUtil.parseString(body, "endTime");

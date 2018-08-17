@@ -27,6 +27,10 @@ public class Order extends BaseEntity{
      */
     private Integer status;
     /**
+     * 订单类型，1 优惠产品订单 2 拼团订单 3 砍价订单
+     */
+    private Integer orderType;
+    /**
      * 产品id
      */
     private Product product;
