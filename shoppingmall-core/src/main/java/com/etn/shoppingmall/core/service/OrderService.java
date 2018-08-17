@@ -41,10 +41,12 @@ public interface OrderService extends BaseService<Order> {
     public Map<String,Object> listProductStatistics(Integer shopId,LocalDateTime beforeTime,LocalDateTime endTime);
 
     /**
-     * 获取会员消费统计
-     * @param shopId 店铺id
-     * @return 统计结果
+     * 我的订单
+     * @param userId 用户id
+     * @param status 订单状态
+     * @param orderType  订单类型
+     * @return
      */
-    /*public List<Map<String,Object>> listMemberStatistics(Integer shopId);*/
+    public List<Order> myOrder(Integer userId,Integer status,Integer orderType);
 
 }

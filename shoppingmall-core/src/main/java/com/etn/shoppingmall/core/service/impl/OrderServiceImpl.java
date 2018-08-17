@@ -1,5 +1,6 @@
 package com.etn.shoppingmall.core.service.impl;
 
+import com.etn.shoppingmall.common.util.StringUtil;
 import com.etn.shoppingmall.core.entity.Order;
 import com.etn.shoppingmall.core.mapper.OrderMapper;
 import com.etn.shoppingmall.core.model.Pager;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -93,11 +95,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 获取会员消费统计
-     * @param shopId 店铺id
-     * @return 统计结果
+     * 我的订单
+     * @param userId 用户id
+     * @param status 订单状态
+     * @param orderType  订单类型
+     * @return
      */
-   /* public List<Map<String,Object>> listMemberStatistics(Integer shopId){
-        return orderMapper.listMemberStatistics(shopId);
-    }*/
+    public List<Order> myOrder(Integer userId,Integer status,Integer orderType){
+        return orderMapper.myOrderList(userId,status,orderType);
+    }
 }
