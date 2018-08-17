@@ -1,18 +1,19 @@
 package com.etn.shoppingmall.wx.controller.seller;
 
+import com.etn.shoppingmall.common.util.JacksonUtil;
 import com.etn.shoppingmall.common.util.ResponseUtil;
+import com.etn.shoppingmall.core.entity.ShopUser;
 import com.etn.shoppingmall.core.service.OrderService;
-import com.etn.shoppingmall.core.service.ProductService;
-import com.etn.shoppingmall.core.service.UserService;
+import com.etn.shoppingmall.core.service.ShopUserService;
+import com.etn.shoppingmall.wx.annotation.LoginUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -29,33 +30,40 @@ public class WxDateStatisticsController {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private ProductService productService;
-    @Autowired
-    private UserService userService;
+    private ShopUserService shopUserService;
 
     /**
      * 获取产品核销统计结果
+     * @param body
+     * {
+     *     "beforeTime":"2018-08-01 15:42:56",
+     *     "endTime":"2018-08-01 15:42:56"
+     * }
      * @param shopId 店铺id
      * @return {
-     *              "prc": 5,           产品剩余数量
-     *              "pc": 6,            产品总数
-     *              "pName": "String",  产品名称
-     *              "pId": 1,           产品id
-     *              "prvc": 0,          产品未核销数量
-     *              "pvc": 1            产品核销数量
+     *              "count": 5,         订单总数量
+     *              "combCount": 6,     待确认订单数量
+     *              "memberCount": 0,   验证会员数量
+     *              "successCount": 1,  已成功的订单
+     *              "overdueCount": 0  已失效的订单
      *          }
+     * @return
      */
     @ApiOperation(value = "产品核销统计",notes = "产品核销统计的接口")
     @ApiImplicitParam(name = "shopId",value = "商铺id",required = true,dataType = "Integer",paramType = "query")
-    @GetMapping("/pvs")
-    public Object productVerificationStatistics(@RequestParam("shopId") Integer shopId){
+    @PostMapping("/statistics")
+    public ResponseUtil statistics(@LoginUser Integer shopId ,@RequestBody String body){
         if (shopId == null){
             return ResponseUtil.badArgumentValue();
         }
-        List<Map<String,Object>> statistics = orderService.listProductStatistics(shopId);
-        if (statistics == null){
-            return ResponseUtil.ok(0,"暂无统计信息");
-        }
+        String beforeTime = JacksonUtil.parseString(body, "beforeTime");
+        String endTime = JacksonUtil.parseString(body, "endTime");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime newBeforeTime= LocalDateTime.parse(beforeTime,df);
+        LocalDateTime newEndTime= LocalDateTime.parse(endTime,df);
+        Map<String,Object> statistics = orderService.listProductStatistics(shopId,newBeforeTime,newEndTime);
+        List<ShopUser> shopUserList = shopUserService.countShopUser(shopId,newBeforeTime,newEndTime);
+        statistics.put("memberCount",shopUserList.size());
         return ResponseUtil.ok(statistics);
     }
 
@@ -72,19 +80,22 @@ public class WxDateStatisticsController {
      *       "memberId": 1            会员id
      *     }
      */
-    @ApiOperation(value = "会员消费统计",notes = "会员消费统计的接口")
-    @ApiImplicitParam(name = "shopId",value = "商铺id",required = true,dataType = "Integer",paramType = "query")
-    @GetMapping("/mes")
-    public Object memberExpenseStatistics(@RequestParam("shopId") Integer shopId){
-        if (shopId == null){
-            return ResponseUtil.badArgumentValue();
-        }
-        List<Map<String,Object>> statistics = orderService.listMemberStatistics(shopId);
-        if (statistics == null){
-            return ResponseUtil.ok(0,"暂无统计信息");
-        }
-        return ResponseUtil.ok(statistics);
-    }
+//    @ApiOperation(value = "会员消费统计",notes = "会员消费统计的接口")
+//    @ApiImplicitParam(name = "shopId",value = "商铺id",required = true,dataType = "Integer",paramType = "query")
+//    @PostMapping("/mes")
+//    public Object memberExpenseStatistics(@LoginUser Integer shopId,@RequestBody String body){
+//        if (shopId == null){
+//            return ResponseUtil.badArgumentValue();
+//        }
+//        String beforeTime = JacksonUtil.parseString(body, "beforeTime");
+//        String endTime = JacksonUtil.parseString(body, "endTime");
+//
+//        List<Map<String,Object>> statistics = orderService.listMemberStatistics(shopId);
+//        if (statistics == null){
+//            return ResponseUtil.ok(0,"暂无统计信息");
+//        }
+//        return ResponseUtil.ok(statistics);
+//    }
 
 
 }

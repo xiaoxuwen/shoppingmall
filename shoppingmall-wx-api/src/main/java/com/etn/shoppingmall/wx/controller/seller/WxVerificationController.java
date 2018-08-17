@@ -3,25 +3,19 @@ package com.etn.shoppingmall.wx.controller.seller;
 import com.etn.shoppingmall.common.util.ResponseUtil;
 import com.etn.shoppingmall.core.entity.Order;
 import com.etn.shoppingmall.core.entity.Product;
-import com.etn.shoppingmall.core.entity.Shop;
 import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.OrderService;
+import com.etn.shoppingmall.wx.annotation.LoginUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Description: 商家版核销api
@@ -42,12 +36,13 @@ public class WxVerificationController {
     /**
      * 核销api
      * @param sn  订单编号
+     * @param shopId  店铺id
      * @return 1 核销成功  0  核销失败
      */
     @ApiOperation(value = "核销",notes = "核销的接口")
     @ApiImplicitParam(name = "sn",value = "订单编号",required = true,dataType = "String",paramType = "query")
-    @GetMapping("/verification")
-    public Object verification(@RequestParam("sn") String sn){
+    @PostMapping("/verification")
+    public ResponseUtil verification(@LoginUser Integer shopId, @RequestParam("sn") String sn){
         logger.info("调用核销接口成功，核销开始！");
         //验证参数
         if(sn.isEmpty() || sn == null){
@@ -70,6 +65,13 @@ public class WxVerificationController {
             return ResponseUtil.fail(0,"核销失败,未检测到此订单！");
         }
         Order date = pagerOrder.getData().get(0);
+
+        // 验证订单与此店铺是否对应
+        if (date.getShop().getId() != shopId){
+            logger.info("核销失败订单与店铺不匹配！");
+            return ResponseUtil.fail(0,"核销失败,订单与店铺不匹配！");
+        }
+
         //检测订单是否可用
         if (date.getStatus() != 1){
             logger.info("核销失败,预定产品已使用或已过期");
@@ -94,10 +96,6 @@ public class WxVerificationController {
             }
         }
 
-        /**
-         * 验证订单与此店铺是否对应
-         */
-
         //验证完毕修改订单状态
         date.setStatus(2);
         boolean state = orderService.update(date);
@@ -108,16 +106,4 @@ public class WxVerificationController {
         return ResponseUtil.fail(1,"核销成功");
     }
 
-    /**
-     * 获取核销记录
-     * @param shopId  店铺id
-     * @return
-     */
-    @ApiOperation(value = "获取核销记录",notes = "获取核销记录的接口")
-    @ApiImplicitParam(name = "shopId",value = "商铺id",required = true,dataType = "Integer",paramType = "query")
-    @GetMapping("/verificationRecord")
-    public Object verificationRecord(@RequestParam("shopId") Integer shopId){
-        List<Order> orderList = orderService.listByStatusOrId(shopId,2);
-        return ResponseUtil.ok(orderList);
-    }
 }

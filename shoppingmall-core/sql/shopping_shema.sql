@@ -218,6 +218,7 @@ CREATE TABLE `t_bargain_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) DEFAULT '0' COMMENT '产品ID',
   `user_id` int(11) DEFAULT '0' COMMENT '用户ID',
+  `flag` tinyint(1) DEFAULT '1' COMMENT '标识 1.发起者, 2.参与者',
   `price` decimal(10,2) DEFAULT '0.00' COMMENT '砍价价格',
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
@@ -264,3 +265,15 @@ CREATE TABLE `t_collage_user` (
   KEY `product_id` (`product_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='拼团产品用户关联表';
+
+DROP TABLE IF EXISTS `t_shop_user`;
+CREATE TABLE `t_shop_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `shop_id` int(11) DEFAULT '0' COMMENT '店铺ID',
+  `user_id` int(11) DEFAULT '0' COMMENT '用户ID',
+  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除 1.删除，0.未删除',
+  PRIMARY KEY (`id`),
+  KEY `shop_id` (`shop_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='店铺验证会员关联表';

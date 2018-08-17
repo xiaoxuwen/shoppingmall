@@ -51,47 +51,30 @@
         <if test="phone != null and phone != ''">
             and u.phone like '%${phone}%'
         </if>
-        <if test="shopId != null">
-            and s.id like '%${shopId}%'
-        </if>
-        <if test="status != null">
-            and o.status like '%${status}%'
-        </if>
 		order by o.add_time desc
 	</select>
 
     <resultMap id="ProductStatisticsResultMap" type="java.util.HashMap">
-        <id column="p_id" jdbcType="INTEGER" property="pId"/>
-        <result column="p_name" jdbcType="VARCHAR" property="pName"/>
-        <result column="pc" jdbcType="VARCHAR" property="pc"/>
-        <result column="prc" jdbcType="VARCHAR" property="prc"/>
-        <result column="pvc" jdbcType="VARCHAR" property="pvc"/>
-        <result column="prvc" jdbcType="VARCHAR" property="prvc"/>
+        <id column="count" jdbcType="INTEGER" property="count"/>
+        <result column="combo_count" jdbcType="INTEGER" property="combCount"/>
+        <result column="success_count" jdbcType="INTEGER" property="successCount"/>
+        <result column="overdue_count" jdbcType="INTEGER" property="overdueCount"/>
     </resultMap>
 
     <select id="listProductStatistics" resultMap="ProductStatisticsResultMap">
         SELECT
-        p_id,p_name,
-        SUM(prc+pvc+prvc) pc,
-        prc,pvc,prvc
-        FROM
-        (SELECT
-        p.id AS p_id,
-        p.`name` AS p_name,
-        p.fen AS prc,
-        SUM(CASE o.`status` WHEN 2 THEN 1 ELSE 0 END) pvc,
-        SUM(CASE o.`status` WHEN 0 OR 1 THEN 1 ELSE 0 END) prvc
+        COUNT(*) AS count,
+        IFNULL(SUM(CASE o.`status` WHEN 1 THEN 1 ELSE 0 END),0) AS combo_count,
+        IFNULL(SUM(CASE o.`status` WHEN 2 THEN 1 ELSE 0 END),0) AS success_count,
+        IFNULL(SUM(CASE o.`status` WHEN 0 THEN 1 ELSE 0 END),0) AS overdue_count
         FROM t_order o
-        LEFT JOIN t_user u ON o.user_id=u.id
-        LEFT JOIN t_product p ON o.product_id=p.id
-        LEFT JOIN t_shop s ON o.shop_id=s.id
-        WHERE o.shop_id=#{shopId}
-        GROUP BY o.product_id) statistics
-        GROUP BY p_id
+        WHERE o.shop_id = #{shopId}
+        <![CDATA[AND o.add_time >= #{beforeTime}
+        AND o.add_time <= #{endTime}]]>
     </select>
 
 
-    <resultMap id="MemberStatisticsResultMap" type="java.util.HashMap">
+    <!--<resultMap id="MemberStatisticsResultMap" type="java.util.HashMap">
         <id column="user_id" jdbcType="INTEGER" property="memberId"/>
         <result column="nick_name" jdbcType="VARCHAR" property="memberName"/>
         <result column="avatar_url" jdbcType="VARCHAR" property="memberAvatarUrl"/>
@@ -112,5 +95,49 @@
         WHERE o.shop_id=#{shopId}
         GROUP BY o.user_id
         ORDER BY expense_count DESC
+    </select>-->
+
+
+    <resultMap id="ListResultMap" type="com.etn.shoppingmall.core.entity.Order">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="sn" jdbcType="VARCHAR" property="sn"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
+        <result column="deleted" jdbcType="BIT" property="deleted"/>
+        <association property="user" column="user_id" javaType="com.etn.shoppingmall.core.entity.User">
+            <id column="userId" jdbcType="INTEGER" property="id"/>
+            <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+            <result column="phone" jdbcType="VARCHAR" property="phone"/>
+            <result column="user_level" jdbcType="INTEGER" property="userLevel"/>
+        </association>
+        <association property="product" column="product_id" javaType="com.etn.shoppingmall.core.entity.Product">
+            <id column="productId" property="id"/>
+            <result column="productName" property="name"/>
+            <result column="during"  property="during"/>
+            <result column="start_date"  property="startDate"/>
+            <result column="end_date"  property="endDate"/>
+            <result column="retail_price" property="retailPrice"/>
+            <result column="counter_price" property="counterPrice"/>
+        </association>
+    </resultMap>
+    
+    <select id="list" resultMap="ListResultMap">
+        select
+        o.id,o.sn,o.status,o.add_time,o.deleted,
+        u.id as userId,u.real_name,u.phone,u.user_level,
+        p.id as productId,p.name as productName,p.during,p.start_date,p.end_date,retail_price,counter_price
+        from t_order o
+        left join t_user u ON u.id = o.user_id
+        left join t_product p ON p.id=o.product_id
+        where 1=1
+        <![CDATA[AND o.add_time >= #{beforeTime}
+        AND o.add_time <= #{endTime}]]>
+        AND o.shop_id = #{shopId}
+        <if test="status != null">
+            AND o.status = #{status}
+        </if>
+        order by o.add_time desc
     </select>
+    
 </mapper>
