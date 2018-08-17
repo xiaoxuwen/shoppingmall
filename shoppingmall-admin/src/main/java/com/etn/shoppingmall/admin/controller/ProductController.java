@@ -80,7 +80,20 @@ public class ProductController {
     }
 
     /**
-     * 删除活动
+     * 修改店铺
+     **/
+    @ResponseBody
+    @RequestMapping("/update")
+    public ResponseUtil update(Product product) {
+        if (productService.update(product)) {
+            return ResponseUtil.ok(1, "修改成功");
+        } else {
+            return ResponseUtil.fail(0, "修改失败");
+        }
+    }
+
+    /**
+     * 删除
      **/
     @ResponseBody
     @RequestMapping("/delete")
