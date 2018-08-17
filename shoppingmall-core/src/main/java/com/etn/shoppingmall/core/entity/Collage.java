@@ -54,7 +54,7 @@ public class Collage extends BaseEntity {
     /**
      * 是否上架
      */
-    private Integer isOnSale;
+    private Boolean isOnSale;
     /**
      * 排序
      */

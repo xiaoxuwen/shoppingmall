@@ -8,6 +8,7 @@ import com.etn.shoppingmall.core.service.BargainService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -21,6 +22,7 @@ import java.util.List;
  * Date: 2018/8/6  22:49
  * Modified By:
  */
+@Service
 public class BargainServiceImpl implements BargainService {
 
     @Autowired

@@ -1,0 +1,262 @@
+<style>
+    #upload_img_list {
+        margin: 10px 0 0 0
+    }
+
+    #upload_img_list dd {
+        position: relative;
+        margin: 0 10px 10px 0;
+        float: left
+    }
+
+    #upload_img_list .operate {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1
+    }
+
+    #upload_img_list .operate i {
+        cursor: pointer;
+        background: #2F4056;
+        padding: 2px;
+        line-height: 15px;
+        text-align: center;
+        color: #fff;
+        margin-left: 1px;
+        float: left;
+        filter: alpha(opacity=80);
+        -moz-opacity: .8;
+        -khtml-opacity: .8;
+        opacity: .8
+    }
+
+    #upload_img_list dd .img {
+        max-height: 150px;
+        max-width: 500px
+    }
+</style>
+
+<!-- bargain表单弹窗 -->
+<form id="bargain-form" lay-filter="bargain-form" class="layui-form model-form">
+    <input name="id" type="hidden"/>
+    <input name="picUrl" type="hidden"/>
+    <div class="layui-form-item">
+        <label class="layui-form-label">图片</label>
+        <div class="layui-input-block">
+            <div class="layui-upload">
+                <button type="button" class="layui-btn" id="bargain_test1">上传图片</button>
+                <div class="layui-upload-list"><img id="demo1"></div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属店铺</label>
+        <div class="layui-input-block">
+            <select name="shopId" xm-select="shopId" lay-verify="required" >
+                <option>--请选择--</option>
+                <% for(shop in shops) { %>
+                <option value="${shop.id}">${shop.name}</option>
+                <% } %>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品名称</label>
+        <div class="layui-input-block">
+            <input name="name" placeholder="请输入产品名称" type="text" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">原价格</label>
+        <div class="layui-input-block">
+            <input name="retailPrice" placeholder="请输入产品价格" type="number" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">折扣</label>
+        <div class="layui-input-block">
+            <input name="discount" placeholder="请输入折扣(百分比，如：50)" type="number" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员价格</label>
+        <div class="layui-input-block">
+            <input name="counterPrice" placeholder="请输入会员价格" type="number" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品份数</label>
+        <div class="layui-input-block">
+            <input name="fen" placeholder="请输入产品份数" type="number" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品关键字</label>
+        <div class="layui-input-block">
+            <input id="tokenfield" name="keywords" placeholder="请输入产品关键字(4个,以回车符分割)" type="text" class="layui-input" data-am-tagsinput lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序号</label>
+        <div class="layui-input-block">
+            <input name="priority" placeholder="数字越大，排序越靠前" type="number" class="layui-input"
+                   lay-verify="required|number"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">使用有效期</label>
+        <div class="layui-input-block">
+            <input type="radio" name="during" value="1" title="永久" checked="">
+            <input type="radio" name="during" value="2" title="自定义">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">有效期设置</label>
+        <div class="layui-input-block">
+            <input name="validDate" placeholder="请输入有效期" type="text" class="layui-input" lay-verify="required" id="test10"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品简介</label>
+        <div class="layui-input-block">
+            <textarea name="brief" placeholder="请输入商品简介" class="layui-textarea" maxlength="200" lay-verify="required"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">使用须知</label>
+        <div class="layui-input-block">
+            <textarea name="info" placeholder="请输入使用须知" class="layui-textarea" maxlength="200" lay-verify="required"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品详情</label>
+        <div class="layui-input-block">
+            <textarea class="layui-textarea" name="content" id="LAY_demo1">
+            </textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item model-form-footer">
+        <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        <button class="layui-btn" lay-filter="bargain-form-submit" lay-submit>保存</button>
+    </div>
+</form>
+
+<script>
+    layui.use(['layer', 'admin', 'form', 'upload', 'laydate','layedit'], function () {
+        var layer = layui.layer;
+        var admin = layui.admin;
+        var form = layui.form;
+        var upload = layui.upload;
+        var laydate = layui.laydate;
+        var layedit = layui.layedit;
+
+        form.render('radio');
+        form.render('select');
+        var url = '/sys/bargain/add';
+        // 回显ad数据
+        var bargain = admin.getTempData('t_bargain');
+        if (bargain) {
+            url = '/sys/bargain/update';
+            $('#demo1').attr("src", bargain.picUrl);
+            $('#LAY_demo1').val(bargain.content);
+            form.val('bargain-form', bargain);
+        }
+
+        $('#tokenfield').tagsinput();
+
+        //日期时间范围
+        laydate.render({
+            elem: '#test10'
+            ,type: 'datetime'
+            ,range: '~'
+        });
+
+        //上传图片,必须放在 创建一个编辑器前面
+        layedit.set({
+            uploadImage: {
+                url: '/os/storage/upload' //接口url
+                ,type: 'post' //默认post
+            }
+        });
+        var index = layedit.build('LAY_demo1');
+
+        // 表单提交事件
+        form.on('submit(bargain-form-submit)', function (data) {
+            data.field.content=layedit.getContent(index);
+            layer.load(2);
+            $.post(url, data.field, function (data) {
+                layer.closeAll('loading');
+                if (data.code === 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    admin.finishPopupCenter();
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            });
+            return false;
+        });
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#bargain_test1',
+            url: '/os/storage/create',
+            before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            },
+            done: function (res) {
+                //上传成功
+                if (res.code === 1) {
+                    $(":input[name='picUrl']").val(res.data.url);
+                    return layer.msg("上传成功");
+                } else {
+                    return layer.msg(res.msg);
+                }
+
+            },
+            error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+
+        // 多图片上传
+        upload.render({
+            elem: '#bargain_test2',
+            url: '/os/storage/create',
+            multiple: true,
+            before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    layer.msg('图片上传中...', {
+                        icon: 16,
+                        shade: 0.01,
+                        time: 0
+                    })
+                });
+            },
+            done: function (res) {
+                //上传完毕
+                layer.close(layer.msg());//关闭上传提示窗口
+                $('#upload_img_list').append('<dd id="' + res.data.id + '"><div class="operate"><i onclick=UPLOAD_IMG_DEL("' + res.data.id + '") class="close layui-icon"></i></div><img src="' + res.data.url + '" class="img" ><input type="hidden" name="picUrls[]" value="' + res.data.url + '" /></dd>');
+            }
+        });
+
+        form.render();
+
+    });
+
+    function UPLOAD_IMG_DEL(id) {
+        $("#" + id).remove();
+    }
+</script>

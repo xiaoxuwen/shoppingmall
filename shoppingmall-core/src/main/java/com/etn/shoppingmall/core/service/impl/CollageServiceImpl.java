@@ -8,6 +8,7 @@ import com.etn.shoppingmall.core.service.CollageService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
@@ -19,6 +20,7 @@ import java.util.List;
  * Date: 2018/8/6  22:55
  * Modified By:
  */
+@Service
 public class CollageServiceImpl implements CollageService {
 
     @Autowired

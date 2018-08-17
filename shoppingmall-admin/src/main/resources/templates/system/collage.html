@@ -8,29 +8,29 @@
         <span class="layui-breadcrumb pull-right">
           <a href="#!home_console">首页</a>
             <a><cite>产品管理</cite></a>
-          <a><cite>优惠产品</cite></a>
+          <a><cite>砍价产品</cite></a>
         </span>
     </div>
     <div class="layui-card-body">
         <div class="layui-form toolbar">
             搜索：
             <input id="name" class="layui-input search-input" type="text" placeholder="产品名称"/>&emsp;
-            <button id="product-btn-search" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
-            <button id="product-btn-add" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
+            <button id="collage-btn-search" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索</button>
+            <button id="collage-btn-add" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
         </div>
 
-        <table class="layui-table" id="product-table" lay-filter="product-table"></table>
+        <table class="layui-table" id="collage-table" lay-filter="collage-table"></table>
     </div>
 </div>
 <!-- 表格操作列 -->
-<script type="text/html" id="product-table-bar">
+<script type="text/html" id="collage-table-bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
 </script>
-<script type="text/html" id="product-tpl-pic">
+<script type="text/html" id="collage-tpl-pic">
     <div><img src="{{d.picUrl}}" height="100%" width="100%"></div>
 </script>
-<script id="product-during" type="text/html">
+<script id="collage-during" type="text/html">
     {{# if (d.during=== 1) { }}
     <span>永久</span>
     {{# } else if(d.during=== 2) { }}
@@ -39,8 +39,8 @@
 </script>
 
 <!-- 表格状态列 -->
-<script type="text/html" id="product-tpl-state">
-    <input type="checkbox" lay-filter="product-tpl-state" value="{{d.id}}" lay-skin="switch" lay-text="上架|下架"
+<script type="text/html" id="collage-tpl-state">
+    <input type="checkbox" lay-filter="collage-tpl-state" value="{{d.id}}" lay-skin="switch" lay-text="上架|下架"
            {{d.isOnSale==true?'checked':''}}/>
 </script>
 <script>
@@ -55,53 +55,53 @@
         form.render('select');
 
         table.render({
-            elem: '#product-table',
-            url: '/sys/product/list',
+            elem: '#collage-table',
+            url: '/sys/collage/list',
             page: true,
             cols: [[
                 {
                     field: 'picUrl',
                     title: '图片',
-                    templet: '#product-tpl-pic'
+                    templet: '#collage-tpl-pic'
                 },
                 {field: 'name', title: '产品名称'},
                 {field: 'retailPrice', title: '原价格'},
                 {field: 'counterPrice', title: '会员价格'},
                 {field: 'fen', title: '剩余份数'},
-                {field: 'during', title: '产品有效期', templet: '#product-during'},
+                {field: 'during', title: '产品有效期', templet: '#collage-during'},
                 {field: 'priority', title: '排序号'},
-                {field: 'isOnSale', title: '是否上架',templet: '#product-tpl-state'},
-                {align: 'center', toolbar: '#product-table-bar', title: '操作'}
+                {field: 'isOnSale', title: '是否上架',templet: '#collage-tpl-state'},
+                {align: 'center', toolbar: '#collage-table-bar', title: '操作'}
             ]]
         });
 
         // 搜索按钮点击事件
-        $('#product-btn-search').click(function () {
-            table.reload('product-table', {where: {name: $('#name').val()}});
+        $('#collage-btn-search').click(function () {
+            table.reload('collage-table', {where: {name: $('#name').val()}});
         });
 
         // 添加按钮点击事件
-        $('#product-btn-add').click(function () {
+        $('#collage-btn-add').click(function () {
             showEditModel();
         });
 
         // 显示表单弹窗
         var showEditModel = function (data) {
             var title = data ? '修改产品' : '添加产品';
-            admin.putTempData('t_product', data);
+            admin.putTempData('t_collage', data);
             admin.popupCenter({
                 title: title,
-                path: '/sys/product/editForm',
+                path: '/sys/collage/editForm',
                 area: ['960px', '640px'],
                 maxmin:true,
                 finish: function () {
-                    table.reload('product-table', {});
+                    table.reload('collage-table', {});
                 }
             });
         };
 
         // 工具条点击事件
-        table.on('tool(product-table)', function (obj) {
+        table.on('tool(collage-table)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
             if (layEvent === 'edit') { // 修改
@@ -110,8 +110,8 @@
                 layer.confirm('确定删除此产品吗？', function (i) {
                     layer.close(i);
                     layer.load(2);
-                    $.post('/sys/product/delete', {
-                        productId: obj.data.id
+                    $.post('/sys/collage/delete', {
+                        collageId: obj.data.id
                     }, function (data) {
                         layer.closeAll('loading');
                         if (data.code === 1) {
@@ -126,10 +126,10 @@
         });
 
         // 修改ad状态
-        form.on('switch(product-tpl-state)', function (obj) {
+        form.on('switch(collage-tpl-state)', function (obj) {
             layer.load(2);
-            $.post('/sys/product/updateStatus', {
-                productId: obj.elem.value,
+            $.post('/sys/collage/updateStatus', {
+                collageId: obj.elem.value,
                 status: obj.elem.checked
             }, function (data) {
                 layer.closeAll('loading');
