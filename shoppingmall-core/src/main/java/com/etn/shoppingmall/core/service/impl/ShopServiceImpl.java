@@ -15,6 +15,8 @@ import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Description:
@@ -103,14 +105,29 @@ public class ShopServiceImpl implements ShopService {
         return shopMapper.selectOneByExample(example);
     }
 
+    /**
+     * 获取入驻申请
+     * @param openid
+     * @return
+     */
     @Override
     public List<Shop> openidByShop(String openid){
         Example example = new Example(Shop.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("openid",openid);
+        if (!StringUtils.isEmpty(openid)) criteria.andEqualTo("openid",openid);
         criteria.andEqualTo("deleted", false);
         return shopMapper.selectByExample(example);
     }
 
+    /**
+     * 店面推荐(4-6家精准推荐)
+     * @return
+     */
+    @Override
+    public List<Map<String,Object>> recommendShop(){
+        Random rand = new Random();
+        int row = (rand.nextInt(3)+4);
+        return shopMapper.recommendShop(row);
+    }
 
 }

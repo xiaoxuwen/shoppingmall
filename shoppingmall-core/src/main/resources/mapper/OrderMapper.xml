@@ -68,34 +68,16 @@
         IFNULL(SUM(CASE o.`status` WHEN 2 THEN 1 ELSE 0 END),0) AS success_count,
         IFNULL(SUM(CASE o.`status` WHEN 0 THEN 1 ELSE 0 END),0) AS overdue_count
         FROM t_order o
-        WHERE o.shop_id = #{shopId}
+        WHERE 1=1
+        <if test="shopId != null">
+            AND o.shop_id = #{shopId}
+        </if>
+        <if test="beforeTime != '' and beforeTime !=null and endTime != '' and endTime !=null">
         <![CDATA[AND o.add_time >= #{beforeTime}
         AND o.add_time <= #{endTime}]]>
+        </if>
+        AND o.deleted=0
     </select>
-
-
-    <!--<resultMap id="MemberStatisticsResultMap" type="java.util.HashMap">
-        <id column="user_id" jdbcType="INTEGER" property="memberId"/>
-        <result column="nick_name" jdbcType="VARCHAR" property="memberName"/>
-        <result column="avatar_url" jdbcType="VARCHAR" property="memberAvatarUrl"/>
-        <result column="phone" jdbcType="VARCHAR" property="phone"/>
-        <result column="expense_count" jdbcType="DECIMAL" property="expenseCount"/>
-    </resultMap>
-
-    <select id="listMemberStatistics" resultMap="MemberStatisticsResultMap">
-        SELECT
-        u.id as user_id,
-        u.nick_name,
-        u.avatar_url,
-        u.phone,
-        SUM(p.counter_price) expense_count
-        FROM t_order o
-        LEFT JOIN t_user u ON o.user_id=u.id
-        LEFT JOIN t_product p ON o.product_id=p.id
-        WHERE o.shop_id=#{shopId}
-        GROUP BY o.user_id
-        ORDER BY expense_count DESC
-    </select>-->
 
 
     <resultMap id="ListResultMap" type="com.etn.shoppingmall.core.entity.Order">
@@ -142,6 +124,7 @@
         <if test="status != null">
             AND o.status = #{status}
         </if>
+        AND o.deleted=0
         order by o.add_time desc
     </select>
 
@@ -163,6 +146,7 @@
         <if test="orderType != null">
             AND o.order_type = #{orderType}
         </if>
+        AND o.deleted=0
         order by o.add_time desc
     </select>
     

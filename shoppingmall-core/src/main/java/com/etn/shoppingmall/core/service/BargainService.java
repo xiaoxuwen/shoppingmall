@@ -4,6 +4,8 @@ import com.etn.shoppingmall.core.entity.Bargain;
 import com.etn.shoppingmall.core.entity.Product;
 import com.etn.shoppingmall.core.model.Pager;
 
+import java.util.List;
+
 /**
  * Description:
  * User: xiaoxuwen
@@ -17,4 +19,11 @@ public interface BargainService extends BaseService<Bargain> {
      * @return
      */
     Pager<Bargain> find(String name);
+
+    /**
+     * 不分页获取产品
+     * @param name
+     * @return
+     */
+    List<Bargain> list(String name);
 }

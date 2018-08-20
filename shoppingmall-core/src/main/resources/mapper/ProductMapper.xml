@@ -26,4 +26,68 @@
         <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
         <result column="shop_id" jdbcType="INTEGER" property="shopId"/>
     </resultMap>
+
+
+    <resultMap id="DistanceResultMap" type="java.util.Map">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="brief" jdbcType="VARCHAR" property="brief"/>
+        <result column="fen" jdbcType="INTEGER" property="fen"/>
+        <result column="info" jdbcType="VARCHAR" property="info"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="pic_url" jdbcType="VARCHAR" property="picUrl"/>
+        <result column="gallery" jdbcType="VARCHAR" property="gallery"
+                typeHandler="com.etn.shoppingmall.core.mybatis.JsonStringArrayTypeHandler"/>
+        <result column="keywords" jdbcType="VARCHAR" property="keywords"/>
+        <result column="is_on_sale" jdbcType="INTEGER" property="isOnSale"/>
+        <result column="priority" jdbcType="INTEGER" property="priority"/>
+        <result column="discount" jdbcType="INTEGER" property="discount"/>
+        <result column="retail_price" jdbcType="DECIMAL" property="retailPrice"/>
+        <result column="counter_price" jdbcType="DECIMAL" property="counterPrice"/>
+        <result column="during" jdbcType="INTEGER" property="during"/>
+        <result column="start_date" jdbcType="DATE" property="startDate"/>
+        <result column="end_date" jdbcType="DATE" property="endDate"/>
+        <result column="valid_date" jdbcType="VARCHAR" property="validDate"/>
+        <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
+        <result column="deleted" jdbcType="BIT" property="deleted"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="shop_id" jdbcType="INTEGER" property="shopId"/>
+        <result column="distance" jdbcType="INTEGER" property="distance"/>
+    </resultMap>
+
+    <select id="listDistanceProduct" resultMap="DistanceResultMap">
+        SELECT
+        p.*
+        <if test="latitude != null and longitude != null">
+        ,ROUND(
+                6378.138 * 2 * ASIN(
+                    SQRT(
+                        POW(
+                            SIN(
+                                (
+                                    #{latitude} * PI() / 180 - s.latitude * PI() / 180
+                                ) / 2
+                            ),
+                            2
+                        ) + COS(#{latitude} * PI() / 180) * COS(s.latitude * PI() / 180) * POW(
+                            SIN(
+                                (
+                                    #{longitude} * PI() / 180 - s.longitude * PI() / 180
+                                ) / 2
+                            ),
+                            2
+                        )
+                    )
+                ) * 1000
+            ) AS distance
+        </if>
+        FROM t_product p
+        LEFT JOIN t_shop s ON p.shop_id=s.id
+        WHERE 1=1
+        AND p.deleted=0
+        <if test="name != null and name != ''">
+          AND p.`name` LIKE '%${name}%'
+        </if>
+        ORDER BY distance ASC
+    </select>
 </mapper>

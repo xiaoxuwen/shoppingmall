@@ -66,4 +66,34 @@
 		phone=#{phone}
 	    where id = #{id,jdbcType=INTEGER}
     </update>
+
+    <resultMap id="RecommendResultMap" type="java.util.Map">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="shop_img" jdbcType="VARCHAR" property="shopImg"/>
+        <result column="pic_urls" jdbcType="VARCHAR" property="picUrls"
+                typeHandler="com.etn.shoppingmall.core.mybatis.JsonStringArrayTypeHandler"/>
+        <result column="order_num" jdbcType="INTEGER" property="orderNum"/>
+        <result column="number" jdbcType="INTEGER" property="number"/>
+        <result column="collage_number" jdbcType="INTEGER" property="collage_number"/>
+    </resultMap>
+
+    <select id="recommendShop" resultMap="RecommendResultMap">
+        SELECT s.id,s.`name`,s.shop_img,s.pic_urls,s.order_num,
+        (
+        (SELECT COUNT(*) FROM t_product p WHERE p.shop_id=s.id)+
+        (SELECT COUNT(*) FROM t_bargain b WHERE b.shop_id=s.id)+
+        (SELECT COUNT(*) FROM t_collage c WHERE c.shop_id=s.id)
+        ) number,
+        (SELECT COUNT(*) FROM t_order o WHERE o.shop_id=s.id AND o.order_type=2) collage_number
+        FROM t_shop s
+        WHERE s.status=1
+        AND s.deleted=0
+        GROUP BY s.id
+        ORDER BY s.order_num DESC
+        <if test="row != null">
+            LIMIT #{row}
+        </if>
+    </select>
+
 </mapper>

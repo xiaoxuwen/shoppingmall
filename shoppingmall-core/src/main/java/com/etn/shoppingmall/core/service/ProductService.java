@@ -4,6 +4,7 @@ import com.etn.shoppingmall.core.entity.Product;
 import com.etn.shoppingmall.core.model.Pager;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description:
@@ -31,7 +32,7 @@ public interface ProductService extends BaseService<Product> {
      *
      * @return
      */
-    List<Product> listDistanceProduct(String name);
+    List<Map<String,Object>> listDistanceProduct(String name, Double latitude, Double longitude);
 
     /**
      * 根据行业获取产品

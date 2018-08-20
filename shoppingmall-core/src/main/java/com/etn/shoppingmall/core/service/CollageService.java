@@ -3,6 +3,8 @@ package com.etn.shoppingmall.core.service;
 import com.etn.shoppingmall.core.entity.Collage;
 import com.etn.shoppingmall.core.model.Pager;
 
+import java.util.List;
+
 /**
  * Description:
  * User: xiaoxuwen
@@ -16,4 +18,11 @@ public interface CollageService extends BaseService<Collage> {
      * @return
      */
     Pager<Collage> find(String name);
+
+    /**
+     * 不分页获取产品
+     * @param name
+     * @return
+     */
+    List<Collage> list(String name);
 }

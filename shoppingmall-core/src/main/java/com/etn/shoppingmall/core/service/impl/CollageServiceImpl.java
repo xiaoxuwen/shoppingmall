@@ -71,4 +71,25 @@ public class CollageServiceImpl implements CollageService {
         PageInfo<Collage> pageList = new PageInfo<>(list);
         return new Pager<>(pageList.getTotal(), list);
     }
+
+    /**
+     * 不分页获取产品
+     *
+     * @param name
+     * @return
+     */
+    @Override
+    public List<Collage> list(String name){
+        Example example = new Example(Collage.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deleted", false);
+
+        if (!StringUtils.isEmpty(name)) criteria.andLike("name", "%" + name + "%");
+
+        if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
+            example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
+        }
+        List<Collage> list = collageMapper.selectByExample(example);
+        return list;
+    }
 }

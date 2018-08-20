@@ -114,7 +114,7 @@ public class WxUserController {
      */
     @GetMapping("/recommendShop")
     public ResponseUtil recommendShop(@LoginUser Integer userId) {
-        return ResponseUtil.ok();
+        return ResponseUtil.ok(shopService.recommendShop());
     }
 
 }

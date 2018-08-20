@@ -7,6 +7,7 @@ import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.ProductService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,6 +16,7 @@ import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description:
@@ -95,8 +97,8 @@ public class ProductServiceImpl implements ProductService {
      * @return
      */
     @Override
-    public List<Product> listDistanceProduct(String name) {
-        return null;
+    public List<Map<String,Object>> listDistanceProduct(String name, Double latitude, Double longitude) {
+        return productMapper.listDistanceProduct(name,latitude,longitude);
     }
 
     /**

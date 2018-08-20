@@ -4,6 +4,7 @@ import com.etn.shoppingmall.core.entity.Shop;
 import com.etn.shoppingmall.core.model.Pager;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description:
@@ -43,4 +44,10 @@ public interface ShopService extends BaseService<Shop> {
      * @return
      */
     List<Shop> openidByShop(String openid);
+
+    /**
+     * 店铺推荐
+     * @return
+     */
+    List<Map<String,Object>> recommendShop();
 }

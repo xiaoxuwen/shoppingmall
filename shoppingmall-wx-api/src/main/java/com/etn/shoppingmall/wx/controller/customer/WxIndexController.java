@@ -64,9 +64,11 @@ public class WxIndexController {
      * @return
      */
     @PostMapping("/distanceProduct")
-    public ResponseUtil distanceProduct(String name) {
-
-        return ResponseUtil.ok(productService.listDistanceProduct(name));
+    public ResponseUtil distanceProduct(String name,Double latitude,Double longitude) {
+        if (latitude == null || longitude == null){
+            return ResponseUtil.badArgument();
+        }
+        return ResponseUtil.ok(productService.listDistanceProduct(name,latitude,longitude));
     }
 
     /**

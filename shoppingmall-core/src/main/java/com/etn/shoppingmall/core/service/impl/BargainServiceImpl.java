@@ -78,4 +78,26 @@ public class BargainServiceImpl implements BargainService {
         PageInfo<Bargain> pageList = new PageInfo<>(list);
         return new Pager<>(pageList.getTotal(), list);
     }
+
+    /**
+     * 不分页获取产品
+     *
+     * @param name
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public List<Bargain> list(String name) {
+        Example example = new Example(Bargain.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deleted", false);
+
+        if (!StringUtils.isEmpty(name)) criteria.andLike("name", "%" + name + "%");
+
+        if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
+            example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
+        }
+        List<Bargain> list = bargainMapper.selectByExample(example);
+        return list;
+    }
 }

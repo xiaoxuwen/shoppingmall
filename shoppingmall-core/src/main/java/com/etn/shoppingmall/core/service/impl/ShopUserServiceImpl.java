@@ -56,8 +56,8 @@ public class ShopUserServiceImpl implements ShopUserService {
     public List<ShopUser> countShopUser(Integer shopId, LocalDateTime beforeTime, LocalDateTime endTime){
         Example example = new Example(ShopUser.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("shopId",shopId);
-        criteria.andBetween("addTime",beforeTime,endTime);
+        if(shopId != null) criteria.andEqualTo("shopId",shopId);
+        if(beforeTime != null && endTime != null) criteria.andBetween("addTime",beforeTime,endTime);
         criteria.andEqualTo("deleted", false);
         return shopUserMapper.selectByExample(example);
     }
