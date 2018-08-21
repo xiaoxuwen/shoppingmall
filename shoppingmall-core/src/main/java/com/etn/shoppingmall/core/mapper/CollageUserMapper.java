@@ -1,6 +1,7 @@
 package com.etn.shoppingmall.core.mapper;
 
 import com.etn.shoppingmall.core.MyMapper;
+import com.etn.shoppingmall.core.entity.CollageUser;
 import com.etn.shoppingmall.core.entity.Product;
 
 /**
@@ -9,5 +10,5 @@ import com.etn.shoppingmall.core.entity.Product;
  * Date: 2018-07-23 9:28
  * Version: V1.0
  */
-public interface CollageUserMapper extends MyMapper<Product> {
+public interface CollageUserMapper extends MyMapper<CollageUser> {
 }

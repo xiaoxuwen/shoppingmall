@@ -1,7 +1,9 @@
 package com.etn.shoppingmall.core.service.impl;
 
 import com.etn.shoppingmall.core.entity.Bargain;
+import com.etn.shoppingmall.core.entity.BargainUser;
 import com.etn.shoppingmall.core.mapper.BargainMapper;
+import com.etn.shoppingmall.core.mapper.BargainUserMapper;
 import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.BargainService;
@@ -27,6 +29,8 @@ public class BargainServiceImpl implements BargainService {
 
     @Autowired
     private BargainMapper bargainMapper;
+    @Autowired
+    private BargainUserMapper bargainUserMapper;
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
@@ -82,22 +86,28 @@ public class BargainServiceImpl implements BargainService {
     /**
      * 不分页获取产品
      *
-     * @param name
      * @return
      */
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public List<Bargain> list(String name) {
+    public List<Bargain> list() {
         Example example = new Example(Bargain.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("deleted", false);
-
-        if (!StringUtils.isEmpty(name)) criteria.andLike("name", "%" + name + "%");
 
         if (!StringUtils.isEmpty(SystemContext.getSort()) && !StringUtils.isEmpty(SystemContext.getOrder())) {
             example.setOrderByClause(SystemContext.getSort() + " " + SystemContext.getOrder());
         }
         List<Bargain> list = bargainMapper.selectByExample(example);
         return list;
+    }
+
+    @Override
+    public List<BargainUser> listBargainUser(Integer bid) {
+        Example example = new Example(BargainUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("productId", bid);
+        criteria.andEqualTo("flag", 2);
+        return bargainUserMapper.selectByExample(example);
     }
 }

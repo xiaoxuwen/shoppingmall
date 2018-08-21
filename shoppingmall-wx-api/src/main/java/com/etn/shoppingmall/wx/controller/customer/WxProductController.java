@@ -31,7 +31,7 @@ public class WxProductController {
 
 
     /**
-     * 产品详情页接口
+     * 1.产品详情页接口
      * @param productId 产品id
      * @return
      */
@@ -44,4 +44,6 @@ public class WxProductController {
         map.put("shop",shop);
         return ResponseUtil.ok(map);
     }
+
+    //2.预定产品，生成订单优惠券
 }

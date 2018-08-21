@@ -1,6 +1,7 @@
 package com.etn.shoppingmall.core.service;
 
 import com.etn.shoppingmall.core.entity.Bargain;
+import com.etn.shoppingmall.core.entity.BargainUser;
 import com.etn.shoppingmall.core.entity.Product;
 import com.etn.shoppingmall.core.model.Pager;
 
@@ -22,8 +23,9 @@ public interface BargainService extends BaseService<Bargain> {
 
     /**
      * 不分页获取产品
-     * @param name
      * @return
      */
-    List<Bargain> list(String name);
+    List<Bargain> list();
+
+    List<BargainUser> listBargainUser(Integer bid);
 }

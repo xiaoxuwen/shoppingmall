@@ -106,7 +106,7 @@ public class WxAuthController {
     }
 
     /**
-     * 账号注册
+     * 2.开通会员
      *
      * @param body    请求内容
      *                {
@@ -163,5 +163,6 @@ public class WxAuthController {
         return ResponseUtil.ok(result);
     }
 
+    //3.会员支付
 
 }

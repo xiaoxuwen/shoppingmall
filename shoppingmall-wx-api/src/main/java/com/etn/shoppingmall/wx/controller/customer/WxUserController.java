@@ -95,21 +95,6 @@ public class WxUserController {
     }
 
     /**
-     * 我的商家入驻申请
-     * @param userId 用户id
-     * @return
-     */
-    @GetMapping("/myShopApply")
-    public ResponseUtil myShopApply(@LoginUser Integer userId){
-        if(userId == null){
-            return ResponseUtil.fail();
-        }
-        User user = userService.load(userId);
-        List<Shop> shopList = shopService.openidByShop(user.getOpenid());
-        return ResponseUtil.ok(shopList);
-    }
-
-    /**
      * 5、店面推荐(4-6家精准推荐)
      */
     @GetMapping("/recommendShop")
