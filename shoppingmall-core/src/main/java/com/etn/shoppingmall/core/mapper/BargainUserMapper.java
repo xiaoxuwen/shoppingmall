@@ -3,6 +3,9 @@ package com.etn.shoppingmall.core.mapper;
 import com.etn.shoppingmall.core.MyMapper;
 import com.etn.shoppingmall.core.entity.BargainUser;
 import com.etn.shoppingmall.core.entity.Product;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * Description:参与砍价用户的Mapper
@@ -11,4 +14,11 @@ import com.etn.shoppingmall.core.entity.Product;
  * Version: V1.0
  */
 public interface BargainUserMapper extends MyMapper<BargainUser> {
+
+    /**
+     * 获取砍价参与者用户列表
+     * @param productId
+     * @return
+     */
+    List<BargainUser> listBargainUser(@Param("productId") Integer productId);
 }

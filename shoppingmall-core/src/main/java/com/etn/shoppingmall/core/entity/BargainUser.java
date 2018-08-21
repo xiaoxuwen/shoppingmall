@@ -19,9 +19,9 @@ public class BargainUser extends BaseEntity {
      */
     private Integer productId;
     /**
-     * 用户ID
+     * 用户
      */
-    private Integer userId;
+    private User user;
     /**
      * 标识 1.发起者, 2.参与者
      */

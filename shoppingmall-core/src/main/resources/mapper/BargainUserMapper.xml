@@ -4,10 +4,28 @@
     <resultMap id="BaseResultMap" type="com.etn.shoppingmall.core.entity.BargainUser">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="product_id" jdbcType="INTEGER" property="productId"/>
-        <result column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="flag" jdbcType="INTEGER" property="flag"/>
         <result column="price" jdbcType="DECIMAL" property="price"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
+        <association property="user" column="user_id" javaType="com.etn.shoppingmall.core.entity.User">
+            <id column="userId" jdbcType="INTEGER" property="id"/>
+            <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+            <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl"/>
+        </association>
     </resultMap>
+
+    <select id="listBargainUser" resultMap="BaseResultMap">
+        SELECT
+        bu.id,bu.product_id,bu.flag,bu.price,bu.add_time,
+        u.id,u.real_name,u.avatar_url
+        FROM t_bargain_user bu
+        LEFT JOIN t_user u ON bu.user_id=u.id
+        where 1=1
+        <if test="productId != null">
+            AND bu.product_id=#{productId}
+        </if>
+        AND bu.flag=2
+        AND bu.deleted=0
+    </select>
 </mapper>

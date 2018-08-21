@@ -59,6 +59,34 @@ public class BargainServiceImpl implements BargainService {
         return bargainMapper.updateByPrimaryKeySelective(bargain) > 0;
     }
 
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public BargainUser loadBargainUser(Integer id) {
+        return bargainUserMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public boolean addBargainUser(BargainUser bargainUser) {
+        return bargainUserMapper.insertSelective(bargainUser) > 0;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public boolean updateBargainUser(BargainUser bargainUser) {
+        return bargainUserMapper.updateByPrimaryKey(bargainUser) > 0;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public boolean deleteBargainUser(Integer id) {
+        BargainUser bargainUser = new BargainUser();
+        bargainUser.setId(id);
+        bargainUser.setDeleted(true);
+        return bargainUserMapper.updateByPrimaryKeySelective(bargainUser) > 0;
+    }
+
     /**
      * 分页获取产品
      *
@@ -102,12 +130,13 @@ public class BargainServiceImpl implements BargainService {
         return list;
     }
 
+    /**
+     * 获取砍价参与者用户列表
+     * @param bid
+     * @return
+     */
     @Override
     public List<BargainUser> listBargainUser(Integer bid) {
-        Example example = new Example(BargainUser.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("productId", bid);
-        criteria.andEqualTo("flag", 2);
-        return bargainUserMapper.selectByExample(example);
+        return bargainUserMapper.listBargainUser(bid);
     }
 }
