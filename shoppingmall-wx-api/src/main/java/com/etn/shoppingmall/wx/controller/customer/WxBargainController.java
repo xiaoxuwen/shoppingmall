@@ -18,7 +18,7 @@ import java.util.List;
  * Modified By:
  */
 @RestController
-@RequestMapping("wx/bargain")
+@RequestMapping("wx/user")
 public class WxBargainController {
 
     @Autowired
@@ -28,8 +28,8 @@ public class WxBargainController {
      * 砍价产品列表
      * @return
      */
-    @GetMapping("/list")
-    public ResponseUtil list(){
+    @GetMapping("/listBargain")
+    public ResponseUtil listBargain(){
         SystemContext.setSort("priority");
         SystemContext.setOrder("desc");
         List<Bargain> list = bargainService.list(null);

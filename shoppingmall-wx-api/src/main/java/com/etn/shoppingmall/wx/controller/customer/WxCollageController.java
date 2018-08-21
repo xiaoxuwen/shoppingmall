@@ -18,7 +18,7 @@ import java.util.List;
  * Modified By:
  */
 @RestController
-@RequestMapping("wx/collage")
+@RequestMapping("wx/user")
 public class WxCollageController {
 
     @Autowired
@@ -28,8 +28,8 @@ public class WxCollageController {
      * 拼团产品列表
      * @return
      */
-    @GetMapping("/list")
-    public ResponseUtil list(){
+    @GetMapping("/listCollage")
+    public ResponseUtil listCollage(){
         SystemContext.setSort("priority");
         SystemContext.setOrder("desc");
         List<Collage> list = collageService.list(null);

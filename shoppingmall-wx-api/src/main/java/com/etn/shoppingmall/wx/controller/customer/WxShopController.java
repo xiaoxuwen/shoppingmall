@@ -8,6 +8,8 @@ import com.etn.shoppingmall.core.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Description:商家入驻
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
  * Date: 2018/8/7  9:49
  * Modified By:
  */
+@RestController
+@RequestMapping("wx/user")
 public class WxShopController {
 
     @Autowired
