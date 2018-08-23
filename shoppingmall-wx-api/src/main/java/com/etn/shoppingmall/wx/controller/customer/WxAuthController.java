@@ -152,7 +152,6 @@ public class WxAuthController {
         user.setRealName(realName);
         user.setPhone(phone);
 
-
         // token
         UserToken userToken = UserTokenManager.generateToken(user.getId());
 
