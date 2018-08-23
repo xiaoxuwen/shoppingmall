@@ -2,6 +2,9 @@ package com.etn.shoppingmall.wx.controller.customer;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import com.etn.shoppingmall.common.notify.SMSSendService;
+import com.etn.shoppingmall.common.notify.ShoppingMallNotifyService;
+import com.etn.shoppingmall.common.notify.util.ConfigUtil;
 import com.etn.shoppingmall.common.util.JacksonUtil;
 import com.etn.shoppingmall.common.util.RegexUtil;
 import com.etn.shoppingmall.common.util.ResponseUtil;
@@ -11,16 +14,13 @@ import com.etn.shoppingmall.core.service.UserService;
 import com.etn.shoppingmall.wx.annotation.LoginUser;
 import com.etn.shoppingmall.wx.model.UserInfo;
 import com.etn.shoppingmall.wx.model.UserToken;
-import com.etn.shoppingmall.wx.model.WxLoginInfo;
 import com.etn.shoppingmall.wx.model.UserTokenManager;
+import com.etn.shoppingmall.wx.model.WxLoginInfo;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -36,9 +36,10 @@ public class WxAuthController {
 
     @Autowired
     private UserService userService;
-
     @Autowired
     private WxMaService wxService;
+    @Autowired
+    private ShoppingMallNotifyService shoppingMallNotifyService;
 
     /**
      * 1、用户微信登录
@@ -116,7 +117,7 @@ public class WxAuthController {
      *                code: xxx
      *                }
      *                其中code是手机验证码，目前还不支持手机短信验证码
-     * @param request 请求对象
+     * @param session 请求对象
      * @return 登录结果
      * 成功则
      * {
@@ -132,12 +133,12 @@ public class WxAuthController {
      * 失败则 { errno: XXX, errmsg: XXX }
      */
     @PostMapping("/register")
-    public Object register(@LoginUser Integer userId, @RequestBody String body, HttpServletRequest request, HttpSession session) {
+    public Object register(@LoginUser Integer userId, @RequestBody String body, HttpSession session) {
         String realName = JacksonUtil.parseString(body, "realName");
         String phone = JacksonUtil.parseString(body, "phone");
         String code = JacksonUtil.parseString(body, "code");
 
-        if (realName == null  || phone == null || code == null) {
+        if (realName == null || phone == null || code == null) {
             return ResponseUtil.badArgument();
         }
 
@@ -160,6 +161,27 @@ public class WxAuthController {
         result.put("tokenExpire", userToken.getExpireTime().toString());
         result.put("userInfo", user);
         return ResponseUtil.ok(result);
+    }
+
+    /**
+     * 生成短信验证码
+     *
+     * @param session
+     * @param phone
+     * @return
+     */
+    @RequestMapping(value = "/sendSms", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseUtil sendSms(HttpSession session, @RequestParam String phone) {
+        try {
+            String verifyCode = shoppingMallNotifyService.notifySMSTemplate(phone, ConfigUtil.NotifyType.CAPTCHA, new String[]{SMSSendService.produceCheckCode()});
+            if (!verifyCode.equals("")) {
+                session.setAttribute("verifyCode", verifyCode);
+            }
+            return ResponseUtil.ok(session.getId());
+        } catch (Exception e) {
+            return ResponseUtil.fail();
+        }
     }
 
     //3.会员支付

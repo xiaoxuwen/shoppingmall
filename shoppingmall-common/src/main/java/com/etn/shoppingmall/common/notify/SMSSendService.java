@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service("smsSendService")
-class SMSSendService {
+public class SMSSendService {
     @Autowired
     SMSNotifyConfig config;
 
