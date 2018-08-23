@@ -3,7 +3,7 @@ MailNotifyConfig:
   enable: true
   host: smtp.163.com
   username: xiao_xuwen@163.com
-  password: 19901001qq
+  password: ***********
   sendto: 380481791@qq.com
 
 # 短消息模版通知配置
