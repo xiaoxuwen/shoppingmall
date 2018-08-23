@@ -10,25 +10,16 @@ import java.util.Map;
 @Component
 @ConfigurationProperties(prefix = "SMSNotifyConfig")
 public class SMSNotifyConfig {
-    private boolean enable;
-    private int appid;
+    private String appid;
     private String appkey;
     private String sign;
     private List<Map<String, String>> template = new ArrayList<>();
 
-    public boolean isEnable() {
-        return enable;
-    }
-
-    public void setEnable(boolean enable) {
-        this.enable = enable;
-    }
-
-    public int getAppid() {
+    public String getAppid() {
         return appid;
     }
 
-    public void setAppid(int appid) {
+    public void setAppid(String appid) {
         this.appid = appid;
     }
 

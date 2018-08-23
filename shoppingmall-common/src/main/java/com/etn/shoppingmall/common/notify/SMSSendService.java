@@ -1,14 +1,16 @@
 package com.etn.shoppingmall.common.notify;
 
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.IAcsClient;
+import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
+import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
+import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.profile.DefaultProfile;
+import com.aliyuncs.profile.IClientProfile;
 import com.etn.shoppingmall.common.notify.config.SMSNotifyConfig;
-import com.github.qcloudsms.SmsSingleSender;
-import com.github.qcloudsms.SmsSingleSenderResult;
-import com.github.qcloudsms.httpclient.HTTPException;
-import org.json.JSONException;
+import com.etn.shoppingmall.common.util.RandomsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 
 
 @Service("smsSendService")
@@ -16,47 +18,63 @@ class SMSSendService {
     @Autowired
     SMSNotifyConfig config;
 
-    public void sendSMS(String phoneNumber, String content) {
-        try {
-            SmsSingleSender ssender = new SmsSingleSender(config.getAppid(), config.getAppkey());
-            SmsSingleSenderResult result = ssender.send(0, "86", phoneNumber,
-                    content, "", "");
+    //产品名称:云通信短信API产品,开发者无需替换
+    static final String product = "Dysmsapi";
+    //产品域名,开发者无需替换
+    static final String domain = "dysmsapi.aliyuncs.com";
+    static final String connectTimeOut = "10000";
+    static final String readTimeOut = "100000";
 
-//            System.out.println(result);
-        } catch (HTTPException e) {
-            // HTTP响应码错误
+    public String sendSMSWithTemplate(String phoneNumber, String templateCode, String verifyCode) {
+
+        //可自助调整超时时间
+        System.setProperty("sun.net.client.defaultConnectTimeout", connectTimeOut);
+        System.setProperty("sun.net.client.defaultReadTimeout", readTimeOut);
+
+        //初始化acsClient,暂不支持region化
+        IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", config.getAppid(), config.getAppkey());
+        try {
+            DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
+        } catch (ClientException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
-            // json解析错误
+        }
+        IAcsClient acsClient = new DefaultAcsClient(profile);
+
+        //组装请求对象-具体描述见控制台-文档部分内容
+        SendSmsRequest request = new SendSmsRequest();
+        //必填:待发送手机号
+        request.setPhoneNumbers(phoneNumber);
+        //必填:短信签名-可在短信控制台中找到
+        request.setSignName(config.getSign());
+        //必填:短信模板-可在短信控制台中找到
+        request.setTemplateCode(templateCode);
+        //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
+        request.setTemplateParam("{code:" + verifyCode + "}");
+
+        //选填-上行短信扩展码(无特殊需求用户请忽略此字段)
+        //request.setSmsUpExtendCode("90997");
+
+        //可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
+        // request.setOutId("yourOutId");
+
+        //hint 此处可能会抛出异常，注意catch
+        SendSmsResponse sendSmsResponse = null;
+        try {
+            sendSmsResponse = acsClient.getAcsResponse(request);
+        } catch (ClientException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            // 网络IO错误
-            e.printStackTrace();
+        }
+        if ("OK".equals(sendSmsResponse.getCode())) {
+            return verifyCode;
+        } else {
+            return "";
         }
     }
 
-    /**
-     * 通过模版发送短信息
-     *
-     * @param phoneNumber
-     * @param templateId
-     * @param params
-     */
-    public void sendSMSWithTemplate(String phoneNumber, int templateId, String[] params) {
-        try {
-            SmsSingleSender ssender = new SmsSingleSender(config.getAppid(), config.getAppkey());
-            SmsSingleSenderResult result = ssender.sendWithParam("86", phoneNumber,
-                    templateId, params, config.getSign(), "", "");  // 签名参数未提供或者为空时，会使用默认签名发送短信
-//            System.out.println(result);
-        } catch (HTTPException e) {
-            // HTTP响应码错误
-            e.printStackTrace();
-        } catch (JSONException e) {
-            // json解析错误
-            e.printStackTrace();
-        } catch (IOException e) {
-            // 网络IO错误
-            e.printStackTrace();
-        }
+    //生成四位数的短信验证码
+    public static String produceCheckCode() {
+        int checkCode = RandomsUtil.num(1000, 9999);
+        return String.valueOf(checkCode);
     }
+
 }

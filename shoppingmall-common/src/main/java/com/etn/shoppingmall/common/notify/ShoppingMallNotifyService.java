@@ -17,14 +17,6 @@ public class ShoppingMallNotifyService {
     @Autowired
     private WXTemplateSendService wxTemplateSendService;
 
-    @Async("notifyAsync")
-    public void notifySMSMessage(String phoneNumber, String message) {
-        if (!smsSendService.config.isEnable())
-            return;
-
-        smsSendService.sendSMS(phoneNumber, message);
-    }
-
     /**
      * 微信模版消息通知
      *
@@ -52,31 +44,10 @@ public class ShoppingMallNotifyService {
      * @param notifyType  通知类别，通过该枚举值在配置文件中获取相应的模版ID
      * @param params      通知模版内容里的参数，类似"您的验证码为{1}"中{1}的值
      */
-    @Async("notifyAsync")
-    public void notifySMSTemplate(String phoneNumber, ConfigUtil.NotifyType notifyType, String[] params) {
-        if (!smsSendService.config.isEnable())
-            return;
-
-        int templateId = Integer.parseInt(ConfigUtil.getTemplateId(notifyType, smsSendService.config.getTemplate()));
-
-        if (templateId != -1)
-            smsSendService.sendSMSWithTemplate(phoneNumber, templateId, params);
+    public String notifySMSTemplate(String phoneNumber, ConfigUtil.NotifyType notifyType, String[] params) {
+        return smsSendService.sendSMSWithTemplate(phoneNumber, ConfigUtil.getTemplateId(notifyType, smsSendService.config.getTemplate()), params[0]);
     }
 
-    /**
-     * 短信模版通知
-     *
-     * @param phoneNumber 接收通知的电话号码
-     * @param templateId  模板ID
-     * @param params      通知模版内容里的参数，类似"您的验证码为{1}"中{1}的值
-     */
-    @Async("notifyAsync")
-    public void notifySMSTemplate(String phoneNumber, int templateId, String[] params) {
-        if (!smsSendService.config.isEnable())
-            return;
-
-        smsSendService.sendSMSWithTemplate(phoneNumber, templateId, params);
-    }
 
     /**
      * 发送邮件通知,接收者在spring.mail.sendto中指定

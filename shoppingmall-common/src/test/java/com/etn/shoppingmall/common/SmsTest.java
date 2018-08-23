@@ -28,27 +28,14 @@ public class SmsTest {
     @Autowired
     private ShoppingMallNotifyService shoppingMallNotifyService;
 
-    //    @Test
-    public void testSingle() {
-        String phone = "xxxxxxxxxxx";
-        // 这里的短信签名必须在短信管理平台内设置正确并且相符合
-        String msg = "【xxx】你的验证码为:123456，请与2分钟内填写，如非本人操作，请忽略本短信。";
-        shoppingMallNotifyService.notifySMSMessage(phone, msg);
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Test
     public void testCaptcha() {
-        String phone = "xxxxxxxxxxx";
+        String phone = "15083386023";
         String[] params = new String[]{"123456"};
 
-        shoppingMallNotifyService.notifySMSTemplate(phone, ConfigUtil.NotifyType.CAPTCHA, params);
+        String str = shoppingMallNotifyService.notifySMSTemplate(phone, ConfigUtil.NotifyType.CAPTCHA, params);
 
+        System.out.println(str);
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
