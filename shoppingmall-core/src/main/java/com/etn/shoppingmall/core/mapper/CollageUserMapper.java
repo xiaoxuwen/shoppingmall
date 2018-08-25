@@ -2,7 +2,9 @@ package com.etn.shoppingmall.core.mapper;
 
 import com.etn.shoppingmall.core.MyMapper;
 import com.etn.shoppingmall.core.entity.CollageUser;
-import com.etn.shoppingmall.core.entity.Product;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * Description:参与拼团的用户Mapper
@@ -11,4 +13,18 @@ import com.etn.shoppingmall.core.entity.Product;
  * Version: V1.0
  */
 public interface CollageUserMapper extends MyMapper<CollageUser> {
+
+    /**
+     * 参团用户列表
+     * @return
+     */
+    List<CollageUser> listCollageUser(@Param("productId")Integer prductId,@Param("flag")Integer flag,@Param("af")String af);
+
+    /**
+     * 添加
+     * @param collageUser
+     * @return
+     */
+    boolean addCollageUser(CollageUser collageUser);
+
 }

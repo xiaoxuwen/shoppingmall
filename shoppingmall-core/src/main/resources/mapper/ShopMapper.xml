@@ -63,7 +63,16 @@
 		mobile=#{mobile},
 		priority=#{priority},
 		real_name=#{realName},
-		phone=#{phone}
+		phone=#{phone},
+		status=#{status},
+		advice=#{advice},
+		order_num=#{orderNum},
+		openid=#{openid},
+        password=#{password},
+        real_name=#{realName},
+        phone=#{phone},
+        add_time=#{addTime},
+        deleted=#{deleted}
 	    where id = #{id,jdbcType=INTEGER}
     </update>
 

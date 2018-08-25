@@ -1,12 +1,16 @@
 package com.etn.shoppingmall.wx.controller.seller;
 
+import com.alibaba.druid.support.logging.Log;
+import com.alibaba.druid.support.logging.LogFactory;
 import com.etn.shoppingmall.common.util.JacksonUtil;
 import com.etn.shoppingmall.common.util.ResponseUtil;
+import com.etn.shoppingmall.common.util.StringUtil;
 import com.etn.shoppingmall.core.entity.ShopUser;
 import com.etn.shoppingmall.core.service.OrderService;
 import com.etn.shoppingmall.core.service.ShopUserService;
 import com.etn.shoppingmall.wx.annotation.LoginShop;
-import com.etn.shoppingmall.wx.annotation.LoginUser;
+import com.etn.shoppingmall.wx.model.UserToken;
+import com.etn.shoppingmall.wx.model.UserTokenManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +32,7 @@ import java.util.*;
 @RequestMapping("wx/seller")
 public class WxDateStatisticsController {
 
+    private static Log  log= LogFactory.getLog(WxDateStatisticsController.class);
     @Autowired
     private OrderService orderService;
     @Autowired
@@ -55,48 +60,28 @@ public class WxDateStatisticsController {
     @PostMapping("/statistics")
     public ResponseUtil statistics(@LoginShop Integer shopId , @RequestBody String body){
         if (shopId == null){
+            log.info("shopid="+shopId+"   body="+body);
             return ResponseUtil.badArgumentValue();
         }
+
         String beforeTime = JacksonUtil.parseString(body, "beforeTime");
         String endTime = JacksonUtil.parseString(body, "endTime");
+        if(StringUtil.isBlank(beforeTime) || StringUtil.isBlank(endTime)){
+            return ResponseUtil.badArgumentValue();
+        }
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime newBeforeTime= LocalDateTime.parse(beforeTime,df);
         LocalDateTime newEndTime= LocalDateTime.parse(endTime,df);
-        Map<String,Object> statistics = orderService.listProductStatistics(shopId,newBeforeTime,newEndTime);
+        Map<String,Object> statistics = orderService.listProductStatistics(shopId,beforeTime,endTime);
         List<ShopUser> shopUserList = shopUserService.countShopUser(shopId,newBeforeTime,newEndTime);
         statistics.put("memberCount",shopUserList.size());
         return ResponseUtil.ok(statistics);
     }
 
-
-    /**
-     *  获取会员消费统计结果
-     * @param shopId
-     * @return
-     *  {
-     *       "memberAvatarUrl": "http://127.0.0.1:8082/os/storage/fetch/ta4pmytf7ed5vhs0qss6.gif",  会员头像链接
-     *       "expenseCount": 50,      会员消费的总金额
-     *       "phone": "123456",       会员电话
-     *       "memberName": "String",  会员名
-     *       "memberId": 1            会员id
-     *     }
-     */
-//    @ApiOperation(value = "会员消费统计",notes = "会员消费统计的接口")
-//    @ApiImplicitParam(name = "shopId",value = "商铺id",required = true,dataType = "Integer",paramType = "query")
-//    @PostMapping("/mes")
-//    public Object memberExpenseStatistics(@LoginUser Integer shopId,@RequestBody String body){
-//        if (shopId == null){
-//            return ResponseUtil.badArgumentValue();
-//        }
-//        String beforeTime = JacksonUtil.parseString(body, "beforeTime");
-//        String endTime = JacksonUtil.parseString(body, "endTime");
-//
-//        List<Map<String,Object>> statistics = orderService.listMemberStatistics(shopId);
-//        if (statistics == null){
-//            return ResponseUtil.ok(0,"暂无统计信息");
-//        }
-//        return ResponseUtil.ok(statistics);
-//    }
-
+    @GetMapping("/token")
+    private ResponseUtil token(Integer id){
+        UserToken userToken =UserTokenManager.generateToken(id);
+        return ResponseUtil.ok(userToken);
+    }
 
 }

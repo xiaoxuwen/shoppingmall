@@ -34,7 +34,7 @@ public interface BargainService extends BaseService<Bargain> {
      * @param bid
      * @return
      */
-    List<BargainUser> listBargainUser(Integer bid);
+    List<BargainUser> listBargainUser(Integer bid,String af);
 
     BargainUser loadBargainUser(Integer id);
 
@@ -43,4 +43,27 @@ public interface BargainService extends BaseService<Bargain> {
     boolean updateBargainUser(BargainUser bargainUser);
 
     boolean deleteBargainUser(Integer id);
+    /**
+     * 根据砍价产品id和用户id获取参与者
+     * @param userId
+     * @param bid
+     * @return
+     */
+    List<BargainUser> bidAndUserIdByBargainUser(Integer userId,Integer flag,Integer bid,String af);
+
+    /**
+     * 验证参与砍价者今天是否达到参与次数
+     * @param userId
+     * @return
+     */
+    boolean todaysBargainUserByUserId(Integer userId);
+
+    BargainUser queryByAfAndFlag(String af,Integer flag);
+
+    /**
+     * 根据店铺id获取砍价产品列表
+     * @param shopId
+     * @return
+     */
+    List<Bargain> listBargainByShopId(Integer shopId);
 }

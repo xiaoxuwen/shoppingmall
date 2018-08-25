@@ -33,4 +33,11 @@ public class FinalValue {
     public static final Integer ORDER_TYPE_COLLAGE = 2;         //拼团订单
     public static final Integer ORDER_TYPE_BARGAIN = 3;      //砍价订单
 
+    public static final Integer ORDER_STATUS_UNTAPPED = 1;          //待使用
+    public static final Integer ORDER_STATUS_FALSE = 0;         //已过期
+    public static final Integer ORDER_STATUS_TRUE = 2;          //已使用
+
+    public static final Integer SPONSOR = 1;          //发起者
+    public static final Integer PARTICIPANT = 2;         //参与者
+
 }

@@ -29,7 +29,7 @@ public interface OrderService extends BaseService<Order> {
      * @param endTime    结束时间
      * @return
      */
-    public List<Order> list(Integer shopId , Integer status, LocalDateTime beforeTime,LocalDateTime endTime);
+    public List<Order> list(Integer shopId , Integer status, String beforeTime,String endTime);
 
     /**
      * 获取产品核销统计
@@ -38,7 +38,7 @@ public interface OrderService extends BaseService<Order> {
      * @param endTime    结束时间
      * @return 统计结果
      */
-    public Map<String,Object> listProductStatistics(Integer shopId,LocalDateTime beforeTime,LocalDateTime endTime);
+    public Map<String,Object> listProductStatistics(Integer shopId,String beforeTime,String endTime);
 
     /**
      * 我的订单
@@ -48,5 +48,15 @@ public interface OrderService extends BaseService<Order> {
      * @return
      */
     public List<Order> myOrder(Integer userId,Integer status,Integer orderType);
+
+    /**
+     * 验证订单
+     * @param userId
+     * @param productId
+     * @param status
+     * @param orderType
+     * @return
+     */
+    List<Order> verificationCoupon(Integer userId,Integer productId,Integer status,Integer orderType);
 
 }

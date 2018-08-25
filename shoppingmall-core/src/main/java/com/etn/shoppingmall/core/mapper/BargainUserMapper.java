@@ -16,9 +16,23 @@ import java.util.List;
 public interface BargainUserMapper extends MyMapper<BargainUser> {
 
     /**
-     * 获取砍价参与者用户列表
+     * 获取砍价用户
      * @param productId
      * @return
      */
-    List<BargainUser> listBargainUser(@Param("productId") Integer productId);
+    List<BargainUser> listBargainUser(@Param("productId") Integer productId,@Param("flag") Integer flag,@Param("userId")Integer userId,@Param("af")String af);
+
+    /**
+     * 根据userid获取今天的参与次数
+     * @param userId
+     * @return
+     */
+    Integer todaysBargainUserByUserId(@Param("userId") Integer userId);
+
+    /**
+     * 添加
+     * @param bargainUser
+     * @return
+     */
+    boolean addBargainUser(BargainUser bargainUser);
 }

@@ -21,8 +21,14 @@ public interface CollageService extends BaseService<Collage> {
 
     /**
      * 不分页获取产品
-     * @param name
      * @return
      */
-    List<Collage> list(String name);
+    List<Collage> list();
+
+    /**
+     * 根据店铺id获取拼团产品列表
+     * @param shopId
+     * @return
+     */
+    List<Collage> listCollageByShopId(Integer shopId);
 }

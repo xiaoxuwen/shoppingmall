@@ -2,10 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.etn.shoppingmall.core.mapper.CollageUserMapper">
     <resultMap id="BaseResultMap" type="com.etn.shoppingmall.core.entity.CollageUser">
-        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="cu_id" jdbcType="INTEGER" property="id"/>
         <result column="product_id" jdbcType="INTEGER" property="productId"/>
-        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="flag" jdbcType="INTEGER" property="flag"/>
+        <result column="af" jdbcType="VARCHAR" property="af"/>
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
+        <association property="user" column="user_id" javaType="com.etn.shoppingmall.core.entity.User">
+            <id column="user_id" jdbcType="INTEGER" property="id"/>
+            <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+            <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl"/>
+        </association>
     </resultMap>
+
+
+
+    <select id="listCollageUser" resultMap="BaseResultMap">
+        SELECT cu.id as cu_id,cu.product_id,cu.flag,cu.af,cu.user_id,cu.add_time,cu.deleted,
+        u.id as user_id,u.real_name,u.avatar_url
+        FROM t_collage_user cu
+        LEFT JOIN t_user u ON cu.user_id=u.id
+        WHERE cu.deleted=0
+        <if test="productId != null">
+            AND cu.product_id=#{productId}
+        </if>
+        <if test="af != null and af != ''">
+            AND cu.af=#{af}
+        </if>
+        <if test="flag != null">
+            AND cu.flag=#{flag}
+        </if>
+    </select>
+
+    <insert id="addCollageUser" parameterType="com.etn.shoppingmall.core.entity.CollageUser"  useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id">
+        insert into t_collage_user(product_id,user_id,af,flag,add_time,deleted)
+        values(#{productId},#{user.id},#{af},#{flag},#{addTime},#{deleted})
+    </insert>
+
 </mapper>

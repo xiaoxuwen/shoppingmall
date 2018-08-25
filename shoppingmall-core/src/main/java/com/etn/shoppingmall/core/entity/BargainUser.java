@@ -23,6 +23,10 @@ public class BargainUser extends BaseEntity {
      */
     private User user;
     /**
+     * 关联标记：关联发起者和参与者
+     */
+    private String af;
+    /**
      * 标识 1.发起者, 2.参与者
      */
     private Integer flag;

@@ -2,12 +2,14 @@ package com.etn.shoppingmall.core.service.impl;
 
 import com.etn.shoppingmall.common.util.StringUtil;
 import com.etn.shoppingmall.core.entity.Order;
+import com.etn.shoppingmall.core.entity.User;
 import com.etn.shoppingmall.core.mapper.OrderMapper;
 import com.etn.shoppingmall.core.model.Pager;
 import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.OrderService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -39,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean add(Order order) {
-        return orderMapper.insertSelective(order) > 0;
+        return orderMapper.addOrder(order);
     }
 
     @Override
@@ -79,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     @Override
-    public List<Order> list(Integer shopId , Integer status, LocalDateTime beforeTime,LocalDateTime endTime){
+    public List<Order> list(Integer shopId , Integer status, String beforeTime,String endTime){
         return orderMapper.list(beforeTime,endTime,status,shopId);
     }
 
@@ -90,7 +92,8 @@ public class OrderServiceImpl implements OrderService {
      * @param shopId 商铺id
      * @return 统计结果
      */
-    public Map<String,Object> listProductStatistics(Integer shopId,LocalDateTime beforeTime,LocalDateTime endTime){
+    @Override
+    public Map<String,Object> listProductStatistics(Integer shopId,String beforeTime,String endTime){
         return orderMapper.listProductStatistics(shopId,beforeTime,endTime);
     }
 
@@ -101,7 +104,20 @@ public class OrderServiceImpl implements OrderService {
      * @param orderType  订单类型
      * @return
      */
+    @Override
     public List<Order> myOrder(Integer userId,Integer status,Integer orderType){
-        return orderMapper.myOrderList(userId,status,orderType);
+        return orderMapper.myOrderList(userId,status,orderType,null,null);
+    }
+
+    /**
+     * 验证用户是否预定过此产品
+     * @param userId
+     * @param productId
+     * @param status
+     * @param orderType
+     * @return
+     */
+    public List<Order> verificationCoupon(Integer userId,Integer productId,Integer status,Integer orderType){
+        return orderMapper.myOrderList(userId,null,orderType,null,productId);
     }
 }

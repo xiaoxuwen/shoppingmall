@@ -114,8 +114,11 @@ public class WxIndexController {
      * @param categoryId 行业属性id
      * @return
      */
-    @PostMapping("/listProduct")
+    @GetMapping("/listProduct")
     public ResponseUtil listProduct(Integer categoryId) {
+        if(categoryId == null){
+            return ResponseUtil.badArgument();
+        }
         return ResponseUtil.ok(productService.listProduct(categoryId));
     }
 }

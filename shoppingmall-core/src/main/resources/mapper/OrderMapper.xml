@@ -11,14 +11,14 @@
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
         <association property="user" column="user_id" javaType="com.etn.shoppingmall.core.entity.User">
-            <id column="userId" jdbcType="INTEGER" property="id"/>
+            <id column="user_id" jdbcType="INTEGER" property="id"/>
             <result column="real_name" jdbcType="VARCHAR" property="realName"/>
             <result column="phone" jdbcType="VARCHAR" property="phone"/>
             <result column="user_level" jdbcType="INTEGER" property="userLevel"/>
         </association>
         <association property="product" column="product_id" javaType="com.etn.shoppingmall.core.entity.Product">
-            <id column="productId" property="id"/>
-            <result column="productName" property="name"/>
+            <id column="product_id" property="id"/>
+            <result column="product_name" property="name"/>
             <result column="retail_price" property="retailPrice"/>
             <result column="counter_price" property="counterPrice"/>
             <result column="during"  property="during"/>
@@ -26,17 +26,17 @@
             <result column="end_date"  property="endDate"/>
         </association>
         <association property="shop" column="shop_id" javaType="com.etn.shoppingmall.core.entity.Shop">
-            <id column="shopId" property="id"/>
-            <result column="shopName" property="name"/>
+            <id column="shop_id" property="id"/>
+            <result column="shop_name" property="name"/>
         </association>
     </resultMap>
 
     <select id="find" resultMap="BaseResultMap">
 	    select
 		o.id,o.sn,o.status,o.qr_code_pic,o.add_time,
-		u.id as userId,u.real_name,u.phone,u.user_level,
-        p.id as productId,p.name as productName,p.during,p.start_date,p.end_date,retail_price,counter_price,
-		s.id as shopId,s.name as shopName
+		u.id as user_id,u.real_name,u.phone,u.user_level,
+        p.id as product_id,p.name as product_name,p.during,p.start_date,p.end_date,retail_price,counter_price,
+		s.id as shop_id,s.name as shop_name
 		from t_order o
 		left join t_user u ON u.id = o.user_id
 		left join t_product p ON p.id=o.product_id
@@ -89,30 +89,36 @@
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="deleted" jdbcType="BIT" property="deleted"/>
         <association property="user" column="user_id" javaType="com.etn.shoppingmall.core.entity.User">
-            <id column="userId" jdbcType="INTEGER" property="id"/>
+            <id column="user_id" jdbcType="INTEGER" property="id"/>
             <result column="real_name" jdbcType="VARCHAR" property="realName"/>
             <result column="phone" jdbcType="VARCHAR" property="phone"/>
             <result column="user_level" jdbcType="INTEGER" property="userLevel"/>
         </association>
         <association property="product" column="product_id" javaType="com.etn.shoppingmall.core.entity.Product">
-            <id column="productId" property="id"/>
-            <result column="productName" property="name"/>
+            <id column="product_id" property="id"/>
+            <result column="product_name" property="name"/>
             <result column="during"  property="during"/>
             <result column="start_date"  property="startDate"/>
             <result column="end_date"  property="endDate"/>
             <result column="retail_price" property="retailPrice"/>
             <result column="counter_price" property="counterPrice"/>
         </association>
+        <association property="shop" column="shop_id" javaType="com.etn.shoppingmall.core.entity.Shop">
+            <id column="shop_id" property="id"/>
+            <result column="shop_name" property="name"/>
+        </association>
     </resultMap>
     
-    <select id="list" resultMap="ListResultMap">
+    <select id="list" resultMap="BaseResultMap">
         select
         o.id,o.sn,o.status,o.add_time,o.deleted,o.order_type,
-        u.id as userId,u.real_name,u.phone,u.user_level,
-        p.id as productId,p.name as productName,p.during,p.start_date,p.end_date,retail_price,counter_price
+        u.id as user_id,u.real_name,u.phone,u.user_level,
+        p.id as product_id,p.name as product_name,p.during,p.start_date,p.end_date,retail_price,counter_price,
+        s.id as shop_id,s.name as shop_name
         from t_order o
         left join t_user u ON u.id = o.user_id
         left join t_product p ON p.id=o.product_id
+        left join t_shop s ON s.id=o.shop_id
         where 1=1
         <if test="beforeTime != '' and beforeTime !=null and endTime != '' and endTime !=null">
         <![CDATA[AND o.add_time >= #{beforeTime}
@@ -128,14 +134,16 @@
         order by o.add_time desc
     </select>
 
-    <select id="myOrderList" resultMap="ListResultMap">
+    <select id="myOrderList" resultMap="BaseResultMap">
         select
         o.id,o.sn,o.status,o.add_time,o.deleted,o.order_type,
-        u.id as userId,u.real_name,u.phone,u.user_level,
-        p.id as productId,p.name as productName,p.during,p.start_date,p.end_date,retail_price,counter_price
+        u.id as user_id,u.real_name,u.phone,u.user_level,
+        p.id as product_id,p.name as product_name,p.during,p.start_date,p.end_date,retail_price,counter_price,
+        s.id as shop_id,s.name as shop_name
         from t_order o
         left join t_user u ON u.id = o.user_id
         left join t_product p ON p.id=o.product_id
+        left join t_shop s ON s.id=o.shop_id
         where 1=1
         <if test="userId != null">
             AND o.user_id = #{userId}
@@ -146,8 +154,20 @@
         <if test="orderType != null">
             AND o.order_type = #{orderType}
         </if>
+        <if test="shopId != null">
+            AND o.shop_id = #{shopId}
+        </if>
+        <if test="productId != null">
+            AND o.product_id = #{productId}
+        </if>
         AND o.deleted=0
         order by o.add_time desc
     </select>
-    
+
+
+    <insert id="addOrder" parameterType="com.etn.shoppingmall.core.entity.Order"  useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id">
+        insert into t_order(user_id,sn,status,qr_code_pic,qr_code_url,product_id,shop_id,order_type,add_time,deleted)
+        values(#{user.id},#{sn},#{status},#{qrCodePic},#{qrCodeUrl},#{product.id},#{shop.id},#{orderType},#{addTime},#{deleted})
+    </insert>
 </mapper>

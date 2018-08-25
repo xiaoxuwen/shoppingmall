@@ -97,4 +97,8 @@ public class LocalOsServiceImpl implements ObjectStorageService {
         }
         return url;
     }
+
+    public String getPath(String keyName){
+        return LocalOsServiceImpl.rootLocation.resolve(keyName).toFile().getPath();
+    }
 }

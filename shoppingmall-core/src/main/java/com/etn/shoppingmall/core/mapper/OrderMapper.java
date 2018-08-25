@@ -38,7 +38,7 @@ public interface OrderMapper extends MyMapper<Order> {
      * @param shopId     店铺id
      * @return
      */
-    List<Order> list(@Param("beforeTime")LocalDateTime beforeTime,@Param("endTime")LocalDateTime endTime,
+    List<Order> list(@Param("beforeTime")String beforeTime,@Param("endTime")String endTime,
                      @Param("status")Integer status,@Param("shopId") Integer shopId);
 
     /**
@@ -48,8 +48,8 @@ public interface OrderMapper extends MyMapper<Order> {
      * @param endTime    结束时间
      * @return 统计结果
      */
-    Map<String,Object> listProductStatistics(@Param("shopId") Integer shopId,
-                                                   @Param("beforeTime")LocalDateTime beforeTime,@Param("endTime")LocalDateTime endTime);
+    Map<String,Object> listProductStatistics(@Param("shopId") Integer shopId,@Param("beforeTime")String beforeTime,
+                                             @Param("endTime")String endTime);
 
     /**
      * 我的订单
@@ -58,5 +58,14 @@ public interface OrderMapper extends MyMapper<Order> {
      * @param orderType 订单类型
      * @return
      */
-    List<Order> myOrderList(@Param("userId")Integer userId, @Param("status")Integer status, @Param("orderType")Integer orderType);
+    List<Order> myOrderList(@Param("userId")Integer userId, @Param("status")Integer status,
+                            @Param("orderType")Integer orderType,@Param("shopId")Integer shopId,
+                            @Param("productId")Integer productId);
+
+    /**
+     * 添加订单
+     * @param order
+     * @return
+     */
+    boolean addOrder(Order order);
 }

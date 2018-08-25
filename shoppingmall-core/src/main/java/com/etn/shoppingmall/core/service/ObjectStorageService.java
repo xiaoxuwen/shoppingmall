@@ -28,4 +28,6 @@ public interface ObjectStorageService {
     void delete(String keyName);
 
     String generateUrl(String keyName);
+
+    String getPath(String keyName);
 }

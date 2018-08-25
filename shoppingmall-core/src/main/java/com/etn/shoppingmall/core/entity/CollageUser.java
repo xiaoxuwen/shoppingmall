@@ -12,13 +12,21 @@ import javax.persistence.Table;
  */
 @Data
 @Table(name = "t_collage_user")
-public class CollageUser {
+public class CollageUser extends BaseEntity {
     /**
      * 产品ID
      */
     private Integer productId;
     /**
-     * 用户ID
+     * 用户
      */
-    private Integer userId;
+    private User user;
+    /**
+     * 关联标记：关联发起者和参与者
+     */
+    private String af;
+    /**
+     * 标识 1.发起者, 2.参与者
+     */
+    private Integer flag;
 }

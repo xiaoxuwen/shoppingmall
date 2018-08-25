@@ -45,7 +45,7 @@ public class WxVerificationController {
     public ResponseUtil verification(@LoginShop Integer shopId, @RequestParam("sn") String sn){
         logger.info("调用核销接口成功，核销开始！shopId="+shopId);
         //验证参数
-        if(sn.isEmpty() || sn == null){
+        if(sn.isEmpty() || sn == null || shopId == null){
             logger.info("参数为空！");
             return ResponseUtil.badArgumentValue();
         }

@@ -9,6 +9,7 @@ import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.BargainService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -69,7 +70,7 @@ public class BargainServiceImpl implements BargainService {
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public boolean addBargainUser(BargainUser bargainUser) {
-        return bargainUserMapper.insertSelective(bargainUser) > 0;
+        return bargainUserMapper.addBargainUser(bargainUser);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -131,12 +132,59 @@ public class BargainServiceImpl implements BargainService {
     }
 
     /**
-     * 获取砍价参与者用户列表
+     * 获取砍价用户列表
      * @param bid
      * @return
      */
     @Override
-    public List<BargainUser> listBargainUser(Integer bid) {
-        return bargainUserMapper.listBargainUser(bid);
+    public List<BargainUser> listBargainUser(Integer bid,String af) {
+        return bargainUserMapper.listBargainUser(bid,null,null,af);
+    }
+
+    /**
+     * 根据砍价产品id和用户id获取参与者
+     * @param userId
+     * @param bid
+     * @return
+     */
+    @Override
+    public List<BargainUser> bidAndUserIdByBargainUser(Integer userId,Integer flag,Integer bid,String af){
+        return bargainUserMapper.listBargainUser(bid,flag,userId,af);
+    }
+
+    /**
+     * 验证参与砍价者今天是否达到参与次数
+     * @param userId
+     * @return
+     */
+    @Override
+    public boolean todaysBargainUserByUserId(Integer userId){
+        return bargainUserMapper.todaysBargainUserByUserId(userId) >= 3;
+    }
+
+    @Override
+    public BargainUser queryByAfAndFlag(String af,Integer flag){
+        Example example = new Example(BargainUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deleted", false);
+        if (!StringUtils.isEmpty(flag)) criteria.andEqualTo("flag",flag);
+        if (!StringUtils.isEmpty(af)) {
+            criteria.andEqualTo("af",af);
+        }
+        return bargainUserMapper.selectOneByExample(example);
+    }
+
+    /**
+     * 根据店铺id获取砍价产品列表
+     * @param shopId
+     * @return
+     */
+    @Override
+    public List<Bargain> listBargainByShopId(Integer shopId){
+        Example example = new Example(Bargain.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deleted", false);
+        if (shopId != null)criteria.andEqualTo("shopId", shopId);
+        return bargainMapper.selectByExample(example);
     }
 }

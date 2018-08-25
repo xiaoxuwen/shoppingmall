@@ -41,4 +41,10 @@ public interface ProductService extends BaseService<Product> {
      * @return
      */
     List<Product> listProduct(Integer categoryId);
+    /**
+     * 根据店铺id获取产品列表
+     * @param shopId
+     * @return
+     */
+    List<Product> listPrductByShopId(Integer shopId);
 }

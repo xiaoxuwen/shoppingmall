@@ -48,10 +48,10 @@ public class WxOrderCenterController {
         if (status != null){
             newStatus=Integer.parseInt(status);
         }
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime newBeforeTime= LocalDateTime.parse(beforeTime,df);
-        LocalDateTime newEndTime= LocalDateTime.parse(endTime,df);
-        List<Order> orderList=orderService.list(shopId,newStatus,newBeforeTime,newEndTime);
+//        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        LocalDateTime newBeforeTime= LocalDateTime.parse(beforeTime,df);
+//        LocalDateTime newEndTime= LocalDateTime.parse(endTime,df);
+        List<Order> orderList=orderService.list(shopId,newStatus,beforeTime,endTime);
         return ResponseUtil.ok(orderList);
     }
 

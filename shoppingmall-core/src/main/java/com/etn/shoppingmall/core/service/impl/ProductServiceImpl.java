@@ -115,4 +115,20 @@ public class ProductServiceImpl implements ProductService {
         criteria.andEqualTo("categoryId", categoryId);
         return productMapper.selectByExample(example);
     }
+
+    /**
+     * 根据店铺id获取产品列表
+     * @param shopId
+     * @return
+     */
+    @Override
+    public List<Product> listPrductByShopId(Integer shopId){
+        Example example = new Example(Product.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("deleted", false);
+        if (shopId != null){
+            criteria.andEqualTo("shopId", shopId);
+        }
+        return productMapper.selectByExample(example);
+    }
 }

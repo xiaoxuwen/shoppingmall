@@ -1,8 +1,12 @@
 package com.etn.shoppingmall.core;
 
 import com.etn.shoppingmall.core.entity.Ad;
+import com.etn.shoppingmall.core.entity.Product;
+import com.etn.shoppingmall.core.entity.Shop;
 import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.AdService;
+import com.etn.shoppingmall.core.service.ProductService;
+import com.etn.shoppingmall.core.service.ShopService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,10 @@ public class AdServiceTest {
 
     @Autowired
     private AdService adService;
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private ShopService shopService;
 
     @Test
     public void testAdd() {
@@ -57,5 +65,17 @@ public class AdServiceTest {
         SystemContext.setPageOffset(2);
         SystemContext.setPageSize(2);
         System.out.println(adService.list());
+    }
+
+    @Test
+    public void testprouct() {
+        Product product = productService.load(1);
+        product.setFen(product.getFen()-1);
+        boolean boo = productService.update(product);
+        System.out.println(boo);
+
+        Shop shop = shopService.load(product.getShopId());
+        shop.setOrderNum(shop.getOrderNum()+1);
+        shopService.update(shop);
     }
 }
