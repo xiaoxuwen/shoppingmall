@@ -10,6 +10,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.Hashtable;
 
 /**
@@ -127,19 +128,19 @@ public class ZxingHandler {
     public static void main(String[] args) {
 
         // 条形码
-        String imgPath = "D:/6923450657713.png";
-        String contents = "6923450657713";
-        int width = 105, height = 50;
-
-        ZxingHandler.encode(contents, width, height, imgPath);
-        System.out.println("finished zxing EAN-13 encode.");
-
-        String decodeContent = ZxingHandler.decode(imgPath);
-        System.out.println("解码内容如下：" + decodeContent);
-        System.out.println("finished zxing EAN-13 decode.");
+//        String imgPath = "D:/6923450657713.png";
+//        String contents = "6923450657713";
+//        int width = 105, height = 50;
+//
+//        ZxingHandler.encode(contents, width, height, imgPath);
+//        System.out.println("finished zxing EAN-13 encode.");
+//
+//        String decodeContent = ZxingHandler.decode(imgPath);
+//        System.out.println("解码内容如下：" + decodeContent);
+//        System.out.println("finished zxing EAN-13 decode.");
 
         // 二维码
-        String imgPath2 = "D:/1519969660214.png";
+        String imgPath2 = "D:/1519969660210.png";
         String contents2 = "http://www.baidu.com";
         int width2 = 300, height2 = 300;
 
@@ -149,6 +150,11 @@ public class ZxingHandler {
         String decodeContent2 = ZxingHandler.decode2(imgPath2);
         System.out.println("解码内容如下：" + decodeContent2);
         System.out.println("finished zxing decode.");
+
+        LocalDateTime localDateTime= LocalDateTime.of(2018,10,03,00,00,00);
+        System.out.println(LocalDateTime.now().isBefore(localDateTime));
+
+        System.out.println(localDateTime.plusDays(1));;
     }
 
 }
