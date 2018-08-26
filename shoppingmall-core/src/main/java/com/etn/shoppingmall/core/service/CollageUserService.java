@@ -32,4 +32,11 @@ public interface CollageUserService extends BaseService<CollageUser> {
      * @return
      */
     CollageUser querySponsor(String af);
+
+    /**
+     * 删除
+     * @param af
+     * @return
+     */
+    Integer deleteByAf(String af);
 }

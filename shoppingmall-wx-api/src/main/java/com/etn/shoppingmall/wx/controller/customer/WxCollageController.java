@@ -11,6 +11,7 @@ import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.*;
 import com.etn.shoppingmall.wx.annotation.LoginUser;
 import com.etn.shoppingmall.wx.model.NumberManager;
+import io.swagger.models.auth.In;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,11 +75,9 @@ public class WxCollageController {
         if (bid == null || userId == null){
             return ResponseUtil.badArgument();
         }
-        User userInfo = userService.load(userId);
         Collage collage = collageService.load(bid);
-        List<CollageUsers> collageUsersList =collageUserService.listCollageUsers(bid);
-        Map<String, Object> map = new HashMap<>();
-        map.put("userInfo",userInfo);
+        List<CollageUsers> collageUsersList = collageUserService.listCollageUsers(bid);
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("collage", collage);
         map.put("collageUsersList", collageUsersList);
         return ResponseUtil.ok(map);
@@ -100,6 +99,9 @@ public class WxCollageController {
         User userInfo = userService.load(userId);
         //拼团产品信息
         Collage collage = collageService.load(bid);
+        if (collage == null){
+            return ResponseUtil.badArgumentValue();
+        }
 
         //验证会员身份
         if (userInfo.getUserLevel() != FinalValue.USER_LEVEL_VIP){
@@ -110,7 +112,7 @@ public class WxCollageController {
             return ResponseUtil.fail(4,"该产品还未到使用时间！");
         }
         //判断产品是否过期、下架
-        if ((collage.getEndDate().isBefore(LocalDateTime.now()) && collage.getDuring() == 2) || collage.getDeleted()==true){
+        if ((collage.getDuring() == 2 && collage.getEndDate().isBefore(LocalDateTime.now())) || collage.getDeleted()==true){
             return ResponseUtil.fail(5,"该产品已过期/下架！");
         }
         //判断产品数量
@@ -123,7 +125,7 @@ public class WxCollageController {
         collageUser.setProductId(bid);
         collageUser.setUser(userInfo);
         collageUser.setAf(NumberManager.getAf(bid,userId));
-        collageUser.setFlag(1);
+        collageUser.setFlag(FinalValue.SPONSOR);
         collageUser.setAddTime(LocalDateTime.now());
         collageUser.setDeleted(FinalValue.NOT_DELETED);
 
@@ -159,8 +161,9 @@ public class WxCollageController {
      * @return
      */
     @PostMapping("/addCollage")
+    @Transactional
     public ResponseUtil addBargain(@LoginUser Integer userId, @RequestParam("bid") Integer bid, @RequestParam("af") String af, HttpServletRequest request) {
-
+        log.info("===========拼团业务开始===========");
         if (bid == null || userId == null || StringUtil.isBlank(af)){
             return ResponseUtil.badArgument();
         }
@@ -168,10 +171,15 @@ public class WxCollageController {
         User userInfo = userService.load(userId);
         //产品信息
         Collage collage = collageService.load(bid);
+        if (collage == null){
+            return ResponseUtil.badArgumentValue();
+        }
         //店铺信息
         Shop shop = shopService.load(collage.getShopId());
         //获取拼团发起者
         CollageUser sponsorCollageUser = collageUserService.querySponsor(af);
+        //获取所以参团人
+        List<CollageUser> cus = collageUserService.listByAf(af);
 
         //验证参与拼团的用户是不是发起者
         if (sponsorCollageUser.getUser().getId() == userId){
@@ -187,7 +195,7 @@ public class WxCollageController {
             return ResponseUtil.fail(4,"该产品还未到使用时间！");
         }
         //判断产品是否过期、下架
-        if ((collage.getEndDate().isBefore(LocalDateTime.now()) && collage.getDuring() == 2) || collage.getDeleted()==true){
+        if ((collage.getDuring() == 2 && collage.getEndDate().isBefore(LocalDateTime.now())) || collage.getDeleted()==true){
             return ResponseUtil.fail(5,"该产品已过期/下架！");
         }
         //判断产品数量
@@ -195,12 +203,16 @@ public class WxCollageController {
             return ResponseUtil.fail(6,"该产品已卖完!");
         }
 
+        if (cus.size() == collage.getPeople()){
+            return ResponseUtil.fail(7,"此团已达到最大参与人数！");
+        }
+
         //参团数据
         CollageUser newCollageUser  = new CollageUser();
         newCollageUser.setProductId(bid);
         newCollageUser.setUser(userInfo);
         newCollageUser.setAf(af);
-        newCollageUser.setFlag(1);
+        newCollageUser.setFlag(FinalValue.PARTICIPANT);
         newCollageUser.setAddTime(LocalDateTime.now());
         newCollageUser.setDeleted(FinalValue.NOT_DELETED);
 
@@ -216,7 +228,7 @@ public class WxCollageController {
             if (!booJoin){
                 throw new RuntimeException("修改数据异常:更改拼团产品参与人数失败");
             }
-
+            //获取更新后的所以参团人
             List<CollageUser> collageUserList = collageUserService.listByAf(af);
             Order userOrder = null;
             if (collageUserList.size() == collage.getPeople()){
@@ -229,7 +241,7 @@ public class WxCollageController {
                     String sn = NumberManager.getSn(collageUser.getUser().getId());
                     //生成二维码
                     String key =generateKey("erweima.png");
-                    String  requestUrl= request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+                    String requestUrl= request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
                     String qrCodeUrl = requestUrl+"/wx/seller/verification?sn="+sn;
                     int width2 = 300, height2 = 300;
                     ZxingHandler.encode2(qrCodeUrl, width2, height2,  localOsService.getPath(key));
@@ -279,11 +291,15 @@ public class WxCollageController {
                         userOrder=order;
                     }
                 }
-                log.info("订单业务结束！");
+                Integer deleteNumber = collageUserService.deleteByAf(af);
+                if (deleteNumber != collageUserList.size()){
+                    throw new RuntimeException("删除拼团数据失败！");
+                }
+                log.info("订单业务结束！deleteNumber"+deleteNumber);
                 return ResponseUtil.ok("拼团成功",userOrder);
             }
         }catch (Exception e){
-            log.info("用户:"+userInfo+"========开团失败！拼团产品:collage="+collage);
+            log.info("用户:"+userInfo+"========参团失败！拼团产品:collage="+collage);
             log.error(e.getMessage());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseUtil.serious();

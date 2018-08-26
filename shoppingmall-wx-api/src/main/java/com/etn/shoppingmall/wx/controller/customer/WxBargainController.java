@@ -1,9 +1,6 @@
 package com.etn.shoppingmall.wx.controller.customer;
 
-import com.etn.shoppingmall.common.util.CharUtil;
-import com.etn.shoppingmall.common.util.ResponseUtil;
-import com.etn.shoppingmall.common.util.StringUtil;
-import com.etn.shoppingmall.common.util.ZxingHandler;
+import com.etn.shoppingmall.common.util.*;
 import com.etn.shoppingmall.core.entity.*;
 import com.etn.shoppingmall.core.model.FinalValue;
 import com.etn.shoppingmall.core.model.SystemContext;
@@ -24,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Description:砍价产品
@@ -71,25 +69,28 @@ public class WxBargainController {
      * @return
      */
     @GetMapping("/bargainDetail")
-    @Transactional
-    public ResponseUtil bargainDetail(@LoginUser Integer userId, @RequestParam Integer bid) {
-        if (userId == null || bid == null){
+    public ResponseUtil bargainDetail(@LoginUser Integer userId, @RequestParam Integer bid,@RequestParam("af")String af) {
+        if (userId == null || bid == null || StringUtil.isBlank(af)){
             return ResponseUtil.badArgument();
         }
         //获取砍价产品信息
         Bargain bargain = bargainService.load(bid);
-        //获取当前用户信息
-        User userInfo = userService.load(userId);
         //获取砍价发起者
-        BargainUser bargainUser = bargainService.bidAndUserIdByBargainUser(userId,1,bid,null).get(0);
+        List<BargainUser> bargainUserList = bargainService.bidAndUserIdByBargainUser(null,FinalValue.SPONSOR,bid,af);
+        if (bargainUserList.size() < 1){
+            return ResponseUtil.fail(2,"请先发起砍价！");
+        }
+        BargainUser bargainUser = bargainUserList.get(0);
+        //获取砍价发起者信息
+        User userInfo = userService.load(bargainUser.getUser().getId());
         //根据关联编号和产品id获取参与者
-        List<BargainUser> bus = bargainService.listBargainUser(bid,bargainUser.getAf());
+        List<BargainUser> bus = bargainService.listBargainUser(bid,af);
         //获取已砍价格
-        BigDecimal nowPrice=new BigDecimal(0);
+        BigDecimal nowPrice=new BigDecimal("0");
         for (BargainUser bu : bus) {
             nowPrice.add(bu.getPrice());
         }
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("userInfo",userInfo);
         map.put("bargain", bargain);
         map.put("nowPrice", nowPrice);
@@ -113,6 +114,9 @@ public class WxBargainController {
 
         //获取砍价产品
         Bargain bargain = bargainService.load(bid);
+        if (bargain == null){
+            return ResponseUtil.badArgumentValue();
+        }
         //获取当前用户信息
         User userInfo = userService.load(userId);
         //获取砍价发起者
@@ -127,7 +131,7 @@ public class WxBargainController {
             return ResponseUtil.fail(3,"对于同一个砍价产品，你只能发起一次砍价！");
         }
         //判断产品是否到使用时间
-        if ((bargain.getStartDate().isAfter(LocalDateTime.now()) && bargain.getDuring() == 2)){
+        if ((bargain.getDuring() == 2 && bargain.getStartDate().isAfter(LocalDateTime.now()))){
             return ResponseUtil.fail(4,"该产品还未到使用时间！");
         }
         //判断产品是否过期、下架
@@ -140,17 +144,15 @@ public class WxBargainController {
         }
 
         log.info("用户:"+userInfo+"========开始砍价！==========砍价产品:bargain="+bargain);
-        //发起者所砍价格((原价-低价)/砍价所需人数)
+        //发起者所砍价格
         BigDecimal price = bargain.getPrice().subtract(bargain.getLowPrice());
-        Integer people = bargain.getPeople();
-        BigDecimal newPrice = price.divide(new BigDecimal(people),2);
-
+        BigDecimal newPrice = RandomsUtil.num(price);
         //砍价
         BargainUser newBargainUser = new BargainUser();
         newBargainUser.setUser(userInfo);
         newBargainUser.setProductId(bid);
         newBargainUser.setAf(NumberManager.getAf(bid,userId));
-        newBargainUser.setFlag(1);
+        newBargainUser.setFlag(FinalValue.SPONSOR);
         newBargainUser.setPrice(newPrice);
         newBargainUser.setAddTime(LocalDateTime.now());
         newBargainUser.setDeleted(false);
@@ -196,13 +198,17 @@ public class WxBargainController {
         User userInfo = userService.load(userId);
         //产品信息
         Bargain bargain = bargainService.load(bid);
+        if (bargain == null){
+            return ResponseUtil.badArgumentValue();
+        }
         //获取发起者
         BargainUser bargainUser = bargainService.bidAndUserIdByBargainUser(null,FinalValue.SPONSOR,null,af).get(0);
         //店铺信息
         Shop shop = shopService.load(bargain.getShopId());
+        //根据关联编号和产品id获取所有砍价人
+        List<BargainUser> bus = bargainService.listBargainUser(bid,af);
 
         //验证参与砍价的用户是不是发起者
-        System.err.println("bargainUser="+bargainUser.getUser().getId()+"    userId="+userId);
         if (bargainUser.getUser().getId() == userId){
             return ResponseUtil.fail(2,"对于同一个砍价品，您只能砍价一次!");
         }
@@ -220,19 +226,21 @@ public class WxBargainController {
             return ResponseUtil.fail(4,"砍价已过期！");
         }
         //判断产品是否过期、下架
-        if ((bargain.getEndDate().isBefore(LocalDateTime.now()) && bargain.getDuring() == 2) || bargain.getDeleted()==true){
+        if ((bargain.getDuring() == 2  && bargain.getEndDate().isBefore(LocalDateTime.now())) || bargain.getDeleted()==true){
             return ResponseUtil.fail(5,"该产品已过期/下架！");
         }
+        if (bus.size() == bargain.getPeople()){
+            return ResponseUtil.fail(6,"该产品已完成砍价！");
+        }
 
-        //验证会员身份
-//        if (userInfo.getUserLevel() != FinalValue.USER_LEVEL_VIP){
-//            return ResponseUtil.fail(6,"只有会员才能参与砍价,请充值会员！");
-//        }
-
-        //参与者所砍价格(原价/砍价所需人数)
-        BigDecimal price = bargain.getPrice().subtract(bargain.getLowPrice());
-        Integer people = bargain.getPeople();
-        BigDecimal newPrice = price.divide(new BigDecimal(people),2);
+        //参与者所砍价格
+        BigDecimal newPrice = bargain.getPrice().subtract(bargain.getLowPrice());
+        for (int i = 0; i < bus.size(); i++) {
+            newPrice=newPrice.subtract(bus.get(i).getPrice());
+        }
+        if( bus.size()+1 != bargain.getPeople()){
+            newPrice = RandomsUtil.num(newPrice);
+        }
 
         //参与砍价
         BargainUser newBargainUser = new BargainUser();
@@ -258,10 +266,9 @@ public class WxBargainController {
                 throw  new RuntimeException("更改砍价产品参与人数失败");
             }
 
-            //根据关联编号和产品id获取参与者
-            List<BargainUser> bus = bargainService.listBargainUser(bid,af);
+
             //判断砍价成功，参与人数达到指定人数,生成订单
-            if(bus.size() >= people){
+            if(bus.size()+1 >= bargain.getPeople()){
                 log.info("砍价人数达到指定人数，开始订单业务！");
                 Order order = new Order();
                 //产品id
@@ -318,6 +325,7 @@ public class WxBargainController {
                     log.error("=======更改店铺订单量失败！");
                     throw new RuntimeException("更改店铺订单量失败");
                 }
+
                 log.info("订单业务结束！");
             }
 

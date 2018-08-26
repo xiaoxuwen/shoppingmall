@@ -15,7 +15,7 @@ import java.util.List;
 public interface CollageUserMapper extends MyMapper<CollageUser> {
 
     /**
-     * 参团用户列表
+     * 拼团用户列表
      * @return
      */
     List<CollageUser> listCollageUser(@Param("productId")Integer prductId,@Param("flag")Integer flag,@Param("af")String af);
@@ -27,4 +27,10 @@ public interface CollageUserMapper extends MyMapper<CollageUser> {
      */
     boolean addCollageUser(CollageUser collageUser);
 
+    /**
+     * 删除
+     * @param af
+     * @return
+     */
+    Integer deleteByAf(@Param("af")String af);
 }

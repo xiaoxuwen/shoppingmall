@@ -2,10 +2,7 @@ package com.etn.shoppingmall.core.service;
 
 import com.etn.shoppingmall.core.entity.Bargain;
 import com.etn.shoppingmall.core.entity.BargainUser;
-import com.etn.shoppingmall.core.entity.Product;
 import com.etn.shoppingmall.core.model.Pager;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -58,6 +55,12 @@ public interface BargainService extends BaseService<Bargain> {
      */
     boolean todaysBargainUserByUserId(Integer userId);
 
+    /**
+     * 根据af和flag获取
+     * @param af
+     * @param flag
+     * @return
+     */
     BargainUser queryByAfAndFlag(String af,Integer flag);
 
     /**
@@ -66,4 +69,11 @@ public interface BargainService extends BaseService<Bargain> {
      * @return
      */
     List<Bargain> listBargainByShopId(Integer shopId);
+
+    /**
+     * 删除
+     * @param af
+     * @return
+     */
+    Integer deleteByAf(String af);
 }

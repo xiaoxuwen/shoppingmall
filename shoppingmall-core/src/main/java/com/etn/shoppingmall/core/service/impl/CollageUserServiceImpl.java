@@ -1,5 +1,6 @@
 package com.etn.shoppingmall.core.service.impl;
 
+import com.etn.shoppingmall.common.util.StringUtil;
 import com.etn.shoppingmall.core.entity.CollageUser;
 import com.etn.shoppingmall.core.mapper.CollageUserMapper;
 import com.etn.shoppingmall.core.model.CollageUsers;
@@ -52,6 +53,20 @@ public class CollageUserServiceImpl implements CollageUserService {
         return collageUserMapper.updateByPrimaryKeySelective(collageUser) > 0;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public Integer deleteByAf(String af){
+        if (StringUtil.isBlank(af)){
+            return 0;
+        }
+        return collageUserMapper.deleteByAf(af);
+    }
+
+    /**
+     * 不分页获取拼团列表
+     * @param prductId
+     * @return
+     */
     @Override
     public List<CollageUsers> listCollageUsers(Integer prductId) {
         List<CollageUsers> collageUsersList = new ArrayList<CollageUsers>();
@@ -68,11 +83,21 @@ public class CollageUserServiceImpl implements CollageUserService {
         return collageUsersList;
     }
 
+    /**
+     * 根据af获取所以拼团用户
+     * @param af
+     * @return
+     */
     @Override
     public List<CollageUser> listByAf(String af){
         return collageUserMapper.listCollageUser(null,null,af);
     }
 
+    /**
+     * 查询拼团发起者
+     * @param af
+     * @return
+     */
     @Override
     public CollageUser querySponsor(String af){
         List<CollageUser> collageUserList = collageUserMapper.listCollageUser(null,FinalValue.SPONSOR,af);

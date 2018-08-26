@@ -40,4 +40,8 @@
         values(#{productId},#{user.id},#{af},#{flag},#{addTime},#{deleted})
     </insert>
 
+
+    <update id="deleteByAf" parameterType="java.lang.String">
+        update t_collage_user set deleted=1 where af=#{af}
+    </update>
 </mapper>

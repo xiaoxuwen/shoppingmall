@@ -1,5 +1,6 @@
 package com.etn.shoppingmall.common.util;
 
+import java.math.BigDecimal;
 import java.util.Random;
 
 /**
@@ -34,5 +35,9 @@ public class RandomsUtil {
 
     public static char alpha() {
         return ALPHA[num(0, ALPHA.length)];
+    }
+
+    public static BigDecimal num(BigDecimal max){
+        return new BigDecimal(num(max.intValue()));
     }
 }

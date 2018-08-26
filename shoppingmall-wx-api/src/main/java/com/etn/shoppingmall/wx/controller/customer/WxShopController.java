@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Description:店铺
@@ -46,7 +47,8 @@ public class WxShopController {
      *     real_name:"真实姓名",
      *     phone:"手机号",
      *     name:"店名",
-     *     address:"地址"
+     *     address:"地址",
+     *     code:"短信验证码"
      * }
      * @return
      */
@@ -57,7 +59,8 @@ public class WxShopController {
         String phone=JacksonUtil.parseString(body,"phone");
         String name=JacksonUtil.parseString(body,"name");
         String address=JacksonUtil.parseString(body,"address");
-        if (openid == null && real_name == null && phone == null && name == null && address == null ){
+        String code=JacksonUtil.parseString(body,"code");
+        if (openid == null && real_name == null && phone == null && name == null && address == null || code == null){
             return ResponseUtil.badArgument();
         }
         Shop shop = new Shop();
@@ -91,9 +94,9 @@ public class WxShopController {
         List<Collage> collages = collageService.listCollageByShopId(shopId);
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("shop",shop);
-        result.put("products",products);
-        result.put("bargains",bargains);
-        result.put("collages",collages);
+        result.put("products",new ResponseUtil(1,"折扣商品",products));
+        result.put("bargains",new ResponseUtil(2,"砍价商品",bargains));
+        result.put("collages",new ResponseUtil(3,"拼团商品",collages));
         return ResponseUtil.ok(result);
     }
 }

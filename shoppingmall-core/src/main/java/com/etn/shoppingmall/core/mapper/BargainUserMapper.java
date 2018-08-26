@@ -35,4 +35,11 @@ public interface BargainUserMapper extends MyMapper<BargainUser> {
      * @return
      */
     boolean addBargainUser(BargainUser bargainUser);
+
+    /**
+     * 删除
+     * @param af
+     * @return
+     */
+    Integer deleteByAf(@Param("af")String af);
 }

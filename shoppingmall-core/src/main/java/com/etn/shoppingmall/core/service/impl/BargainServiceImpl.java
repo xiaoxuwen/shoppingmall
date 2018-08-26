@@ -1,5 +1,6 @@
 package com.etn.shoppingmall.core.service.impl;
 
+import com.etn.shoppingmall.common.util.StringUtil;
 import com.etn.shoppingmall.core.entity.Bargain;
 import com.etn.shoppingmall.core.entity.BargainUser;
 import com.etn.shoppingmall.core.mapper.BargainMapper;
@@ -88,6 +89,15 @@ public class BargainServiceImpl implements BargainService {
         return bargainUserMapper.updateByPrimaryKeySelective(bargainUser) > 0;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public Integer deleteByAf(String af){
+        if (StringUtil.isBlank(af)){
+            return 0;
+        }
+        return bargainUserMapper.deleteByAf(af);
+    }
+
     /**
      * 分页获取产品
      *
@@ -162,6 +172,12 @@ public class BargainServiceImpl implements BargainService {
         return bargainUserMapper.todaysBargainUserByUserId(userId) >= 3;
     }
 
+    /**
+     *
+     * @param af
+     * @param flag
+     * @return
+     */
     @Override
     public BargainUser queryByAfAndFlag(String af,Integer flag){
         Example example = new Example(BargainUser.class);

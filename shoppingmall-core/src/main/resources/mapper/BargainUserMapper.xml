@@ -53,4 +53,8 @@
             keyColumn="id">
         insert into t_bargain_user(product_id,user_id,af,flag,price,add_time,deleted) values(#{productId},#{user.id},#{af},#{flag},#{price},#{addTime},#{deleted})
     </insert>
+
+    <update id="deleteByAf" parameterType="java.lang.String">
+        update t_bargain_user set deleted=1 where af=#{af}
+    </update>
 </mapper>
