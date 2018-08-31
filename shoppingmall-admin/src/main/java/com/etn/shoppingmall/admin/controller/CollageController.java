@@ -1,7 +1,6 @@
 package com.etn.shoppingmall.admin.controller;
 
 import com.etn.shoppingmall.common.util.ResponseUtil;
-import com.etn.shoppingmall.core.entity.Category;
 import com.etn.shoppingmall.core.entity.Collage;
 import com.etn.shoppingmall.core.entity.Shop;
 import com.etn.shoppingmall.core.model.Pager;

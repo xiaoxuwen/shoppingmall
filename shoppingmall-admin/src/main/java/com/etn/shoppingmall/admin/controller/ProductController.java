@@ -9,6 +9,7 @@ import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.CategoryService;
 import com.etn.shoppingmall.core.service.ProductService;
 import com.etn.shoppingmall.core.service.ShopService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,9 +68,12 @@ public class ProductController {
     @ResponseBody
     @PostMapping("/add")
     public ResponseUtil add(Product product) {
-        String[] str = product.getValidDate().split(" ~ ");
-        product.setStartDate(LocalDateTime.parse(str[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        product.setEndDate(LocalDateTime.parse(str[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        System.out.println(product.getValidDate());
+        if (!StringUtils.isEmpty(product.getValidDate())){
+            String[] str = product.getValidDate().split(" ~ ");
+            product.setStartDate(LocalDateTime.parse(str[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            product.setEndDate(LocalDateTime.parse(str[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        }
         product.setDeleted(false);
         product.setAddTime(LocalDateTime.now());
         if (productService.add(product)) {
