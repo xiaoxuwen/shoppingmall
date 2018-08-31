@@ -26,4 +26,11 @@ public interface ShopMapper extends MyMapper<Shop> {
      * @return
      */
     List<Map<String,Object>> recommendShop(@Param("row")Integer row);
+
+    /**
+     * 根据categoryId获取店铺并根据订单量排序
+     * @param categoryId
+     * @return
+     */
+    List<Shop> listShopByCategory(@Param("name")String name,@Param("categoryId")Integer categoryId);
 }

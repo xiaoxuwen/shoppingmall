@@ -17,9 +17,15 @@ public interface ProductMapper extends MyMapper<Product> {
 
     /**
      * 距离最近的产品
+     * @param name
      * @param latitude
      * @param longitude
+     * @param categoryId
+     * @param sort   需要排序的字段
+     * @param order  排序方式
      * @return
      */
-    List<Map<String,Object>> listDistanceProduct(@Param("name") String name , @Param("latitude") Double latitude, @Param("longitude") Double longitude);
+    List<Map<String,Object>> listDistanceProduct(@Param("name") String name , @Param("latitude") Double latitude,
+                                                 @Param("longitude") Double longitude,@Param("categoryId")Integer categoryId,
+                                                 @Param("sort")String sort,@Param("order")String order);
 }

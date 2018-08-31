@@ -88,6 +88,11 @@
         <if test="name != null and name != ''">
           AND p.`name` LIKE '%${name}%'
         </if>
-        ORDER BY distance ASC
+        <if test="categoryId != null">
+            AND p.category_id=#{categoryId}
+        </if>
+        <if test="sort != null and sort != '' and order != null and order != ''">
+            ORDER BY ${sort} ${order}
+        </if>
     </select>
 </mapper>

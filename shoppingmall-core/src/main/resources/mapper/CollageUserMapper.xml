@@ -34,6 +34,26 @@
         </if>
     </select>
 
+    <select id="queryByBidAndUserId" resultMap="BaseResultMap">
+        SELECT cu.id as cu_id,cu.product_id,cu.flag,cu.af,cu.user_id,cu.add_time,cu.deleted,
+        u.id as user_id,u.real_name,u.avatar_url
+        FROM t_collage_user cu
+        LEFT JOIN t_user u ON cu.user_id=u.id
+        WHERE 1=1
+        <if test="bid != null">
+            AND cu.product_id=#{bid}
+        </if>
+        <if test="userId != null">
+            AND cu.user_id=#{userId}
+        </if>
+        <if test="flag != null">
+            AND cu.flag=#{flag}
+        </if>
+        <if test="af != null and af != ''">
+            AND cu.af=#{af}
+        </if>
+    </select>
+
     <insert id="addCollageUser" parameterType="com.etn.shoppingmall.core.entity.CollageUser"  useGeneratedKeys="true" keyProperty="id"
             keyColumn="id">
         insert into t_collage_user(product_id,user_id,af,flag,add_time,deleted)

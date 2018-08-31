@@ -67,6 +67,9 @@ public class WxBargainController {
      *
      * @param bid 砍价产品id
      * @return
+     * {
+     *     code             //拼团状态  0,正在拼团  1,拼团成功  2,已过期
+     * }
      */
     @GetMapping("/bargainDetail")
     public ResponseUtil bargainDetail(@LoginUser Integer userId, @RequestParam Integer bid,@RequestParam("af")String af) {
@@ -88,9 +91,17 @@ public class WxBargainController {
         //获取已砍价格
         BigDecimal nowPrice=new BigDecimal("0");
         for (BargainUser bu : bus) {
-            nowPrice.add(bu.getPrice());
+            nowPrice = nowPrice.add(bu.getPrice());
+        }
+        Integer code = 0;
+        if (bus.size() == bargain.getPeople()){
+            code = 1;
+        }
+        if ((bus.size() != bargain.getPeople()) && bargainUser.getAddTime().plusDays(1).isBefore(LocalDateTime.now())){
+            code = 2;
         }
         Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code",code);
         map.put("userInfo",userInfo);
         map.put("bargain", bargain);
         map.put("nowPrice", nowPrice);
@@ -106,8 +117,9 @@ public class WxBargainController {
      */
     @PostMapping("/launchBargain")
     @Transactional
-    public ResponseUtil launchBargain(@LoginUser Integer userId, @RequestParam("bid")Integer bid) {
+    public ResponseUtil launchBargain(@LoginUser Integer userId, @RequestBody String body) {
         log.info("===============发起砍价业务开始================");
+        Integer bid = JacksonUtil.parseInteger(body,"bid");
         if (bid == null || userId == null){
             return ResponseUtil.badArgument();
         }
@@ -127,15 +139,19 @@ public class WxBargainController {
             return ResponseUtil.fail(2,"只有会员才能发起砍价,请充值会员！");
         }
         //对于同一个砍价品，只能发起一次砍价
-        if (bargainUserList.size() > 0){
+        if (bargainUserList.size() > 0 && LocalDateTime.now().isBefore(bargainUserList.get(0).getAddTime().plusDays(1))){
             return ResponseUtil.fail(3,"对于同一个砍价产品，你只能发起一次砍价！");
+        }
+        List<Order> orderList = orderService.verificationCoupon(userId,bid,null,FinalValue.ORDER_TYPE_BARGAIN);
+        if (orderList.size() > 0 ){
+            return ResponseUtil.fail(7,"您已成功砍价过此产品!");
         }
         //判断产品是否到使用时间
         if ((bargain.getDuring() == 2 && bargain.getStartDate().isAfter(LocalDateTime.now()))){
             return ResponseUtil.fail(4,"该产品还未到使用时间！");
         }
         //判断产品是否过期、下架
-        if ((bargain.getEndDate().isBefore(LocalDateTime.now()) && bargain.getDuring() == 2) || bargain.getDeleted()==true){
+        if ((bargain.getDuring() == 2 && bargain.getEndDate().isBefore(LocalDateTime.now())) || bargain.getDeleted()==true){
             return ResponseUtil.fail(5,"该产品已过期/下架！");
         }
         //判断产品数量
@@ -151,7 +167,7 @@ public class WxBargainController {
         BargainUser newBargainUser = new BargainUser();
         newBargainUser.setUser(userInfo);
         newBargainUser.setProductId(bid);
-        newBargainUser.setAf(NumberManager.getAf(bid,userId));
+        newBargainUser.setAf(NumberManager.getAf());
         newBargainUser.setFlag(FinalValue.SPONSOR);
         newBargainUser.setPrice(newPrice);
         newBargainUser.setAddTime(LocalDateTime.now());
@@ -184,13 +200,19 @@ public class WxBargainController {
     /**
      * 4.参与砍价
      *
-     * @param bid
+     * @param body
+     * {
+     *     bid //砍价产品id
+     *     af   //砍价标识
+     * }
      * @return
      */
     @PostMapping("/addBargain")
     @Transactional
-    public ResponseUtil addBargain(@LoginUser Integer userId, @RequestParam("bid") Integer bid, @RequestParam("af") String af, HttpServletRequest request) {
+    public ResponseUtil addBargain(@LoginUser Integer userId,@RequestBody String body, HttpServletRequest request) {
         log.info("=========参与砍价业务开始！=========");
+        Integer bid = JacksonUtil.parseInteger(body,"bid");
+        String af = JacksonUtil.parseString(body,"af");
         if (bid == null || userId == null || StringUtil.isBlank(af)){
             return ResponseUtil.badArgument();
         }
@@ -275,10 +297,10 @@ public class WxBargainController {
                 Product product = new Product();
                 product.setId(bargain.getId());
                 //生成订单编号
-                String sn = NumberManager.getSn(bargainUser.getUser().getId());
+                String sn = NumberManager.getSn();
                 //生成二维码
                 String key =generateKey("erweima.png");
-                String  requestUrl= request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+                String  requestUrl= request.getScheme()+"://"+request.getServerName();
                 String qrCodeUrl = requestUrl+"/wx/seller/verification?sn="+sn;
                 int width2 = 300, height2 = 300;
                 ZxingHandler.encode2(qrCodeUrl, width2, height2,  localOsService.getPath(key));
@@ -358,4 +380,5 @@ public class WxBargainController {
 
         return key;
     }
+
 }

@@ -2,6 +2,7 @@ package com.etn.shoppingmall.wx.controller.customer;
 
 import com.etn.shoppingmall.common.util.JacksonUtil;
 import com.etn.shoppingmall.common.util.ResponseUtil;
+import com.etn.shoppingmall.common.util.SecurityUtil;
 import com.etn.shoppingmall.core.entity.Bargain;
 import com.etn.shoppingmall.core.entity.Collage;
 import com.etn.shoppingmall.core.entity.Product;
@@ -11,14 +12,14 @@ import com.etn.shoppingmall.core.service.BargainService;
 import com.etn.shoppingmall.core.service.CollageService;
 import com.etn.shoppingmall.core.service.ProductService;
 import com.etn.shoppingmall.core.service.ShopService;
-import jdk.nashorn.internal.ir.LiteralNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * Description:店铺
@@ -49,11 +50,12 @@ public class WxShopController {
      *     name:"店名",
      *     address:"地址",
      *     code:"短信验证码"
+     *     sessionId:"String"
      * }
      * @return
      */
     @PostMapping("/shopApply")
-    public ResponseUtil shopApply(@RequestBody String body) {
+    public ResponseUtil shopApply(@RequestBody String body, HttpSession session) {
         String openid=JacksonUtil.parseString(body,"openid");
         String real_name=JacksonUtil.parseString(body,"real_name");
         String phone=JacksonUtil.parseString(body,"phone");
@@ -63,6 +65,10 @@ public class WxShopController {
         if (openid == null && real_name == null && phone == null && name == null && address == null || code == null){
             return ResponseUtil.badArgument();
         }
+        String verifyCode = (String) session.getAttribute("verifyCode");
+        if (!(code.equals(verifyCode))) {
+            return ResponseUtil.fail(3,"验证码错误,请重新输入！");
+        }
         Shop shop = new Shop();
         shop.setOpenid(openid);
         shop.setRealName(real_name);
@@ -70,7 +76,9 @@ public class WxShopController {
         shop.setName(name);
         shop.setAddress(address);
         shop.setStatus(FinalValue.SHOP_STATUS_ING);
-        boolean addStuts = shopService.add(shop);
+        shop.setDeleted(FinalValue.NOT_DELETED);
+        shop.setPassword(SecurityUtil.md5("123456"));
+        boolean addStuts = shopService.addMapper(shop);
         if (!addStuts){
             return ResponseUtil.serious();
         }

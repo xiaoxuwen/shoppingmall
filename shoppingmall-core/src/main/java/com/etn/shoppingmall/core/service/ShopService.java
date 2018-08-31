@@ -22,6 +22,8 @@ public interface ShopService extends BaseService<Shop> {
 
     boolean add(Shop shop);
 
+    boolean addMapper(Shop shop);
+
     boolean update(Shop shop);
 
     /**
@@ -30,6 +32,14 @@ public interface ShopService extends BaseService<Shop> {
      * @return
      */
     List<Shop> listShop(String name);
+
+    /**
+     * 人气最旺的店铺(根据行业属性筛选)
+     * @param name
+     * @param categoryId
+     * @return
+     */
+    List<Shop> listShop(String name,Integer categoryId);
 
     /**
      * 店铺登录

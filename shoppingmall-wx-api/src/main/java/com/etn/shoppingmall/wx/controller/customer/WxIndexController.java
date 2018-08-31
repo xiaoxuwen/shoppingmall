@@ -1,13 +1,13 @@
 package com.etn.shoppingmall.wx.controller.customer;
 
+import com.etn.shoppingmall.common.util.JacksonUtil;
 import com.etn.shoppingmall.common.util.ResponseUtil;
+import com.etn.shoppingmall.common.util.StringUtil;
+import com.etn.shoppingmall.core.model.FinalValue;
 import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,39 +34,65 @@ public class WxIndexController {
 
     /**
      * 1、首页信息(广告数据、行业属性列表、折扣最低的产品)
-     *
+     * @param latitude
+     * @param longitude
      * @return
      */
     @GetMapping("/index")
-    public ResponseUtil index() {
+    public ResponseUtil index(Double latitude,Double longitude) {
+        if (latitude == null || longitude == null){
+            latitude = FinalValue.INITIAL_LATITUDE;
+            longitude = FinalValue.INITIAL_LONGITUDE;
+        }
         Map<String, Object> data = new HashMap<>();
         data.put("ads", adService.listAd());
         data.put("categorys", categoryService.listCategory());
-        data.put("products", productService.listDiscountProduct(null));
+        data.put("products", productService.listDiscountProduct(null,latitude,longitude));
         return ResponseUtil.ok(data);
     }
 
     /**
      * 2、折扣最低的产品
      *
-     * @param name 产品名称
+     * @param body 产品名称
+     * {
+     *      name:"",
+     *     latitude:"",
+     *    longitude:"",
+     * }
      * @return
      */
     @PostMapping("/discountProduct")
-    public ResponseUtil discountProduct(String name) {
-        return ResponseUtil.ok(productService.listDiscountProduct(name));
+    public ResponseUtil discountProduct(@RequestBody String body) {
+        Double latitude = JacksonUtil.parseDouble(body,"latitude");
+        Double longitude = JacksonUtil.parseDouble(body,"longitude");
+        String name = JacksonUtil.parseString(body,"name");
+        if (latitude == null || longitude == null){
+            latitude = FinalValue.INITIAL_LATITUDE;
+            longitude = FinalValue.INITIAL_LONGITUDE;
+        }
+        return ResponseUtil.ok(productService.listDiscountProduct(name,latitude,longitude));
     }
 
     /**
      * 3、距离最近的产品(用户与店铺的距离)
      *
-     * @param name 产品名称
+     * @param body
+     * {
+     *     name:"",
+     *     latitude:"",
+     *     longitude:"",
+     * }
      * @return
      */
     @PostMapping("/distanceProduct")
-    public ResponseUtil distanceProduct(String name,Double latitude,Double longitude) {
+    public ResponseUtil distanceProduct(@RequestBody String body) {
+        Double latitude = JacksonUtil.parseDouble(body,"latitude");
+        Double longitude = JacksonUtil.parseDouble(body,"longitude");
+        String name = JacksonUtil.parseString(body,"name");
         if (latitude == null || longitude == null){
-            return ResponseUtil.badArgument();
+            latitude = FinalValue.INITIAL_LATITUDE;
+            longitude = FinalValue.INITIAL_LONGITUDE;
         }
         return ResponseUtil.ok(productService.listDistanceProduct(name,latitude,longitude));
     }
@@ -109,16 +135,73 @@ public class WxIndexController {
     }
 
     /**
-     * 7、产品筛选（行业属性筛选）
-     *
-     * @param categoryId 行业属性id
+     * 7、折扣产品筛选（行业属性筛选）
+     * @param body
+     * {
+     *     categoryId:"",
+     *     latitude:"",
+     *     longitude:"",
+     * }
      * @return
      */
-    @GetMapping("/listProduct")
-    public ResponseUtil listProduct(Integer categoryId) {
+    @PostMapping("/listProduct")
+    public ResponseUtil listProduct(@RequestBody String body) {
+        Double latitude = JacksonUtil.parseDouble(body,"latitude");
+        Double longitude = JacksonUtil.parseDouble(body,"longitude");
+        Integer categoryId = JacksonUtil.parseInteger(body,"categoryId");
         if(categoryId == null){
             return ResponseUtil.badArgument();
         }
-        return ResponseUtil.ok(productService.listProduct(categoryId));
+        if (latitude == null || longitude == null){
+            latitude = FinalValue.INITIAL_LATITUDE;
+            longitude = FinalValue.INITIAL_LONGITUDE;
+        }
+        return ResponseUtil.ok(productService.listDiscountProductByCategory(categoryId,latitude,longitude));
+    }
+
+    /**
+     * 8、距离最近的产品筛选（行业属性筛选）
+     *
+     * @param body
+     * {
+     *     latitude:"Double",
+     *     longitude:"Double",
+     *     categoryId:"Integer"
+     * }
+     * @return
+     */
+    @PostMapping("/distanceProductByCategory")
+    public ResponseUtil distanceProductByCategory(@RequestBody String body) {
+        Double latitude = JacksonUtil.parseDouble(body,"latitude");
+        Double longitude = JacksonUtil.parseDouble(body,"longitude");
+        Integer categoryId = JacksonUtil.parseInteger(body,"categoryId");
+        if(categoryId == null){
+            return ResponseUtil.badArgument();
+        }
+        if (latitude == null || longitude == null){
+            latitude = FinalValue.INITIAL_LATITUDE;
+            longitude = FinalValue.INITIAL_LONGITUDE;
+        }
+        return ResponseUtil.ok(productService.listDistanceProductByCategory(categoryId,latitude,longitude));
+    }
+
+    /**
+     * 9、人气最旺的店铺(店铺的订单数量降序)(行业属性筛选)
+     *
+     * @param body
+     * {
+     *     name:"String",  店铺名
+     *     categoryId:"Integer" 行业属性id
+     * }
+     * @return
+     */
+    @PostMapping("/hotShopByCategoryId")
+    public ResponseUtil hotShopByCategoryId(@RequestBody String body) {
+        Integer categoryId = JacksonUtil.parseInteger(body,"categoryId");
+        String name = JacksonUtil.parseString(body,"name");
+        if (categoryId == null){
+            return ResponseUtil.badArgument();
+        }
+        return ResponseUtil.ok(shopService.listShop(name,categoryId));
     }
 }

@@ -111,10 +111,10 @@ public class WxProductController {
             return ResponseUtil.fail(6,"该产品已卖完!");
         }
         //生成订单编号
-        String sn = NumberManager.getSn(userId);
+        String sn = NumberManager.getSn();
         //生成二维码
         String key =generateKey("erweima.png");
-        String  requestUrl= request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+        String  requestUrl= request.getScheme()+"://"+request.getServerName();
         String qrCodeUrl = requestUrl+"/wx/seller/verification?sn="+sn;
         int width2 = 300, height2 = 300;
         ZxingHandler.encode2(qrCodeUrl, width2, height2,  localOsService.getPath(key));

@@ -2,6 +2,7 @@ package com.etn.shoppingmall.core.mapper;
 
 import com.etn.shoppingmall.core.MyMapper;
 import com.etn.shoppingmall.core.entity.CollageUser;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -33,4 +34,12 @@ public interface CollageUserMapper extends MyMapper<CollageUser> {
      * @return
      */
     Integer deleteByAf(@Param("af")String af);
+
+    /**
+     * 根据产品id和用户id查询
+     * @param bid
+     * @param userId
+     * @return
+     */
+    List<CollageUser> queryByBidAndUserId(@Param("bid")Integer bid, @Param("userId")Integer userId, @Param("flag")Integer flag,@Param("af")String af);
 }

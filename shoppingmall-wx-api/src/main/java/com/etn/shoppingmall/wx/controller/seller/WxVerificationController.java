@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Description: 商家版核销api
@@ -38,6 +40,9 @@ public class WxVerificationController {
      * @param sn  订单编号
      * @param shopId  店铺id
      * @return 1 核销成功  0  核销失败
+     *{
+     *     flag  //2订单核销   1会员验证
+     *}
      */
     @ApiOperation(value = "核销",notes = "核销的接口")
     @ApiImplicitParam(name = "sn",value = "订单编号",required = true,dataType = "String",paramType = "query")
@@ -103,7 +108,9 @@ public class WxVerificationController {
             logger.info("系统内部错误：修改订单状态失败！");
             return ResponseUtil.serious();
         }
-        return ResponseUtil.fail(1,"核销成功");
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("flag",2);
+        return ResponseUtil.ok("核销成功！",result);
     }
 
 }

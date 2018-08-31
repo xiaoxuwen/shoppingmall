@@ -92,8 +92,8 @@ public class LocalOsServiceImpl implements ObjectStorageService {
     @Override
     public String generateUrl(String keyName) {
         String url = osConfig.getAddress() + "/os/storage/fetch/" + keyName;
-        if (!url.startsWith("http")) {
-            url = "http://" + url;
+        if (!url.startsWith("https")) {
+            url = "https://" + url;
         }
         return url;
     }

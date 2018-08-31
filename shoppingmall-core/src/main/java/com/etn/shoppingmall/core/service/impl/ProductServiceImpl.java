@@ -7,7 +7,6 @@ import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.ProductService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -79,6 +78,27 @@ public class ProductServiceImpl implements ProductService {
         return new Pager<>(pageList.getTotal(), list);
     }
 
+    /**
+     * 不分页获取产品(行业属性二级筛选)(附带距离)(距离排序)(折扣排序)
+     * @param name
+     * @param latitude
+     * @param longitude
+     * @param categoryId
+     * @param sort
+     * @param order
+     * @return
+     */
+    @Override
+    public List<Map<String,Object>> listProduct(String name, Double latitude, Double longitude,
+                                                Integer categoryId,String sort,String order) {
+        return productMapper.listDistanceProduct(name,latitude,longitude,categoryId,SystemContext.getSort(),SystemContext.getOrder());
+    }
+
+    /**
+     * 获取折扣最低产品
+     * @param name
+     * @return
+     */
     @Override
     public List<Product> listDiscountProduct(String name) {
         Example example = new Example(Product.class);
@@ -92,30 +112,50 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * 距离最近的产品
-     *
+     * 获取折扣最低产品(附带距离)
+     * @param name
+     * @param latitude
+     * @param longitude
      * @return
      */
     @Override
-    public List<Map<String,Object>> listDistanceProduct(String name, Double latitude, Double longitude) {
-        return productMapper.listDistanceProduct(name,latitude,longitude);
+    public List<Map<String,Object>> listDiscountProduct(String name, Double latitude, Double longitude) {
+        return productMapper.listDistanceProduct(name,latitude,longitude,null,"discount","desc");
     }
 
+
     /**
-     * 根据行业获取产品
+     * 根据行业获取折扣最低产品(附带距离)
      *
      * @param categoryId 行业id
      * @return
      */
     @Override
-    public List<Product> listProduct(Integer categoryId) {
-        Example example = new Example(Product.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("deleted", false);
-        criteria.andEqualTo("categoryId", categoryId);
-        return productMapper.selectByExample(example);
+    public List<Map<String,Object>> listDiscountProductByCategory(Integer categoryId, Double latitude, Double longitude) {
+        return productMapper.listDistanceProduct(null,latitude,longitude,categoryId,"discount","desc");
     }
 
+    /**
+     * 获取距离最近的产品
+     * @param name
+     * @param latitude
+     * @param longitude
+     * @return
+     */
+    public List<Map<String,Object>> listDistanceProduct(String name,Double latitude, Double longitude){
+        return productMapper.listDistanceProduct(name,latitude,longitude,null,"distance","asc");
+    }
+
+    /**
+     * 根据行业属性获取距离最近的产品
+     * @param categoryId
+     * @param latitude
+     * @param longitude
+     * @return
+     */
+    public List<Map<String,Object>> listDistanceProductByCategory(Integer categoryId,Double latitude, Double longitude){
+        return productMapper.listDistanceProduct(null,latitude,longitude,categoryId,"distance","asc");
+    }
     /**
      * 根据店铺id获取产品列表
      * @param shopId

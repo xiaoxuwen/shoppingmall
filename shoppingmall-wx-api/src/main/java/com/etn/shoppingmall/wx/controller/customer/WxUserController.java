@@ -5,9 +5,7 @@ import com.etn.shoppingmall.core.entity.Order;
 import com.etn.shoppingmall.core.entity.Shop;
 import com.etn.shoppingmall.core.entity.User;
 import com.etn.shoppingmall.core.model.FinalValue;
-import com.etn.shoppingmall.core.service.OrderService;
-import com.etn.shoppingmall.core.service.ShopService;
-import com.etn.shoppingmall.core.service.UserService;
+import com.etn.shoppingmall.core.service.*;
 import com.etn.shoppingmall.wx.annotation.LoginUser;
 import com.etn.shoppingmall.wx.model.UserTokenManager;
 import io.swagger.models.auth.In;
@@ -34,9 +32,13 @@ public class WxUserController {
     private ShopService shopService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private BargainService bargainService;
+    @Autowired
+    private CollageUserService collageUserService;
 
     /**
-     * 我的信息-个人二维码
+     * 我的信息- 个人二维码
      *
      * @param userId 用户id
      * @return
@@ -100,6 +102,32 @@ public class WxUserController {
     @GetMapping("/recommendShop")
     public ResponseUtil recommendShop(@LoginUser Integer userId) {
         return ResponseUtil.ok(shopService.recommendShop());
+    }
+
+    /**
+     * 5、我的砍价列表
+     * @param userId
+     * @return
+     */
+    @GetMapping("/myBargainList")
+    public ResponseUtil myBargainList(@LoginUser Integer userId){
+        if (userId == null){
+            return ResponseUtil.badArgument();
+        }
+        return ResponseUtil.ok(bargainService.listBargainByUserId(userId));
+    }
+
+    /**
+     * 6、我的拼团列表
+     * @param userId
+     * @return
+     */
+    @GetMapping("/myCollageList")
+    public ResponseUtil myCollageList(@LoginUser Integer userId){
+        if (userId == null){
+            return ResponseUtil.badArgument();
+        }
+        return ResponseUtil.ok(collageUserService.listCollageByUserId(userId));
     }
 
 }

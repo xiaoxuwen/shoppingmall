@@ -1,9 +1,6 @@
 package com.etn.shoppingmall.wx.controller.customer;
 
-import com.etn.shoppingmall.common.util.CharUtil;
-import com.etn.shoppingmall.common.util.ResponseUtil;
-import com.etn.shoppingmall.common.util.StringUtil;
-import com.etn.shoppingmall.common.util.ZxingHandler;
+import com.etn.shoppingmall.common.util.*;
 import com.etn.shoppingmall.core.entity.*;
 import com.etn.shoppingmall.core.model.CollageUsers;
 import com.etn.shoppingmall.core.model.FinalValue;
@@ -20,6 +17,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +51,7 @@ public class WxCollageController {
     private ShopService shopService;
 
     /**
-     * 拼团产品列表
+     * 1.拼团产品列表
      * @return
      */
     @GetMapping("/listCollage")
@@ -65,19 +63,24 @@ public class WxCollageController {
     }
 
     /**
-     * 2、拼团详情页
+     * 2、拼团产品详情页
      *
-     * @param bid 砍价产品id
+     * @param bid 拼团产品产品id
      * @return
+     * {
+     *     isSponsor  //是否发起过此产品的 1发起过  0未发起过
+     * }
      */
     @GetMapping("/collageDetail")
-    public ResponseUtil bargainDetail(@LoginUser Integer userId, @RequestParam Integer bid) {
+    public ResponseUtil collageDetail(@LoginUser Integer userId, @RequestParam Integer bid) {
         if (bid == null || userId == null){
             return ResponseUtil.badArgument();
         }
         Collage collage = collageService.load(bid);
         List<CollageUsers> collageUsersList = collageUserService.listCollageUsers(bid);
+        Integer isSponsor = collageUserService.verify(bid,userId);
         Map<String, Object> map = new HashMap<String, Object>();
+        map.put("isSponsor",isSponsor);
         map.put("collage", collage);
         map.put("collageUsersList", collageUsersList);
         return ResponseUtil.ok(map);
@@ -85,13 +88,17 @@ public class WxCollageController {
 
     /**
      * 3.开团
-     *
+     * @param body
+     * {
+     *     bid;""
+     * }
      * @return
      */
     @PostMapping("/launchCollage")
     @Transactional
-    public ResponseUtil launchCollage(@LoginUser Integer userId, @RequestParam("bid")Integer bid) {
+    public ResponseUtil launchCollage(@LoginUser Integer userId,@RequestBody String body) {
         log.info("========拼团业务开始========");
+        Integer bid = JacksonUtil.parseInteger(body,"bid");
         if (bid == null || userId == null){
             return ResponseUtil.badArgument();
         }
@@ -108,7 +115,7 @@ public class WxCollageController {
             return ResponseUtil.fail(2,"只有会员才能开团,请充值会员！");
         }
         //判断产品是否到使用时间
-        if ((collage.getStartDate().isAfter(LocalDateTime.now()) && collage.getDuring() == 2)){
+        if ((collage.getDuring() == 2 && collage.getStartDate().isAfter(LocalDateTime.now()))){
             return ResponseUtil.fail(4,"该产品还未到使用时间！");
         }
         //判断产品是否过期、下架
@@ -124,7 +131,7 @@ public class WxCollageController {
         CollageUser collageUser  = new CollageUser();
         collageUser.setProductId(bid);
         collageUser.setUser(userInfo);
-        collageUser.setAf(NumberManager.getAf(bid,userId));
+        collageUser.setAf(NumberManager.getAf());
         collageUser.setFlag(FinalValue.SPONSOR);
         collageUser.setAddTime(LocalDateTime.now());
         collageUser.setDeleted(FinalValue.NOT_DELETED);
@@ -154,16 +161,20 @@ public class WxCollageController {
     }
 
     /**
-     * 参团
-     * @param userId
-     * @param bid
-     * @param af
+     * 4.参团
+     * @param body
+     * {
+     *     bid:""    //拼团产品id
+     *     af:""   //团标识
+     * }
      * @return
      */
     @PostMapping("/addCollage")
     @Transactional
-    public ResponseUtil addBargain(@LoginUser Integer userId, @RequestParam("bid") Integer bid, @RequestParam("af") String af, HttpServletRequest request) {
+    public ResponseUtil addBargain(@LoginUser Integer userId,@RequestBody String body, HttpServletRequest request) {
         log.info("===========拼团业务开始===========");
+        Integer bid = JacksonUtil.parseInteger(body,"bid");
+        String af = JacksonUtil.parseString(body,"af");
         if (bid == null || userId == null || StringUtil.isBlank(af)){
             return ResponseUtil.badArgument();
         }
@@ -238,10 +249,10 @@ public class WxCollageController {
                     Product product = new Product();
                     product.setId(collage.getId());
                     //生成订单编号
-                    String sn = NumberManager.getSn(collageUser.getUser().getId());
+                    String sn = NumberManager.getSn();
                     //生成二维码
                     String key =generateKey("erweima.png");
-                    String requestUrl= request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+                    String requestUrl= request.getScheme()+"://"+request.getServerName();
                     String qrCodeUrl = requestUrl+"/wx/seller/verification?sn="+sn;
                     int width2 = 300, height2 = 300;
                     ZxingHandler.encode2(qrCodeUrl, width2, height2,  localOsService.getPath(key));
@@ -323,6 +334,46 @@ public class WxCollageController {
         while (storage != null);
 
         return key;
+    }
+
+
+    /**
+     * 5.我的拼团详情
+     * @param userId
+     * @param af
+     * @return
+     * {
+     *     code             //拼团状态  0,正在拼团  1,拼团成功  2,已过期
+     *     collage          //拼团产品
+     *     shortPeople      //还差几人
+     *     collageUserList  //拼团人列表
+     *     beginTime        //开团时间
+     * }
+     */
+    @GetMapping("/myCollageDetail")
+    public ResponseUtil myCollageDetail(@LoginUser Integer userId ,String af){
+        if (StringUtil.isBlank(af) || userId == null){
+            return ResponseUtil.badArgument();
+        }
+
+        List<CollageUser> collageUserList = collageUserService.listByAf(af);
+        CollageUser sponsor = collageUserService.querySponsor(af);
+        Collage collage = collageService.load(sponsor.getProductId());
+        Integer code = 0;
+        System.out.println(sponsor);
+        if (sponsor.getDeleted()){
+            code = 1;
+        }
+        if (!(sponsor.getDeleted()) && sponsor.getAddTime().plusDays(1).isBefore(LocalDateTime.now())){
+            code = 2;
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code",code);
+        map.put("collage",collage);
+        map.put("shortPeople", (collage.getPeople()-collageUserList.size()));
+        map.put("collageUserList", collageUserList);
+        map.put("beginTime",sponsor.getAddTime());
+        return ResponseUtil.ok(map);
     }
 
 }

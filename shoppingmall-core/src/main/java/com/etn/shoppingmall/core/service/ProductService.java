@@ -21,26 +21,58 @@ public interface ProductService extends BaseService<Product> {
     Pager<Product> find(String name);
 
     /**
-     * 折扣最低的产品
+     * 不分页获取产品(行业属性二级筛选)(附带距离)(距离排序)(折扣排序)
+     * @param name
+     * @param latitude
+     * @param longitude
+     * @param categoryId
+     * @param sort
+     * @param order
+     * @return
+     */
+    List<Map<String,Object>> listProduct(String name, Double latitude, Double longitude,Integer categoryId,String sort,String order);
+
+    /**
+     * 获取折扣最低产品
      *
      * @return
      */
     List<Product> listDiscountProduct(String name);
 
     /**
-     * 距离最近的产品
+     * 获取折扣最低产品(附带距离)
      *
      * @return
      */
-    List<Map<String,Object>> listDistanceProduct(String name, Double latitude, Double longitude);
+    List<Map<String,Object>> listDiscountProduct(String name, Double latitude, Double longitude);
+
 
     /**
-     * 根据行业获取产品
+     * 根据行业获取折扣最低产品(附带距离)
      *
      * @param categoryId 行业id
      * @return
      */
-    List<Product> listProduct(Integer categoryId);
+    List<Map<String,Object>> listDiscountProductByCategory(Integer categoryId, Double latitude, Double longitude);
+
+    /**
+     * 获取距离最近的产品
+     * @param name
+     * @param latitude
+     * @param longitude
+     * @return
+     */
+    List<Map<String,Object>> listDistanceProduct(String name,Double latitude, Double longitude);
+
+    /**
+     * 根据行业属性获取距离最近的产品
+     * @param categoryId
+     * @param latitude
+     * @param longitude
+     * @return
+     */
+    public List<Map<String,Object>> listDistanceProductByCategory(Integer categoryId,Double latitude, Double longitude);
+
     /**
      * 根据店铺id获取产品列表
      * @param shopId

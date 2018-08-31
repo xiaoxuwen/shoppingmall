@@ -141,7 +141,7 @@ public class ZxingHandler {
 
         // 二维码
         String imgPath2 = "D:/1519969660210.png";
-        String contents2 = "http://www.baidu.com";
+        String contents2 = "https://xcx.etn6.cn/wx/seller/verifyMember?userId=7";
         int width2 = 300, height2 = 300;
 
         ZxingHandler.encode2(contents2, width2, height2, imgPath2);

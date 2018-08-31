@@ -5,6 +5,7 @@ import com.etn.shoppingmall.core.entity.BargainUser;
 import com.etn.shoppingmall.core.model.Pager;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description:
@@ -69,6 +70,13 @@ public interface BargainService extends BaseService<Bargain> {
      * @return
      */
     List<Bargain> listBargainByShopId(Integer shopId);
+
+    /**
+     * 根据id获取砍价产品列表
+     * @param userId
+     * @return
+     */
+    List<Map<String,Object>> listBargainByUserId(Integer userId);
 
     /**
      * 删除

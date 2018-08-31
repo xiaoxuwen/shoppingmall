@@ -40,4 +40,7 @@ public class FinalValue {
     public static final Integer SPONSOR = 1;          //发起者
     public static final Integer PARTICIPANT = 2;         //参与者
 
+    public static final Double INITIAL_LATITUDE = 33.01;       // 初始纬度
+    public static final Double INITIAL_LONGITUDE = 112.53;    //初始经度
+
 }

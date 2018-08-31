@@ -105,4 +105,19 @@
         </if>
     </select>
 
+    <select id="listShopByCategory" resultMap="BaseResultMap">
+        SELECT s.* FROM t_shop s
+        LEFT JOIN t_product p ON p.shop_id=s.id
+        WHERE s.status=1
+        AND s.deleted=0
+        <if test="categoryId != null">
+           AND p.category_id=#{categoryId}
+        </if>
+        <if test="name != null and name != ''">
+            AND s.name like '%${name}%'
+        </if>
+        GROUP BY s.id
+        ORDER BY s.order_num DESC
+    </select>
+
 </mapper>

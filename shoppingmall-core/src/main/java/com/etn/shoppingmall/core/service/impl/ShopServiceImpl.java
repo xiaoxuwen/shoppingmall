@@ -64,7 +64,12 @@ public class ShopServiceImpl implements ShopService {
         return shopMapper.add(shop);
     }
 
+    public boolean addMapper(Shop shop){
+        return shopMapper.insertSelective(shop) > 0;
+    }
+
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public boolean update(Shop shop) {
         return shopMapper.update(shop);
     }
@@ -87,6 +92,16 @@ public class ShopServiceImpl implements ShopService {
         }
 
         return shopMapper.selectByExample(example);
+    }
+
+    /**
+     * 人气最旺的店铺(根据行业属性筛选)
+     *
+     * @return
+     */
+    @Override
+    public List<Shop> listShop(String name,Integer categoryId) {
+        return shopMapper.listShopByCategory(name,categoryId);
     }
 
     /**
