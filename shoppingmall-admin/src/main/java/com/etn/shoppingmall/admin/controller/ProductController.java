@@ -68,7 +68,6 @@ public class ProductController {
     @ResponseBody
     @PostMapping("/add")
     public ResponseUtil add(Product product) {
-        System.out.println(product.getValidDate());
         if (!StringUtils.isEmpty(product.getValidDate())){
             String[] str = product.getValidDate().split(" ~ ");
             product.setStartDate(LocalDateTime.parse(str[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));

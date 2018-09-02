@@ -8,6 +8,7 @@ import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.CategoryService;
 import com.etn.shoppingmall.core.service.CollageService;
 import com.etn.shoppingmall.core.service.ShopService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,9 +65,11 @@ public class CollageController {
     @ResponseBody
     @PostMapping("/add")
     public ResponseUtil add(Collage collage) {
-        String[] str = collage.getValidDate().split(" ~ ");
-        collage.setStartDate(LocalDateTime.parse(str[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        collage.setEndDate(LocalDateTime.parse(str[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        if (!StringUtils.isEmpty(collage.getValidDate())){
+            String[] str = collage.getValidDate().split(" ~ ");
+            collage.setStartDate(LocalDateTime.parse(str[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            collage.setEndDate(LocalDateTime.parse(str[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        }
         collage.setDeleted(false);
         collage.setAddTime(LocalDateTime.now());
         if (collageService.add(collage)) {

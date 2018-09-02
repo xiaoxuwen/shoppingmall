@@ -9,6 +9,7 @@ import com.etn.shoppingmall.core.model.SystemContext;
 import com.etn.shoppingmall.core.service.BargainService;
 import com.etn.shoppingmall.core.service.CategoryService;
 import com.etn.shoppingmall.core.service.ShopService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,9 +66,11 @@ public class BargainController {
     @ResponseBody
     @PostMapping("/add")
     public ResponseUtil add(Bargain bargain) {
-        String[] str = bargain.getValidDate().split(" ~ ");
-        bargain.setStartDate(LocalDateTime.parse(str[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        bargain.setEndDate(LocalDateTime.parse(str[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        if (!StringUtils.isEmpty(bargain.getValidDate())){
+            String[] str = bargain.getValidDate().split(" ~ ");
+            bargain.setStartDate(LocalDateTime.parse(str[0], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            bargain.setEndDate(LocalDateTime.parse(str[1], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        }
         bargain.setDeleted(false);
         bargain.setAddTime(LocalDateTime.now());
         if (bargainService.add(bargain)) {
